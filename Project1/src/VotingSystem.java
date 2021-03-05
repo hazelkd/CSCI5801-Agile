@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class VotingSystem {
     /*
@@ -18,9 +19,29 @@ public class VotingSystem {
 
     public void promptMedia(){}
     public void promptCSV(){}
+
+    /*
+     * Break any ties throughout either algorithm. It takes in the number of candidates involved in the tie, 
+     * and returns an integer representing the losing candidate. It will simulate 1000 coin tosses and take 
+     * the 1001 result to ensure randomness.
+     * @param numTied       an int, the number of objects with the same values
+     * @return option       an int, the chosen 
+     */
     public int coinToss(int numTied){
-        return 0;
+        if (numTied == 0) {
+            return 0;
+        }
+        
+        int option; 
+        Random rand = new Random();
+
+        for (int i = 0; i < 1000; i ++) {
+            option = rand.nextInt(numTied); //get a number [0, numTied) to correspond to the index of the choosen object
+        }
+        option = rand.nextInt(numTied); // 1001th random number
+        return option;
     }
+
     public static void main(String[] args){}
 
     // Getters & Setters
