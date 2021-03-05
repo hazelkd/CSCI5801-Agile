@@ -25,7 +25,7 @@ public class Party {
     public void calculateNumBallots(){
         int numBallots;
         for (int i = 0; i < candidates.size(); i++) {
-            numBallots += candidates[i].getcBallots().size(); // get length of the candidate[i]'s' ballot arrayList
+            numBallots += candidates.get(i).getcBallots().size(); // get length of the candidate[i]'s' ballot arrayList
         }
         pNumBallots = numBallots;
     }

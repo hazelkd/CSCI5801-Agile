@@ -29,9 +29,9 @@ public class VotingSystem {
      */
     public int coinToss(int numTied){
         if (numTied == 0) {
-            return 0;
+            return -1;
         }
-        
+
         int option; 
         Random rand = new Random();
 

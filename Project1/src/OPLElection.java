@@ -43,7 +43,7 @@ public class OPLElection extends VotingSystem{
         // print to screen
         printToScreen();
 
-        return 0; 
+        return 0; // when will it not return 0 because we never check if other stuff is working properly
     }
     public void readOPLCSV(){}
     public void readBallots(){}
