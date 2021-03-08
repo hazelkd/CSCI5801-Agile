@@ -89,7 +89,7 @@ public class IRElection extends VotingSystem{
       }
 
       //If the max candidate has a majority, return that candidate, otherwise return null
-      if(max/totalNumBallots > .50){
+      if(max/this.getTotalNumBallots() > .50){
         return maxCan;
       }
       else{

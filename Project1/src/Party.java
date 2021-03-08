@@ -21,11 +21,11 @@ public class Party {
       for(int j = 0; j < candidates.size(); j++){
         for(int i = 0; i < candidates.size() - j -1; i++){
           //if a candidate with less votes is before a candidate with more votes, swap
-          if(candidates.get(i).getcNumBallots() < candidates.get(i+1).getcNumBallots){
+          if(candidates.get(i).getcNumBallots() < candidates.get(i+1).getcNumBallots()){
             Collections.swap(candidates, i, i+1);
           }
           //if tie, coin toss
-          else if(candidates.get(i).getcNumBallots() == candidates.get(i+1).getcNumBallots){
+          else if(candidates.get(i).getcNumBallots() == candidates.get(i+1).getcNumBallots()){
             tieBreaker = coinToss(2);
             //If tieBreaker = 1, first candidate lost and you have to swap, otherwise do nothing
             if(tieBreaker){
