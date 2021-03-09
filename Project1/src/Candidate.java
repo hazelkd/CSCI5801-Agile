@@ -1,18 +1,26 @@
 // Candidate
-// DESCRIPTION OF CODE
+// A Candidate class to be used by all algorithms
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.util.ArrayList;
 
 public class Candidate {
-    public void addBallot(Ballot b){
-        /*This function will be used to add individual ballots to the cBallot ArrayList. 
-        It takes a Ballot object as a parameter and adds that ballot to the ArrayList.*/
-        cBallots.add(b);
-        setcNumBallots((getcNumBallots())+1); 
-        //do i have to set c ballots?
-        
+    //constructor
+    public Candidate(String name, String party){
+        cName = name;
+        cParty = party;
+        cBallots = new ArrayList<>(); //will be trimmed after all ballots are added
+    }
 
+    /**
+     * This function will be used to add individual ballots to the cBallot ArrayList.
+     *
+     * @param b Ballot object to be added to the ArrayList
+     */
+    public void addBallot(Ballot b){
+        cBallots.add(b);
+        setcNumBallots((getcNumBallots())+1); //is this where we do the counting?
+        //do i have to set c ballots?
     }
 
     // Getters & Setters
@@ -25,11 +33,11 @@ public class Candidate {
         this.cName = cName;
     }
 
-    public Party getcParty() {
+    public String getcParty() {
         return cParty;
     }
 
-    public void setcParty(Party cParty) {
+    public void setcParty(String cParty) {
         this.cParty = cParty;
     }
 
@@ -50,7 +58,7 @@ public class Candidate {
     }
 
     private String cName;
-    private Party cParty;
+    private String cParty;
     private ArrayList<Ballot> cBallots;
     private int cNumBallots;
 }
