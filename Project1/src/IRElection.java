@@ -49,6 +49,13 @@ public class IRElection extends VotingSystem{
       }
     }
 
+    for(int i=0; i<currCandidates.size(); i++){
+      if(currCandidates.get(i) != winner){
+        eliminatedCandidates.add(currCandidates.get(i));
+        currCandidates.remove(currCandidates.get(i));
+      }
+    }
+
     //Finally, write all of the necessary info to each file
     this.writeToMediaFile();
     this.writeToAuditFile();
