@@ -5,7 +5,7 @@
 import java.util.ArrayList;
 
 public class Ballot {
-    private int ID;
+    protected int ID;
 
     // Getters & Setters
 

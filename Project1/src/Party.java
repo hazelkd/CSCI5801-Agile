@@ -3,13 +3,16 @@
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.util.ArrayList;
-import java.util.Collections
-
 
 public class Party {
+    //constructor
+    public Party(String name){
+        pName = name;
+        candidates = new ArrayList<Candidate>();
+    }
 
-  /*
-   * Description - This function will be used to sort the candidates ArrayList.
+    /*
+    * Description - This function will be used to sort the candidates ArrayList.
    It will access the number of ballots for each candidate in the ArrayList and
    put the candidate with the most ballots in the 0th position and the candidate
    with the least ballots in the last position. It will call the coinToss() to
@@ -36,8 +39,27 @@ public class Party {
       }
     } // sortCandidates
 
-    public void calculateNumBallots(){}
-    public void addCandidate(Candidate c){}
+    /*
+     * Calculate the total number of ballots for the party.
+     * Set the class variable pNumBallots to this sum.
+     */
+    public void calculateNumBallots(){
+        int numBallots;
+        for (int i = 0; i < candidates.size(); i++) {
+            numBallots += candidates.get(i).getcBallots().size(); // get length of the candidate[i]'s' ballot arrayList
+        }
+        pNumBallots = numBallots;
+    }
+    
+    /*
+     * Add individual candidates to the candidates ArrayList
+     * @param c         candidate object, the new candidate to be added
+     */
+    public void addCandidate(Candidate c){
+        if ((c != null) && (c.getcParty().equals(pName))) { // ensure c is not null and has a matching party name
+            candidates.add(c);
+        }
+    }
 
     // Getters & Setters
 
