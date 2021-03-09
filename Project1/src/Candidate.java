@@ -9,7 +9,7 @@ public class Candidate {
         /*This function will be used to add individual ballots to the cBallot ArrayList. 
         It takes a Ballot object as a parameter and adds that ballot to the ArrayList.*/
         cBallots.add(b);
-        setcNumBallots((getcNumBallots())+1); //is this where we do the counting?
+        setcNumBallots((getcNumBallots())+1); 
         //do i have to set c ballots?
         
 
