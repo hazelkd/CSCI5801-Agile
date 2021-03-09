@@ -28,7 +28,7 @@ public class VotingSystem {
      * @return option       an int, the chosen 
      */
     public int coinToss(int numTied){
-        if (numTied == 0) {
+        if (numTied <= 0) {
             return -1;
         }
 
