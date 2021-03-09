@@ -62,8 +62,8 @@ public class OPLElection extends VotingSystem{
      */
     public void partyNumBallots(){
         for (int i = 0; i < party.size(); i++) {
-            party[i].calculateNumBallots(); //calculate the number of ballots for each aprty
-            party[i].sortCandidates(); // order the candidates in the party 
+            party.get(i).calculateNumBallots(); //calculate the number of ballots for each aprty
+            party.get(i).sortCandidates(); // order the candidates in the party 
         }
     }
 
