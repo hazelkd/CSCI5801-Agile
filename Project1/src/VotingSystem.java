@@ -21,7 +21,22 @@ public class VotingSystem {
     public int coinToss(int numTied){
         return 0;
     }
-    public static void main(String[] args){}
+    public static void main(String[] args){
+        VotingSystem electionT = new VotingSystem();
+        electionT.promptAudit();
+        electionT.promptMedia();
+        electionT.promptCSV();
+        if (electionT.getElectionType().equals("OPL")){
+            OPLElection newOPL = new OPLElection();
+            newOPL.runElection();
+        }
+        else if(electionT.getElectionType().equals("IR")){
+            IRElection newIR = new IRElection();
+            newIR.runElection();
+        }
+        //else? need to do something if it's neither?
+
+    }
 
     // Getters & Setters
 

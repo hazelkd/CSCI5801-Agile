@@ -5,7 +5,15 @@
 import java.util.ArrayList;
 
 public class Candidate {
-    public void addBallot(Ballot b){}
+    public void addBallot(Ballot b){
+        /*This function will be used to add individual ballots to the cBallot ArrayList. 
+        It takes a Ballot object as a parameter and adds that ballot to the ArrayList.*/
+        cBallots.add(b);
+        setcNumBallots((getcNumBallots())+1); //is this where we do the counting?
+        //do i have to set c ballots?
+        
+
+    }
 
     // Getters & Setters
 
