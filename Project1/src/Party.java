@@ -5,17 +5,12 @@
 import java.util.ArrayList;
 
 public class Party {
-    /*
-     * Constructor to initialize a Party Object
-     */
-    public Party(String partyName) {
-        pName = partyName;
-        pNumBallots = 0;
+    //constructor
+    public Party(String name){
+        pName = name;
         candidates = new ArrayList<Candidate>();
-        remainder = 0;
-        numSeats = 0;
     }
-     
+
     public void sortCandidates(){}
 
     /*

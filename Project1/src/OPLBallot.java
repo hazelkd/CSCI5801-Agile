@@ -3,16 +3,22 @@
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 public class OPLBallot extends Ballot{
-    private Party bParty;
+    //constructor
+    public OPLBallot(int nId, String party, Candidate c){
+        bParty = party;
+        bCandidate = c;
+        ID = nId;
+    }
+    private String bParty;
     private Candidate bCandidate;
 
     // Getters & Setters
 
-    public Party getbParty() {
+    public String getbParty() {
         return bParty;
     }
 
-    public void setbParty(Party bParty) {
+    public void setbParty(String bParty) {
         this.bParty = bParty;
     }
 
