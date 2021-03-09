@@ -43,9 +43,6 @@ public class OPLElection extends VotingSystem{
         ArrayList<Party> highestRemain = new ArrayList<Party>();
 
         int filledSeats = 0;
-        if (numSeats == 0) {
-            //don't exactly know what to do here will this ever happen? 
-        }
 
         while (filledSeats < numSeats ){
             
