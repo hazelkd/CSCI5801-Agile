@@ -1,5 +1,5 @@
 // OPLBallot
-// DESCRIPTION OF CODE
+// A Specific Ballot class to be used by the OPLElection class
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 public class OPLBallot extends Ballot{
