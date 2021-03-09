@@ -49,6 +49,7 @@ public class IRElection extends VotingSystem{
       }
     }
 
+    //Eliminating all of the candidates that arent the winner
     for(int i=0; i<currCandidates.size(); i++){
       if(currCandidates.get(i) != winner){
         eliminatedCandidates.add(currCandidates.get(i));
@@ -60,6 +61,8 @@ public class IRElection extends VotingSystem{
     this.writeToMediaFile();
     this.writeToAuditFile();
     this.printToScreen();
+
+    csvFile.close();
     return 0;
 
   } // runElection
