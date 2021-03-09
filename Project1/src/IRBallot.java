@@ -5,6 +5,15 @@
 import java.util.ArrayList;
 
 public class IRBallot extends Ballot{
+    //constructor
+    public IRBallot(int nId, int numCandidates){
+        ID = nId;
+        ranking = new ArrayList<Candidate>(numCandidates);
+        for(int i = 0; i < numCandidates; i++){
+            ranking.add(null);
+        } // elements will be reset as CSV file is read
+        rankIndex = 1;
+    }
     private ArrayList<Candidate> ranking;
     private int rankIndex;
 

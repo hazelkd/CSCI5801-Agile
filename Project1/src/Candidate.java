@@ -5,6 +5,13 @@
 import java.util.ArrayList;
 
 public class Candidate {
+    //constructor
+    public Candidate(String name, String party){
+        cName = name;
+        cParty = party;
+        cBallots = new ArrayList<Ballot>(); //will be trimmed after all ballots are added
+    }
+
     public void addBallot(Ballot b){}
 
     // Getters & Setters
@@ -17,11 +24,11 @@ public class Candidate {
         this.cName = cName;
     }
 
-    public Party getcParty() {
+    public String getcParty() {
         return cParty;
     }
 
-    public void setcParty(Party cParty) {
+    public void setcParty(String cParty) {
         this.cParty = cParty;
     }
 
@@ -42,7 +49,7 @@ public class Candidate {
     }
 
     private String cName;
-    private Party cParty;
+    private String cParty;
     private ArrayList<Ballot> cBallots;
     private int cNumBallots;
 }

@@ -5,6 +5,11 @@
 import java.util.ArrayList;
 
 public class Party {
+    //constructor
+    public Party(String name){
+        pName = name;
+        candidates = new ArrayList<Candidate>();
+    }
     public void sortCandidates(){}
     public void calculateNumBallots(){}
     public void addCandidate(Candidate c){}
