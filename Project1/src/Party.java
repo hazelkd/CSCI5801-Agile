@@ -10,9 +10,30 @@ public class Party {
         pName = name;
         candidates = new ArrayList<Candidate>();
     }
+
     public void sortCandidates(){}
-    public void calculateNumBallots(){}
-    public void addCandidate(Candidate c){}
+
+    /*
+     * Calculate the total number of ballots for the party.
+     * Set the class variable pNumBallots to this sum.
+     */
+    public void calculateNumBallots(){
+        int numBallots;
+        for (int i = 0; i < candidates.size(); i++) {
+            numBallots += candidates.get(i).getcBallots().size(); // get length of the candidate[i]'s' ballot arrayList
+        }
+        pNumBallots = numBallots;
+    }
+    
+    /*
+     * Add individual candidates to the candidates ArrayList
+     * @param c         candidate object, the new candidate to be added
+     */
+    public void addCandidate(Candidate c){
+        if ((c != null) && (c.getcName() == pName)) { // ensure c is not null and has a matching party name
+            candidates.add(c);
+        }
+    }
 
     // Getters & Setters
 
