@@ -17,33 +17,25 @@ public class OPLElection extends VotingSystem{
         readOPLCSV();
         // read/make/distribute ballots
         readBallots();
-        // calculate quote
-        setQuota();
+ 
         // allocate the first round of seats
         allocateByQuota();
-        writeToAuditFile();
+
         // allocate by remainder
         if (numSeatsLeft != 0) {
             allocateByRemainder();
-            writeToAuditFile();
+
         }
+
         //write to media
         writeToMediaFile();
         writeToAuditFile(); // write the winners to the audit file
         printToScreen();
-        // close the media, audit, and CSV files
-        this.getCsvFile().close() 
 
-        this.getAuditFile().flush();
-        this.getAuditFile().close();
+        // close CSV file
+        csvFile.close() 
 
-        this.getMediaFile().flush();
-        this.getMediaFile().close();
-
-        // print to screen
-        printToScreen();
-
-        return 0; // when will it not return 0 because we never check if other stuff is working properly
+        return 0;
     }
     public void readOPLCSV(){}
     public void readBallots(){}
@@ -97,8 +89,8 @@ public class OPLElection extends VotingSystem{
         return quota;
     }
 
-    public void setQuota() {
-        this.quota = this.getTotalNumBallots()/totalNumSeats;
+    public void setQuota(int quota) {
+        this.quota = quota;
     }
 
     private int totalNumSeats;
