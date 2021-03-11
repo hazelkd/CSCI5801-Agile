@@ -278,8 +278,10 @@ public class OPLElection extends VotingSystem{
                 }
             }
             highestRemain.add(filledSeats, party.get(topIndex));    //add max remainder seat that was decided from this iteration
+            party.get(topIndex).setNumSeats(party.get(topIndex).getNumSeats() + 1);
             filledSeats++;   //move on to allocating next seat
         }
+
     }
 
     /**
