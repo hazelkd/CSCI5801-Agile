@@ -301,6 +301,7 @@ public class OPLElection extends VotingSystem{
             party.get(topIndex).setNumSeats(party.get(topIndex).getNumSeats() + 1);
             filledSeats++;   //move on to allocating next seat
         }
+
     }
 
     /**

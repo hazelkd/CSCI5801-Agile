@@ -248,11 +248,11 @@ public class VotingSystem {
         electionT.promptAudit();
         electionT.promptMedia();
         if (electionT.getElectionType().equals("OPL")){
-            OPLElection newOPL = (OPLElection) electionT;
+            OPLElection newOPL = new OPLElection();
             newOPL.runElection();
         }
         else if(electionT.getElectionType().equals("IR")){
-            IRElection newIR = (IRElection) electionT;
+            IRElection newIR = new IRElection();
             newIR.runElection();
         }
         //else? need to do something if it's neither?
