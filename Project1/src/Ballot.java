@@ -1,8 +1,6 @@
 // Ballot
-// DESCRIPTION OF CODE
+// A Base Ballot class to be used by all algorithms
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
-
-import java.util.ArrayList;
 
 public class Ballot {
     protected int ID;

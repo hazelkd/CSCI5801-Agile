@@ -1,26 +1,27 @@
 // IRElection
-// DESCRIPTION OF CODE
+// The main class for running the IR election algorithm
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.util.ArrayList;
 
 public class IRElection extends VotingSystem{
 
-  /*
-   * Description - This function is the driving force for the IR election class.
-     It will call any necessary functions to run the IR algorithm.
-   * @return -1 to indicate error, 0 if everything operated properly
-   */
-  public int runElection() {
+    /**
+    * Description - This function is the driving force for the IR election class.
+    * It will call any necessary functions to run the IR algorithm.
+    *
+    * @return -1 to indicate error, 0 if everything operated properly
+    */
+    public int runElection() {
 
     //Reading in the CSV file up to the Ballots
     //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
-    this.readIRCSV()
+    this.readIRCSV();
 
     //This reads in all of the Ballots in the csvFile
     //It creates a ballot object for each line read, and sets the ranking array
     //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
-    this.readBallots()
+    this.readBallots();
 
     //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
     Candidate winner = this.findMajority();
@@ -38,7 +39,7 @@ public class IRElection extends VotingSystem{
       else{
         //This finds the least popluar candidate and writes their info to the audit file
         loser = findLeastCand();
-        this.WriteToAuditFile(loser);
+        this.writeToAuditFile(loser);
 
         //This function will call findLeastCand() and redistribute their ballots
         //It will also move this candidate from CurrCandidates into eliminatedCandidates
@@ -105,7 +106,7 @@ public class IRElection extends VotingSystem{
             String[] info = parsed[i].split(" ");
 
             // remove () from party
-            info[1].substring(1,2);
+            info[1] = info[1].substring(1,2);
 
             // creating and adding candidate object to lists
             Candidate c = new Candidate(info[0], info[1]);
@@ -162,13 +163,14 @@ public class IRElection extends VotingSystem{
         }
     } // readBallots
 
-      /*
-       * Description - This function will use the variables totalNumBallots and
-       cNumBallots to calculate a percentage of the total vote each candidate has.
-       Once the majority has been found, the function will return the Candidate
-       object that corresponds to that majority.
-       * @return This will return the Candidate with the majority of the votes if there is one, and null if not
-       */
+    /**
+     * This function will use the variables totalNumBallots and
+     * cNumBallots to calculate a percentage of the total vote each candidate has.
+     * Once the majority has been found, the function will return the Candidate
+     * object that corresponds to that majority.
+     *
+     * @return This will return the Candidate with the majority of the votes if there is one, and null if not
+     */
     public Candidate findMajority(){
       //Initialize the maxBallot varaible to the number of Ballots the first candidate has
       double maxBallot = currCandidates.get(0).getcNumBallots();
@@ -191,7 +193,7 @@ public class IRElection extends VotingSystem{
       }
 
       //If the max candidate has a majority, return that candidate, otherwise return null
-      if(max/this.getTotalNumBallots() > .50){
+      if(maxBallot/this.getTotalNumBallots() > .50){
         return maxCan;
       }
       else{
@@ -199,13 +201,14 @@ public class IRElection extends VotingSystem{
       }
     } // findMajority
 
-    /*
+    /**
      * Description - This function will loop through the currCandidates ArrayList
-     and calculate the minimum number of votes a candidate has. While looping,
-     if a tie for minimum number of votes is found, the coinToss() function is
-     called to determine which candidate continues as the minimum. Once the
-     ArrayList has been completely looped through, the Candidate that was
-     determined to have the least amount of votes is returned.
+     * and calculate the minimum number of votes a candidate has. While looping,
+     * if a tie for minimum number of votes is found, the coinToss() function is
+     * called to determine which candidate continues as the minimum. Once the
+     * ArrayList has been completely looped through, the Candidate that was
+     * determined to have the least amount of votes is returned.
+     *
      * @return This will return the candidate with the least amount of ballots
      */
     public Candidate findLeastCand(){
@@ -232,7 +235,7 @@ public class IRElection extends VotingSystem{
         else if (curr == min){
           tieBreaker = this.coinToss(2);
           //If 1 is returned, then the curr lost, and you have to set the variables to the new min
-          if(tieBreaker){
+          if(tieBreaker == 1){
             loser = currCandidates.get(i);
             min = curr;
           }
@@ -243,16 +246,16 @@ public class IRElection extends VotingSystem{
 
     } // findLeastCand
 
-    /*
+    /**
      * Description - This function will call findLeastCand() to determine which
-     candidate to move to from the currCandidates ArrayList to the eliminatedCandidates
-     ArrayList. The function will then also use this returned candidate object to
-     redistribute the ballots in the cBallots ArrayList. If the rankIndex of the
-     ballot is less than the number of candidates (and not equal to -1) and the candidate
-     at rankIndex is determined to still be in the currCandidates ArrayList, the ballot
-     can be added to the cBallots ArrayList of the new candidate. If both of these
-     conditions are not met, then the rankIndex will be set to -1 and the ballot will
-     stay assigned to the eliminated candidate.
+     * candidate to move to from the currCandidates ArrayList to the eliminatedCandidates
+     * ArrayList. The function will then also use this returned candidate object to
+     * redistribute the ballots in the cBallots ArrayList. If the rankIndex of the
+     * ballot is less than the number of candidates (and not equal to -1) and the candidate
+     * at rankIndex is determined to still be in the currCandidates ArrayList, the ballot
+     * can be added to the cBallots ArrayList of the new candidate. If both of these
+     * conditions are not met, then the rankIndex will be set to -1 and the ballot will
+     * stay assigned to the eliminated candidate.
      */
     public void redistributeBallots(){
       //Find the candidate with the least amount of votes, remove them from currCandidats and add to eliminatedCandidates
@@ -261,16 +264,16 @@ public class IRElection extends VotingSystem{
       eliminatedCandidates.add(loser);
 
       //Variables to make the loop less messy
-      Ballot currBallot;
+      IRBallot currBallot;
       ArrayList<Candidate> currBallotRanking;
       int currBallotRankIndex;
-      bool AddedBallot;
+      boolean AddedBallot;
 
       //Loop through all of the ballots in the losers Ballot ArrayList
       for(int i =0; i < loser.getcBallots().size(); i++){
 
         //Set all of the variables to the current Ballot information
-        currBallot = loser.getcBallots().get(i);
+        currBallot = (IRBallot) loser.getcBallots().get(i);
         currBallotRanking = currBallot.getRanking();
         currBallotRankIndex = currBallot.getRankIndex();
         AddedBallot = false;
@@ -421,7 +424,12 @@ public class IRElection extends VotingSystem{
      * they received.
      */
     public void printToScreen(){
+        System.out.println("Election Results");
+        System.out.println("------------------------------");
         // print winner + percentage of votes
+        System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
+        double percentage = currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots);
+        System.out.println(" won with "+percentage+"% of the vote");
     } // printToScreen
 
 
