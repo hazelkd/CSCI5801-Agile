@@ -60,7 +60,6 @@ public class TestParty {
         candidate1 = new Candidate("name", "P");
         candidate2 = new Candidate("name", "P");
         candidate3 = new Candidate("name", "");
-        candidate3
 
         ballotA = new Ballot();
         ballotB = new Ballot();
