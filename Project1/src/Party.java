@@ -52,7 +52,7 @@ public class Party {
         }
         pNumBallots = numBallots;
     }
-    
+
     /**
      * Add individual candidates to the candidates ArrayList
      *

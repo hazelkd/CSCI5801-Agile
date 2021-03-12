@@ -18,9 +18,11 @@ public class Candidate {
      * @param b Ballot object to be added to the ArrayList
      */
     public void addBallot(Ballot b){
-        cBallots.add(b);
-        setcNumBallots((getcNumBallots())+1); //is this where we do the counting?
-        //do i have to set c ballots?
+        if(b != null){
+            cBallots.add(b);
+            setcNumBallots((getcNumBallots())+1); //is this where we do the counting?
+            //do i have to set c ballots?
+        }
     }
 
     // Getters & Setters

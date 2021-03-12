@@ -1,6 +1,5 @@
 import org.junit.AfterClass;
 import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -238,9 +237,9 @@ public class TestOPLElection {
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
+            assertEquals("Incorrect totalNumSeats", 3, sys.getTotalNumSeats());
+            assertEquals("Incorrect numSeatsLeft", 3, sys.getNumSeatsLeft());
+            assertEquals("Incorrect quota", 3, sys.getQuota());
 
             // creates party and candidate objects (makes sure that lists are right length)
             // Both should be initialized (and correct)
@@ -261,10 +260,7 @@ public class TestOPLElection {
                             sys.getCandidates().get(2).getcNumBallots() +
                             sys.getCandidates().get(3).getcNumBallots() +
                             sys.getCandidates().get(4).getcNumBallots() +
-                            sys.getCandidates().get(5).getcNumBallots() +
-                            sys.getCandidates().get(6).getcNumBallots() +
-                            sys.getCandidates().get(7).getcNumBallots() +
-                            sys.getCandidates().get(8).getcNumBallots()));
+                            sys.getCandidates().get(5).getcNumBallots()));
         } else {
             assertNotNull("Testing data not present", sys);
         }
@@ -272,7 +268,7 @@ public class TestOPLElection {
 
     @Test
     public void testReadBallotsInvalidInput(){
-        String data = "OPLTest\n";
+        String data = "OPLTestInvalid\n";
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
@@ -319,7 +315,7 @@ public class TestOPLElection {
     public void testPrintToScreen(){
         // need parties (pName, numSeats, candidates) and candidates (name) for printing
         // set up
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         Party p1 = new Party("D");
         p1.setNumSeats(3);
         // create candidates and put in ArrayList
@@ -369,7 +365,7 @@ public class TestOPLElection {
     @Test
     public void testWriteToMediaFile(){
         // set up
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         sys.setTotalNumBallots(15);
         Party p1 = new Party("D");
         p1.setNumSeats(3);
@@ -424,7 +420,7 @@ public class TestOPLElection {
         // set up
         // need party (name, numSeats) and candidate (numBallots, name, ballots)
         // ballot (id, bCandidate, party)
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         sys.setTotalNumBallots(4);
         // one ballot to each candidate
         Party p1 = new Party("D");
@@ -442,7 +438,7 @@ public class TestOPLElection {
         ArrayList<Candidate> c2 = new ArrayList<>();
         c2.add(new Candidate("name1", "R"));
         p2.setCandidates(c2);
-
+      
         // put parties in arrayList
         ArrayList<Party> p = new ArrayList<>(2);
         p.add(p1);
@@ -455,4 +451,65 @@ public class TestOPLElection {
         assertEquals("Incorrect Output", expectOut, getOutput());
     }
     // end of writeToAuditFile tests
+  
+    private OPLElection election;
+
+    @Test
+
+    //want to use OPL file with this one too but not sure how
+    public void testAllocateByQuota() {
+
+        election.setTotalNumSeats(3);
+        election.setNumSeatsLeft(3);
+        ArrayList<Party> party = {"D", "R", "I"};
+        election.setParty(party);
+        election.setTotalNumBallots(9);
+        election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
+        election.getParty.get(0).setpNumBallots(5);
+        election.getParty.get(1).setpNumBallots(3);
+        election.getParty.get(2).setpNumBallots(1);
+
+        //checking that there is at least one party
+        assertTrue(election.getParty().size() >= 1);
+        //checking that quota is not zero
+        assertTrue(election.getQuota() > 0);
+
+        //checking results with file - still not positive about this
+        election.allocateByQuota();
+        //checking party results from allocate by quota
+        assertEquals(election.getParty.get(0).getNumSeats, 1); //dont know right syntax
+        assertEquals(election.getParty.get(1).getNumSeats, 1);
+        assertEquals(election.getParty.get(2).getNumSeats, 0);
+
+        assertEquals(election.getParty.get(0).getRemainder, 2);
+        assertEquals(election.getParty.get(1).getRemainder, 0);
+        assertEquals(election.getParty.get(2).getRemainder, 1);   
+
+    }
+
+    @Test
+
+    public void testAllocateByRemainder() {
+        election.setTotalNumSeats(3);
+        election.setNumSeatsLeft(3);
+        ArrayList<Party> party = {"D", "R", "I"};
+        election.setParty(party);
+        election.setTotalNumBallots(9);
+        election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
+        election.getParty.get(0).setpNumBallots(5);
+        election.getParty.get(1).setpNumBallots(3);
+        election.getParty.get(2).setpNumBallots(1);
+
+        assertTrue(election.getParty.get(0).getRemainder != NULL);
+        assertTrue(election.getParty.get(1).getRemainder != NULL);
+        assertTrue(election.getParty.get(2).getRemainder != NULL);
+
+        assertTrue(election.getTotalNumSeats() != 0);
+        
+        election.allocateByRemainder();
+
+        assertEquals(election.getParty.get(0).getNumSeats, 2);
+        assertEquals(election.getParty.get(1).getNumSeats, 1);
+        assertEquals(election.getParty.get(2).getNumSeats, 0);
+    }
 }
