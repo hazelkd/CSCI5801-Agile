@@ -28,15 +28,17 @@ public class TestParty {
     private ballotH;
     private ballotI;
 
+
     @Test
     public void testAddCandidate() {
+        Candidate candidate1;
+        Candidate candidate2;
+        Party bestParty;
+
         bestParty = new Party("P");
         candidate1 = new Candidate("name", "P");
         candidate2 = new Candidate("name", "P");
-        candidate3 = null;
-        candidate4 = new Candidate("name", "notP");
 
-        // General Case
         bestParty.addCandidate(candidate1);
         bestParty.addCandidate(candidate2);
         assertEquals(2, bestParty.getCandidates().length()); // add two regular candidate objects
@@ -91,5 +93,4 @@ public class TestParty {
         bestParty.calculateNumBallots();
         assertEquals(9, bestParty.getpNumBallots()); // calculate numBallots with 2 candidates
     }
-
 }
