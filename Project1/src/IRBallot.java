@@ -12,10 +12,12 @@ public class IRBallot extends Ballot{
         for(int i = 0; i < numCandidates; i++){
             ranking.add(null);
         } // elements will be reset as CSV file is read
+        numCandidates = 0;
         rankIndex = 1;
     }
     private ArrayList<Candidate> ranking;
     private int rankIndex;
+    private int numCandidates;
 
     // Getters & Setters
 
@@ -33,5 +35,13 @@ public class IRBallot extends Ballot{
 
     public void setRankIndex(int rankIndex) {
         this.rankIndex = rankIndex;
+    }
+
+    public int getNumCandidates() {
+        return numCandidates;
+    }
+
+    public void setNumCandidates(int numCandidates) {
+        this.numCandidates = numCandidates;
     }
 }

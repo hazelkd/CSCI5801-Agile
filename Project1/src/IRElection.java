@@ -99,10 +99,15 @@ public class IRElection extends VotingSystem{
         // add to both candidates and currCandidates
         candidates = new ArrayList<>(numCandidates);
         currCandidates = new ArrayList<>(numCandidates);
+
+        // will not be used in this function, but needs to be initialized
+        eliminatedCandidates = new ArrayList<>(numCandidates);
+
         String[] parsed = candidateLine.split(",");
 
         // each index of parsed will contain: name (party)
         for(int i = 0; i < parsed.length; i++){
+            parsed[i] = parsed[i].strip();
             String[] info = parsed[i].split(" ");
 
             // remove () from party
@@ -153,13 +158,14 @@ public class IRElection extends VotingSystem{
                     // get correct candidate, then place in correct ranking spot
                     Candidate c = candidates.get(commasEncountered);
                     b.getRanking().set(rank, c);
-
+                    b.setNumCandidates(b.getNumCandidates()+1);
                 }
             }
 
             // look at first index of ranking and assign ballot to candidate
             Candidate check = b.getRanking().get(0);
             candidates.get(candidates.indexOf(check)).addBallot(b);
+            index++;
         }
     } // readBallots
 
@@ -279,18 +285,18 @@ public class IRElection extends VotingSystem{
         AddedBallot = false;
 
         //If the rankIndex is past the amount of candidates in the rank array, set to -1
-        if(currBallotRankIndex >= currBallotRanking.size()){
+        if(currBallotRankIndex >= currBallot.getNumCandidates()){
           currBallot.setRankIndex(-1);
           currBallotRankIndex = -1;
         }
 
         //This while loop will go until either the ballot is allocated to another candidate, or we've run out of candidates in the rank array
-        while(currBallotRankIndex != -1 || AddedBallot){
+        while(currBallotRankIndex != -1 && !AddedBallot){
 
           //If the candidate at the current rank index is still in play, assign that ballot to the candidate
           if(currCandidates.contains(currBallotRanking.get(currBallotRankIndex) ) ){
             //if the rank index is past the size of the array, set to -1, otherwise increment
-            if(currBallotRankIndex >= currBallotRanking.size()-1){
+            if(currBallotRankIndex >= currBallot.getNumCandidates()-1){
               currBallot.setRankIndex(-1);
             }
             else{
@@ -301,12 +307,12 @@ public class IRElection extends VotingSystem{
             AddedBallot = true;
             //remove ballot from loser
             loser.getcBallots().remove(i);
-            i--;
+            // i--;
           }
           //Otherwise, we have to check the next candidate in the ranking array
           else{
             //Check if the rankIndex is bigger than the array, if it is, set to -1
-            if(currBallotRankIndex >= currBallotRanking.size()-1){
+            if(currBallotRankIndex >= currBallot.getNumCandidates()-1){
               currBallot.setRankIndex(-1);
               currBallotRankIndex = -1;
             }
@@ -331,15 +337,16 @@ public class IRElection extends VotingSystem{
         mediaFile.println("------------------------------");
         // print winner + percentage of votes
         mediaFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots);
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
         mediaFile.println(" won with "+percentage+"% of the vote");
 
         // print rest of candidates + percentage of vote
         mediaFile.println("Eliminated Candidates: ");
         for (Candidate c : eliminatedCandidates) {
-            percentage = c.getcNumBallots() / ((double)totalNumBallots);
-            mediaFile.println(c.getcName()+", "+c.getcParty()+" had "+percentage+"% of the vote");
+            percentage = (c.getcNumBallots() / ((double)totalNumBallots)) * 100;
+            mediaFile.println(c.getcName()+", "+c.getcParty()+" had "+percentage+"% of the vote when they were eliminated");
         }
+        mediaFile.close();
     } // writeToMediaFile
   
     /**
@@ -349,7 +356,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(){
         // print winner + percentage of votes
-        double percentage = currCandidates.get(0).getcNumBallots()/((double)totalNumBallots);
+        double percentage = (currCandidates.get(0).getcNumBallots()/((double)totalNumBallots)) * 100;
         auditFile.println(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+percentage+"% of the vote");
         auditFile.println("Ballots assigned to "+currCandidates.get(0).getcName()+":");
 
@@ -357,9 +364,9 @@ public class IRElection extends VotingSystem{
         for(Ballot b : currCandidates.get(0).getcBallots()){
             IRBallot b1 = (IRBallot) b;
             auditFile.print("    "+b1.getID()+" Ranking: ");
-            for(int i = 0; i < b1.getRanking().size(); i++){
+            for(int i = 0; i < b1.getNumCandidates(); i++){
                 auditFile.print(i+": "+b1.getRanking().get(i).getcName());
-                if(i != (b1.getRanking().size()-1)){
+                if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
                     auditFile.println();
@@ -375,9 +382,9 @@ public class IRElection extends VotingSystem{
             for(Ballot b : c.getcBallots()){
                 IRBallot b1 = (IRBallot) b;
                 auditFile.print("    "+b1.getID()+" Ranking: ");
-                for(int i = 0; i < b1.getRanking().size(); i++){
+                for(int i = 0; i < b1.getNumCandidates(); i++){
                     auditFile.print(i+": "+b1.getRanking().get(i).getcName());
-                    if(i != (b1.getRanking().size()-1)){
+                    if(i != (b1.getNumCandidates()-1)){
                         auditFile.print(", ");
                     } else {
                         auditFile.println();
@@ -385,7 +392,7 @@ public class IRElection extends VotingSystem{
                 }
             }
         }
-
+        auditFile.close();
     } // writeToAuditFile
   
     /**
@@ -398,7 +405,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(Candidate c){
         // print candidate name+party and percentage of votes
-        double percentage = c.getcNumBallots()/((double)totalNumBallots);
+        double percentage = (c.getcNumBallots()/((double)totalNumBallots)) * 100;
         auditFile.println(c.getcName()+", "+c.getcParty()+": eliminated with "+percentage+"% of the vote");
         auditFile.println("Ballots assigned to "+c.getcName()+":");
 
@@ -406,9 +413,9 @@ public class IRElection extends VotingSystem{
         for(Ballot b : c.getcBallots()){
             IRBallot b1 = (IRBallot) b;
             auditFile.print("    "+b1.getID()+" Ranking: ");
-            for(int i = 0; i < b1.getRanking().size(); i++){
+            for(int i = 0; i < b1.getNumCandidates(); i++){
                 auditFile.print(i+": "+b1.getRanking().get(i).getcName());
-                if(i != (b1.getRanking().size()-1)){
+                if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
                     auditFile.println();
@@ -416,7 +423,7 @@ public class IRElection extends VotingSystem{
             }
         }
         auditFile.println("----------------------------------------");
-    }
+    } // writeToAuditFile
     
     /**
      * This function will print information to the screen at the end of the program, giving the general election
@@ -428,7 +435,7 @@ public class IRElection extends VotingSystem{
         System.out.println("------------------------------");
         // print winner + percentage of votes
         System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots);
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
         System.out.println(" won with "+percentage+"% of the vote");
     } // printToScreen
 

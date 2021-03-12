@@ -22,7 +22,10 @@ public class OPLElection extends VotingSystem{
         readOPLCSV();
         // read/make/distribute ballots
         readBallots();
- 
+
+        // calculate number of seats for each party
+        partyNumBallots();
+
         // allocate the first round of seats
         allocateByQuota();
 
@@ -63,7 +66,7 @@ public class OPLElection extends VotingSystem{
             numCandidates = Integer.parseInt(sNumCandidates);
         }
         else {
-            System.out.println("Incorrect File Format (numCandidates)");
+            System.out.print("Incorrect File Format (numCandidates)\n");
             return;
         }
 
@@ -73,7 +76,7 @@ public class OPLElection extends VotingSystem{
             candidateLine = csvFile.nextLine();
         }
         else {
-            System.out.println("Incorrect File Format (candidate list)");
+            System.out.print("Incorrect File Format (candidate list)\n");
             return;
         }
 
@@ -89,7 +92,7 @@ public class OPLElection extends VotingSystem{
             if(i%2 == 0){
                 parsed[i] = parsed[i].substring(1);
             } else {
-                parsed[i] = parsed[i].substring(0,2);
+                parsed[i] = parsed[i].substring(0,1);
             }
         }
 
@@ -116,7 +119,7 @@ public class OPLElection extends VotingSystem{
             numSeatsLeft = totalNumSeats;
         }
         else {
-            System.out.println("Incorrect File Format (numSeats)");
+            System.out.print("Incorrect File Format (numSeats)\n");
             return;
         }
 
@@ -125,7 +128,7 @@ public class OPLElection extends VotingSystem{
             totalNumBallots = Integer.parseInt(csvFile.nextLine());
         }
         else {
-            System.out.println("Incorrect File Format (numBallots)");
+            System.out.print("Incorrect File Format (numBallots)\n");
             return;
         }
 
@@ -162,19 +165,19 @@ public class OPLElection extends VotingSystem{
      * and which candidates got the seats for each party.
      */
     public void printToScreen(){
-        System.out.println("------------------------------");
-        System.out.println("Election Results");
+        System.out.print("------------------------------\n");
+        System.out.print("Election Results\n");
         // for each party, print out name, numSeats, and the first x candidates in the candidate arrayList
         for (Party value : party) {
-            System.out.println("------------------------------");
-            System.out.println(value.getpName());
-            System.out.println("  Number of Seats Won: " + value.getNumSeats());
-            System.out.println("  Candidates filling seats: ");
+            System.out.print("------------------------------\n");
+            System.out.print(value.getpName()+"\n");
+            System.out.print("  Number of Seats Won: " + value.getNumSeats() + "\n");
+            System.out.print("  Candidates filling seats: \n");
             for (int j = 0; j < value.getNumSeats(); j++) {
-                System.out.println("     " + value.getCandidates().get(j).getcName());
+                System.out.print("     " + value.getCandidates().get(j).getcName() + "\n");
             }
         }
-        System.out.println("------------------------------");
+        System.out.print("------------------------------\n");
     }
 
     /**
@@ -184,16 +187,16 @@ public class OPLElection extends VotingSystem{
      * that obtained seats.
      */
     public void writeToMediaFile(){
-        mediaFile.println("Election Results");
+        mediaFile.print("Election Results\n");
         // for each party, print out name, numSeats, and the first x candidates in the candidate arrayList
         for (Party value : party) {
-            mediaFile.println("------------------------------");
-            mediaFile.println(value.getpName());
-            mediaFile.println("  Number of Seats Won: " + value.getNumSeats());
-            mediaFile.println("  Candidates filling seats: ");
+            mediaFile.print("------------------------------\n");
+            mediaFile.print(value.getpName()+"\n");
+            mediaFile.print("  Number of Seats Won: " + value.getNumSeats()+"\n");
+            mediaFile.print("  Candidates filling seats: \n");
             for (int j = 0; j < value.getNumSeats(); j++) {
                 double percent = (((double) value.getCandidates().get(j).getcNumBallots()) / (totalNumBallots)) * 100;
-                mediaFile.println("     " + value.getCandidates().get(j).getcName() + " with " + percent + "% of the vote");
+                mediaFile.print("     " + value.getCandidates().get(j).getcName() + " with " + percent + "% of the vote\n");
             }
         }
         mediaFile.close();
@@ -207,20 +210,36 @@ public class OPLElection extends VotingSystem{
     public void writeToAuditFile(){
         // for each party, print out name, numSeats, and the first x candidates (and any candidate info) in the candidate arrayList
         for (Party value : party) {
-            auditFile.println(value.getpName());
-            auditFile.println("  Number of Seats Won: " + value.getNumSeats());
-            auditFile.println("  Candidates filling seats: ");
+            auditFile.print("Party: "+value.getpName()+"\n");
+            auditFile.print("  Number of Seats Won: " + value.getNumSeats()+"\n");
+            auditFile.print("  Candidates filling seats: \n");
             for (int j = 0; j < value.getNumSeats(); j++) {
                 double percent = (((double) value.getCandidates().get(j).getcNumBallots()) / (totalNumBallots)) * 100;
-                auditFile.println("     " + value.getCandidates().get(j).getcName() + " with " + percent + "% of the vote");
-                auditFile.println("     Ballots assigned to this candidate: ");
+                auditFile.print("     " + value.getCandidates().get(j).getcName() + " with " + percent + "% of the vote\n");
+                auditFile.print("     Ballots assigned to this candidate: \n");
                 // loop through ballots
                 ArrayList<Ballot> ballots = value.getCandidates().get(j).getcBallots();
                 for (Ballot ballot : ballots) {
                     OPLBallot b = (OPLBallot) ballot;
-                    auditFile.println("        " + b.getID() + ": " + b.getbCandidate().getcName() + ", " + b.getbParty());
+                    auditFile.print("        " + b.getID() + ": " + b.getbCandidate().getcName() + ", " + b.getbParty()+"\n");
                 }
-
+            }
+            if(value.getNumSeats() < value.getCandidates().size()){
+                auditFile.print("  Candidates not filling seats: \n");
+                for (int j = value.getNumSeats(); j < value.getCandidates().size(); j++){
+                    double percent = (((double) value.getCandidates().get(j).getcNumBallots()) / (totalNumBallots)) * 100;
+                    auditFile.print("     " + value.getCandidates().get(j).getcName() + " with " + percent + "% of the vote\n");
+                    auditFile.print("     Ballots assigned to this candidate: \n");
+                    // loop through ballots
+                    ArrayList<Ballot> ballots = value.getCandidates().get(j).getcBallots();
+                    for (Ballot ballot : ballots) {
+                        OPLBallot b = (OPLBallot) ballot;
+                        auditFile.print("        " + b.getID() + ": " + b.getbCandidate().getcName() + ", " + b.getbParty()+"\n");
+                    }
+                    auditFile.print("\n");
+                }
+            } else {
+                auditFile.print("\n");
             }
         }
         auditFile.close();
@@ -242,6 +261,7 @@ public class OPLElection extends VotingSystem{
             int remain = numB%quota;
             (party.get(i)).setNumSeats(seatsByQuota);
             (party.get(i)).setRemainder(remain);
+            numSeatsLeft = numSeatsLeft - seatsByQuota;
         }
     }
 

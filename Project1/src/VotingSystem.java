@@ -1,7 +1,4 @@
 // VotingSystem
-// DESCRIPTION OF CODE
-// Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
-// VotingSystem
 // The main class for running the entire system
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 import java.util.Scanner;
@@ -30,26 +27,28 @@ public class VotingSystem {
         // try input twice
         for(int i = 0; i < 2; i++){
             flag = false;
-            System.out.println("Please enter the name of your file (do not include .txt extension): ");
-            name = fromUser.nextLine();
-            String namePath = "testing/" + name + ".txt"; // change for final version: name + ".txt"
+            System.out.print("Please enter the name of your file (do not include .txt extension): \n");
+            if(fromUser.hasNextLine()){
+                name = fromUser.nextLine();
+            }
+            String namePath = name + ".txt";
             try {
                 csvFile = new Scanner(new File(namePath));
                 flag = true;
             } catch (Exception e) {
-                System.out.println(name  + ".txt not found");
+                System.out.print(name  + ".txt not found\n");
             }
             if(flag){ break; } // if file read successfully on first try
         }
         if(!flag){
-            System.out.println("Unable to open file, exiting");
+            System.out.print("Unable to open file, exiting\n");
             return null;
         }
 
         if(csvFile.hasNextLine()){
             firstLine = csvFile.nextLine();
         } else {
-            System.out.println("Improper file format, exiting");
+            System.out.print("Improper file format, exiting\n");
             return null;
         }
 
@@ -67,7 +66,7 @@ public class VotingSystem {
             sys.setElectionType(firstLine);
         }
         else {
-            System.out.println("Invalid election type, exiting");
+            System.out.print("Invalid election type, exiting\n");
             return null;
         }
         return sys; // need to check that sys is not null in calling method
@@ -81,38 +80,40 @@ public class VotingSystem {
     public void promptAudit(){
         String name = null;
         Scanner fromUser = new Scanner(System.in);
-        System.out.println("What do you want the name of the audit file to be?");
-        System.out.println("Do not include any extensions, the system will produce a .txt file");
-        System.out.println("If you wish to use the default naming conventions, enter default");
+        System.out.print("What do you want the name of the audit file to be?\n");
+        System.out.print("Do not include any extensions, the system will produce a .txt file\n");
+        System.out.print("If you wish to use the default naming conventions, enter default (D)\n");
         name = fromUser.nextLine();
-        if(!name.equals("default")){
-            System.out.println("You have entered: "+name+"\n Is this correct? (Y/N)");
+        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d"))){
+            System.out.print("You have entered: "+name+"\n Is this correct? (Y/N)\n");
             // check Y/N -> prompt accordingly
-            String response = fromUser.nextLine();
+            String response = "";
+            if(fromUser.hasNextLine()){
+                response = fromUser.nextLine();
+            }
             if(response.equals("Y") || response.equals("y")){
-                System.out.println("Proceeding with input name");
+                System.out.print("Proceeding with input name\n");
             }
             else if(response.equals("N") || response.equals("n")){
-                System.out.println("Enter the correct name: ");
+                System.out.print("Enter the correct name: \n");
                 name = fromUser.nextLine();
             }
             else {
-                System.out.println("Invalid entry, proceeding with first input name");
+                System.out.print("Invalid entry, proceeding with first input name\n");
             }
             name += ".txt";
         }
         else {
-            System.out.println("Using default");
-            name = "default.txt"; // need to figure out actual conventions
+            System.out.print("Using default\n");
+            name = "audit.txt"; // need to figure out actual conventions
         }
         try {
             auditFile = new PrintWriter(new File(name));
         } catch (Exception e) {
-            System.out.println("Error opening file, exiting");
+            System.out.print("Error opening file, exiting\n");
             return; // need to check that var is set in calling method
         }
-        System.out.println();
-        return;
+        System.out.print("\n");
     } // promptAudit
 
     /**
@@ -123,38 +124,37 @@ public class VotingSystem {
     public void promptMedia(){
         String name = null;
         Scanner fromUser = new Scanner(System.in);
-        System.out.println("What do you want the name of the media file to be?");
-        System.out.println("Do not include any extensions, the system will produce a .txt file");
-        System.out.println("If you wish to use the default naming conventions, enter default");
+        System.out.print("What do you want the name of the media file to be?\n");
+        System.out.print("Do not include any extensions, the system will produce a .txt file\n");
+        System.out.print("If you wish to use the default naming conventions, enter default (D)\n");
         name = fromUser.nextLine();
-        if(!name.equals("default")){
-            System.out.println("You have entered: "+name+"\n Is this correct? (Y/N)");
+        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d"))){
+            System.out.print("You have entered: "+name+"\n Is this correct? (Y/N)\n");
             // check Y/N -> prompt accordingly
             String response = fromUser.nextLine();
             if(response.equals("Y") || response.equals("y")){
-                System.out.println("Proceeding with input name");
+                System.out.print("Proceeding with input name\n");
             }
             else if(response.equals("N") || response.equals("n")){
-                System.out.println("Enter the correct name: ");
+                System.out.print("Enter the correct name: \n");
                 name = fromUser.nextLine();
             }
             else {
-                System.out.println("Invalid entry, proceeding with first input name");
+                System.out.print("Invalid entry, proceeding with first input name\n");
             }
             name += ".txt";
         }
         else {
-            System.out.println("Using default");
-            name = "default.txt"; // need to figure out actual conventions
+            System.out.print("Using default\n");
+            name = "media.txt"; // need to figure out actual conventions
         }
         try {
             mediaFile = new PrintWriter(new File(name));
         } catch (Exception e) {
-            System.out.println("Error opening file, exiting");
+            System.out.print("Error opening file, exiting\n");
             return; // need to check that var is set in calling method
         }
-        System.out.println();
-        return;
+        System.out.print("\n");
     } // promptMedia
 
     /**
