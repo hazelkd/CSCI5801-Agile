@@ -48,6 +48,8 @@ public class TestBallot {
         assertEquals(candidate.getcBallots(), ballot1, ballot2, ballot3);
         assertEquals(candidate.getcNumBallots(), 3);
 
+
+
     }
 
 }
