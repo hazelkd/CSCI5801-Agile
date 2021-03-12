@@ -1,5 +1,5 @@
 // OLPElection
-// DESCRIPTION OF CODE
+// The main class for running the OPL election algorithm
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.lang.reflect.Array;
@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class OPLElection extends VotingSystem{
-    /* Driving force of the OPL Election class. It will call all of the functions for the algorithm of OPL voting. 
+    /**
+     * Driving force of the OPL Election class. It will call all of the functions for the algorithm of OPL voting.
      * It will also close the media, audit, and CSV files at the end of the function, which will be the 
      * end of this election process.
+     *
      * @return -1 to indicate error, 0 if everything operated properly
      */
     public int runElection(){ 
@@ -36,7 +38,7 @@ public class OPLElection extends VotingSystem{
         printToScreen();
 
         // close CSV file
-        csvFile.close() 
+        csvFile.close();
 
         return 0;
     }
@@ -66,7 +68,7 @@ public class OPLElection extends VotingSystem{
         }
 
         // read in candidate,party list from file
-        String candidateLine = null;
+        String candidateLine = "";
         if(csvFile.hasNext()){
             candidateLine = csvFile.nextLine();
         }
@@ -223,10 +225,64 @@ public class OPLElection extends VotingSystem{
         }
         auditFile.close();
     }
-    public void allocateByQuota(){}
-    public void allocateByRemainder(){}
 
-    /*
+    /**
+     * This function will be used to allocate the first round of seats to each party.
+     * It will loop through each party in the party ArrayList.
+     * It will access the numBallots class variable for each party and divide it by the quota.
+     * It will take the quotient from this calculation and set the numSeats class variable for the party
+     * and it will take the remainder of this calculation and set the remainder class variable for the party.
+     */
+    public void allocateByQuota(){
+        int size = party.size();
+
+        for(int i = 0; i < size; i++) {
+            int numB = (party.get(i)).getpNumBallots();
+            int seatsByQuota = numB/quota;
+            int remain = numB%quota;
+            (party.get(i)).setNumSeats(seatsByQuota);
+            (party.get(i)).setRemainder(remain);
+        }
+    }
+
+    /**
+     * This function will allocate the second round of seats for each party based on the remaining votes
+     * contained in the remainder object for each party in the election.
+     * Remaining seats will be allocated based on the parties that have the highest remainder.
+     * The party with the highest remainder will be given a seat first, and then it moves down the list until
+     * there are no seats left to be allocated.
+     */
+    public void allocateByRemainder(){
+        // Need to add coin toss if two remainders are equal
+
+        int size = party.size();
+        int numSeats = numSeatsLeft;
+
+        ArrayList<Party> highestRemain = new ArrayList<>();
+
+        int filledSeats = 0;
+
+        while (filledSeats < numSeats ){
+
+            int topIndex = 0;   //first party is set as the maximum initially
+
+            for (int j = 0; j < size; j++) {
+                if(highestRemain.contains(party.get(topIndex))){    //if current party is already in highestRemain, increment topIndex
+                    topIndex++;
+                }
+                if(highestRemain.contains(party.get(j))){   //if current party is in highest remain, increment current party index
+                    j++;
+                }
+                if (party.get(j).getRemainder()> party.get(topIndex).getRemainder()){   //if current party has greater remainder than curr topIndex
+                    topIndex = j;
+                }
+            }
+            highestRemain.add(filledSeats, party.get(topIndex));    //add max remainder seat that was decided from this iteration
+            filledSeats++;   //move on to allocating next seat
+        }
+    }
+
+    /**
      * Iterate through the party array list object in this class. As it is iterating through, it will call the 
      * calculateNumBallots() function for each party, which will calculate the number of ballots that each party has. 
      * As it is iterating through the party list, it will also call sortCandidate() function, which will sort the 
@@ -235,7 +291,7 @@ public class OPLElection extends VotingSystem{
      */
     public void partyNumBallots(){
         for (int i = 0; i < party.size(); i++) {
-            party.get(i).calculateNumBallots(); //calculate the number of ballots for each aprty
+            party.get(i).calculateNumBallots(); //calculate the number of ballots for each party
             party.get(i).sortCandidates(); // order the candidates in the party 
         }
     }

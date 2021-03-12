@@ -1,5 +1,5 @@
 // VotingSystem
-// DESCRIPTION OF CODE
+// The main class for running the entire system
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 import java.util.Scanner;
 import java.io.File;
@@ -154,10 +154,11 @@ public class VotingSystem {
         return;
     } // promptMedia
 
-    /*
+    /**
      * Break any ties throughout either algorithm. It takes in the number of candidates involved in the tie, 
      * and returns an integer representing the losing candidate. It will simulate 1000 coin tosses and take 
      * the 1001 result to ensure randomness.
+     *
      * @param numTied       an int, the number of objects with the same values
      * @return option       an int, the chosen 
      */
@@ -215,33 +216,44 @@ public class VotingSystem {
 //                IRElection irSys = (IRElection) sys;
 //            }
 //        }
-        ArrayList<Candidate> candidates = new ArrayList<>(4);
-        // Rosen (D), Kleinberg (R), Chou (I), Royce (L)
-        candidates.add(new Candidate("Rosen", "D"));
-        candidates.add(new Candidate("Kleinberg", "R"));
-        candidates.add(new Candidate("Chou", "I"));
-        candidates.add(new Candidate("Royce", "L"));
-        IRBallot b = new IRBallot(0, candidates.size());
-        String ballot = "1,3,4,2";
-        int commasEncountered = 0;
-        for(int i = 0; i < ballot.length(); i++){
-            char current = ballot.charAt(i);
-            if(current == ',') {
-                commasEncountered++;
-            } else {
-                int rank = current-48-1; // 48 is the ASCII for 0
-                Candidate c = candidates.get(commasEncountered);
-                b.getRanking().set(rank, c);
-            }
+//        ArrayList<Candidate> candidates = new ArrayList<>(4);
+//        // Rosen (D), Kleinberg (R), Chou (I), Royce (L)
+//        candidates.add(new Candidate("Rosen", "D"));
+//        candidates.add(new Candidate("Kleinberg", "R"));
+//        candidates.add(new Candidate("Chou", "I"));
+//        candidates.add(new Candidate("Royce", "L"));
+//        IRBallot b = new IRBallot(0, candidates.size());
+//        String ballot = "1,3,4,2";
+//        int commasEncountered = 0;
+//        for(int i = 0; i < ballot.length(); i++){
+//            char current = ballot.charAt(i);
+//            if(current == ',') {
+//                commasEncountered++;
+//            } else {
+//                int rank = current-48-1; // 48 is the ASCII for 0
+//                Candidate c = candidates.get(commasEncountered);
+//                b.getRanking().set(rank, c);
+//            }
+//        }
+//
+//        System.out.println(b.getRankIndex());
+//        for(int i = 0; i < b.getRanking().size(); i++){
+//            System.out.println(b.getRanking().get(i).getcName());
+//            System.out.println(b.getRanking().get(i).getcParty());
+//        }
+        VotingSystem electionT = promptCSV();
+        electionT.promptAudit();
+        electionT.promptMedia();
+        if (electionT.getElectionType().equals("OPL")){
+            OPLElection newOPL = new OPLElection();
+            newOPL.runElection();
         }
-
-        System.out.println(b.getRankIndex());
-        for(int i = 0; i < b.getRanking().size(); i++){
-            System.out.println(b.getRanking().get(i).getcName());
-            System.out.println(b.getRanking().get(i).getcParty());
+        else if(electionT.getElectionType().equals("IR")){
+            IRElection newIR = new IRElection();
+            newIR.runElection();
         }
+        //else? need to do something if it's neither?
     }
-
 
     // Getters & Setters
 
