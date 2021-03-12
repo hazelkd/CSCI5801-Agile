@@ -5,7 +5,7 @@ import jdk.jfr.Timestamp;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-public class PartyTest {
+public class TestParty {
 
     private Candidate candidate1;
     private Candidate candidate2;
