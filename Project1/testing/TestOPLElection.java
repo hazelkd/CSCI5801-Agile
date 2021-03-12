@@ -10,6 +10,32 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 
 public class TestOPLElection {
+    private Candidate candidate1;
+    private Candidate candidate2;
+    private Candidate candidate3;
+    private Candidate candidate4;
+    private Candidate candidate5;
+    private Candidate candidate6; 
+
+    private Party bestParty;
+    private Party okayestParty;
+    private Party partyRock;
+
+    private Ballot ballotA;
+    private Ballot ballotB;
+    private Ballot ballotC;
+    private Ballot ballotD;
+    private Ballot ballotE;
+    private Ballot ballotF;
+    private Ballot ballotG;
+    private Ballot ballotH;
+    private Ballot ballotI;
+    private Ballot ballotJ;
+    private Ballot ballotK;
+    private Ballot ballotL;
+    private Ballot ballotM;
+
+    
     // for restoration
     public static InputStream systemIn = System.in;
     public static PrintStream systemOut = System.out;
@@ -31,6 +57,89 @@ public class TestOPLElection {
     public static void restoreSystemInputOutput() {
         System.setIn(systemIn);
         System.setOut(systemOut);
+    }
+
+    public void testPartyNumBallots() {
+        OPLElection election = new OPLElection();
+        
+        bestParty = new Party("B");
+        okayestParty = new Party("O");
+        partyRock = new Party("P");
+
+        parties = new ArrayList<Party>(3);
+        parties.add(bestParty);
+        parties.add(okayestParty);
+        parties.add(partyRock);
+        election.setParty(parties); // add parties to the election array of political parties
+        
+        // 13 ballots in total
+        ballotA = new Ballot();
+        ballotB = new Ballot();
+        ballotC = new Ballot();
+        ballotD = new Ballot();
+        ballotE = new Ballot();
+        ballotF = new Ballot();
+        ballotG = new Ballot();
+        ballotH = new Ballot();
+        ballotI = new Ballot();
+        ballotJ = new Ballot();
+        ballotK = new Ballot();
+        ballotL = new Ballot();
+        ballotM = new Ballot();
+
+        // create candidates and add ballots to candidates
+        candidate1 = new Candidate("one", "B");
+        candidate1.addBallot(ballotA);
+        candidate1.addBallot(ballotB);
+        candidate1.addBallot(ballotC);
+        candidate1.addBallot(ballotD);
+
+        candidate2 = new Candidate("one", "B");
+        candidate2.addBallot(ballotH);
+        candidate2.addBallot(ballotJ);
+
+        candidate3 = new Candidate("one", "B");
+        candidate2.addBallot(ballotI);
+
+        candidate4 = new Candidate("one", "P");
+        candidate4.addBallot(ballotK);
+        candidate4.addBallot(ballotM);
+
+        candidate5 = new Candidate("one", "P");
+        candidate5.addBallot(ballotE);
+        candidate5.addBallot(ballotF);
+        candidate5.addBallot(ballotG);
+        candidate5.addBallot(ballotL);
+        
+        candidate6 = new Candidate("one", "B"); // zero ballots
+
+        // add candidates to parties
+        bestParty.addCandidate(candidate6); // should not be added
+        bestParty.addCandidate(candidate2);
+        bestParty.addCandidate(candidate3);
+        bestParty.addCandidate(candidate1);
+
+        partyRock.addCandidate(candidate4);
+        partyRock.addCandidate(candidate5);
+    
+        election.partyNumBallots();
+        assertEqual("Zero Candidtes mean zero ballots", okayestParty.getpNumBallots(), 0); // no candidates = no ballots
+
+        // test total num ballots in each party is correct
+        assertEqual("BestParty had 7 ballots", bestParty.getpNumBallots(), 7); 
+        assertEqual("PartyRock had 6 ballots", partyRock.getpNumBallots(), 6);
+
+        // test order candidates by popularity in party is correct
+        bestPartyOrder = new ArrayList<Candidate>();
+        bestPartyOrder.add(candidate1);
+        bestPartyOrder.add(candidate2);
+        bestPartyOrder.add(candidate3);
+        assertArrayEqual("BestParty Candidates Order", bestPartyOrder, bestParty.getCandidates());
+
+        partyRockOrder = new ArrayList<Candidate>();
+        partyRockOrder.addCandidate(candidate5);
+        partyRockOrder.addCandidate(candidate4);
+        assertArrayEqual("PartyRock Candidates Order", partyRockOrder, partyRock.getCandidates());
     }
 
     // readOPLCSV tests
