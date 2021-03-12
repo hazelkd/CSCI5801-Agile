@@ -15,6 +15,7 @@ public class TestVotingSystem {
     public static PrintStream systemOut = System.out;
 
     public ByteArrayOutputStream testOut;
+    private VotingSystem votingSys;
 
     public void provideInput(String data) {
         testOut = new ByteArrayOutputStream();
@@ -31,6 +32,27 @@ public class TestVotingSystem {
     public static void restoreSystemInputOutput() {
         System.setIn(systemIn);
         System.setOut(systemOut);
+    }
+  
+    @Test
+    public void testCoinToss() {
+        votingSys = new VotingSystem();
+
+        // Test with negetive number input
+        int result = votingSys.coinToss(-5);
+        assertEquals(result, -1);
+        result = 10;
+
+        // Test with 0 as input
+        result = votingSys.coinToss(0);
+        assertEquals(result, -1); 
+        
+        // ensure the return value is with in the bounds 
+        for (int i = 0; i < 100; i++) {
+            result = votingSys.coinToss(13);
+            assertTrue("Random Number too High", result < 13);
+            assertTrue("Random Number too Low", result >= 0);
+        }
     }
 
     // promptCSV tests
@@ -183,6 +205,4 @@ public class TestVotingSystem {
         assertNull("Media File incorrectly initialized", sys.getMediaFile());
     }
     // end of promptMedia tests
-
-
 }
