@@ -35,6 +35,8 @@ public class TestOPLElection {
     private Ballot ballotL;
     private Ballot ballotM;
 
+    private OPLElection oplElection;
+
     
     // for restoration
     public static InputStream systemIn = System.in;
@@ -58,7 +60,22 @@ public class TestOPLElection {
         System.setIn(systemIn);
         System.setOut(systemOut);
     }
+    @Test
+    public void testOPLRunElection() {
+        oplElection = new OPLElection();
+        // open an audit file
+        // open a media file
+        // open a csv file
 
+        //readOPLCSV --> totalNumBallots, totalNumSeats, numSeatsLeft, set Quota, candidates/parties
+        //readBallots --> make and distribute ballots
+        //partyNumBallots --> set # ballots per party, order candidates in each party by popularity
+        //allocateByQuota --> numSeats per party, decrease numSeatsLeft, set remainder per party
+        //allocateByRemainder --> decrease numSeatsLeft, numSeats perParty, 
+
+    }
+
+    @Test
     public void testPartyNumBallots() {
         OPLElection election = new OPLElection();
         
