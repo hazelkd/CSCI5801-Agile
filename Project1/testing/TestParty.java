@@ -1,7 +1,8 @@
-import org.junit.Test;
-
+package junitfaq;
+      
 import jdk.jfr.Timestamp;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class PartyTest {
@@ -51,7 +52,7 @@ public class PartyTest {
 
 
     @Test
-    Public void testCalculateNumBallots() {
+    public void testCalculateNumBallots() {
         bestParty = new Party("P"); // 1 candidate
         okayestParty = new Party("O"); // no candidates 
         partRock = new Party("R"); //2 candidates
