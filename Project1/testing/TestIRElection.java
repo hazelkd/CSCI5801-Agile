@@ -178,24 +178,24 @@ public class TestIRElection {
       election.redistributeBallots();
 
       assertEquals("Did not add eliminated candidate to array", election.getEliminatedCandidates().size(), 1);
-      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(0).getName(), "Kleinberg");
+      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(0).getcName(), "Kleinberg");
       assertEquals("Did not remove eliminated candidate from curr array", election.getCurrCandidates().size(), 3);
-      assertEquals("Did not remove correct eliminated candidate from curr array", election.getCurrCandidate().contains(candidate2), false);
+      assertEquals("Did not remove correct eliminated candidate from curr array", election.getCurrCandidates().contains(candidate2), false);
 
 
 
       election.redistributeBallots();
 
-      assertEquals("Did not add eliminiated candidate to array" election.getEliminatedCandidates().size(), 2);
-      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(1).getName(), "Royce");
+      assertEquals("Did not add eliminiated candidate to array", election.getEliminatedCandidates().size(), 2);
+      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(1).getcName(), "Royce");
       assertEquals("Distributed ballot when not needed", candidate4.getcBallots().contains(ballot6), true);
       assertEquals("Did not remove eliminated candidate from curr array", election.getCurrCandidates().size(), 2);
-      assertEquals("Did not remove correct eliminated candidate from curr array", election.getCurrCandidate().contains(candidate4), false);
+      assertEquals("Did not remove correct eliminated candidate from curr array", election.getCurrCandidates().contains(candidate4), false);
 
       election.redistributeBallots();
 
-      assertEquals("Did not add eliminiated candidate to array" election.getEliminatedCandidates().size(), 3);
-      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(2).getName(), "Chou");
+      assertEquals("Did not add eliminiated candidate to array", election.getEliminatedCandidates().size(), 3);
+      assertEquals("Did not add correct eliminated candidate to array", election.getEliminatedCandidates().get(2).getcName(), "Chou");
       //assertEquals("Did not distribute ballot correctly", candidate4.getcBallots().contains(ballot6), true);
     }
 
@@ -279,4 +279,3 @@ public class TestIRElection {
     }
     // end of printToScreen tests
   }
-}

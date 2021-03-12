@@ -238,9 +238,9 @@ public class TestOPLElection {
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
+            assertEquals("Incorrect totalNumSeats", 3, sys.getTotalNumSeats());
+            assertEquals("Incorrect numSeatsLeft", 3, sys.getNumSeatsLeft());
+            assertEquals("Incorrect quota", 3, sys.getQuota());
 
             // creates party and candidate objects (makes sure that lists are right length)
             // Both should be initialized (and correct)
@@ -261,10 +261,7 @@ public class TestOPLElection {
                             sys.getCandidates().get(2).getcNumBallots() +
                             sys.getCandidates().get(3).getcNumBallots() +
                             sys.getCandidates().get(4).getcNumBallots() +
-                            sys.getCandidates().get(5).getcNumBallots() +
-                            sys.getCandidates().get(6).getcNumBallots() +
-                            sys.getCandidates().get(7).getcNumBallots() +
-                            sys.getCandidates().get(8).getcNumBallots()));
+                            sys.getCandidates().get(5).getcNumBallots()));
         } else {
             assertNotNull("Testing data not present", sys);
         }
@@ -272,7 +269,7 @@ public class TestOPLElection {
 
     @Test
     public void testReadBallotsInvalidInput(){
-        String data = "OPLTest\n";
+        String data = "OPLTestInvalid\n";
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
@@ -319,7 +316,7 @@ public class TestOPLElection {
     public void testPrintToScreen(){
         // need parties (pName, numSeats, candidates) and candidates (name) for printing
         // set up
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         Party p1 = new Party("D");
         p1.setNumSeats(3);
         // create candidates and put in ArrayList
@@ -369,7 +366,7 @@ public class TestOPLElection {
     @Test
     public void testWriteToMediaFile(){
         // set up
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         sys.setTotalNumBallots(15);
         Party p1 = new Party("D");
         p1.setNumSeats(3);
@@ -424,7 +421,7 @@ public class TestOPLElection {
         // set up
         // need party (name, numSeats) and candidate (numBallots, name, ballots)
         // ballot (id, bCandidate, party)
-        OPLElection sys = (OPLElection) new VotingSystem();
+        OPLElection sys = new OPLElection();
         sys.setTotalNumBallots(4);
         // one ballot to each candidate
         Party p1 = new Party("D");
