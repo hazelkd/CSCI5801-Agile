@@ -203,6 +203,13 @@ public class TestIRElection {
       ballot5.setRanking(ranking5);
       ballot6.setRanking(ranking6);
 
+      ballot1.setNumCandidates(4);
+      ballot2.setNumCandidates(2);
+      ballot3.setNumCandidates(3);
+      ballot4.setNumCandidates(4);
+      ballot5.setNumCandidates(2);
+      ballot6.setNumCandidates(1);
+
       candidate1.setcNumBallots(3);
       candidate2.setcNumBallots(0);
       candidate3.setcNumBallots(2);
