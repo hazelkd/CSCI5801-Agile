@@ -81,7 +81,7 @@ public class IRElection extends VotingSystem{
             numCandidates = Integer.parseInt(sNumCandidates);
         }
         else {
-            System.out.println("Incorrect File Format (numCandidates)");
+            System.out.print("Incorrect File Format (numCandidates)\n");
             return;
         }
 
@@ -91,7 +91,7 @@ public class IRElection extends VotingSystem{
             candidateLine = csvFile.nextLine();
         }
         else {
-            System.out.println("Incorrect File Format (candidate list)");
+            System.out.print("Incorrect File Format (candidate list)\n");
         }
 
         // parse line
@@ -124,7 +124,7 @@ public class IRElection extends VotingSystem{
             totalNumBallots = Integer.parseInt(csvFile.nextLine());
         }
         else {
-            System.out.println("Incorrect File Format (numBallots)");
+            System.out.print("Incorrect File Format (numBallots)\n");
             return;
         }
     } // readIRCSV
@@ -333,18 +333,18 @@ public class IRElection extends VotingSystem{
      * to each candidate.
      */
     public void writeToMediaFile(){
-        mediaFile.println("Election Results");
-        mediaFile.println("------------------------------");
+        mediaFile.print("Election Result\n");
+        mediaFile.print("------------------------------\n");
         // print winner + percentage of votes
         mediaFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
         double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
-        mediaFile.println(" won with "+percentage+"% of the vote");
+        mediaFile.print(" won with "+percentage+"% of the vote\n");
 
         // print rest of candidates + percentage of vote
-        mediaFile.println("Eliminated Candidates: ");
+        mediaFile.print("Eliminated Candidates: \n");
         for (Candidate c : eliminatedCandidates) {
             percentage = (c.getcNumBallots() / ((double)totalNumBallots)) * 100;
-            mediaFile.println(c.getcName()+", "+c.getcParty()+" had "+percentage+"% of the vote when they were eliminated");
+            mediaFile.print(c.getcName()+", "+c.getcParty()+" had "+percentage+"% of the vote when they were eliminated\n");
         }
         mediaFile.close();
     } // writeToMediaFile
@@ -357,8 +357,8 @@ public class IRElection extends VotingSystem{
     public void writeToAuditFile(){
         // print winner + percentage of votes
         double percentage = (currCandidates.get(0).getcNumBallots()/((double)totalNumBallots)) * 100;
-        auditFile.println(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+percentage+"% of the vote");
-        auditFile.println("Ballots assigned to "+currCandidates.get(0).getcName()+":");
+        auditFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+percentage+"% of the vote\n");
+        auditFile.print("Ballots assigned to "+currCandidates.get(0).getcName()+":\n");
 
         // print all ballots assigned to winner
         for(Ballot b : currCandidates.get(0).getcBallots()){
@@ -369,16 +369,16 @@ public class IRElection extends VotingSystem{
                 if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
-                    auditFile.println();
+                    auditFile.print("\n");
                 }
             }
         }
 
         // print the rest of the candidates
         // print all ballots not reassigned from these candidates
-        auditFile.println("Ballots not reassigned from eliminated candidates: ");
+        auditFile.print("Ballots not reassigned from eliminated candidates: \n");
         for (Candidate c : eliminatedCandidates) {
-            auditFile.println("Ballots assigned to "+c.getcName()+", "+c.getcParty()+":");
+            auditFile.print("Ballots assigned to "+c.getcName()+", "+c.getcParty()+":\n");
             for(Ballot b : c.getcBallots()){
                 IRBallot b1 = (IRBallot) b;
                 auditFile.print("    "+b1.getID()+" Ranking: ");
@@ -387,7 +387,7 @@ public class IRElection extends VotingSystem{
                     if(i != (b1.getNumCandidates()-1)){
                         auditFile.print(", ");
                     } else {
-                        auditFile.println();
+                        auditFile.print("\n");
                     }
                 }
             }
@@ -406,8 +406,8 @@ public class IRElection extends VotingSystem{
     public void writeToAuditFile(Candidate c){
         // print candidate name+party and percentage of votes
         double percentage = (c.getcNumBallots()/((double)totalNumBallots)) * 100;
-        auditFile.println(c.getcName()+", "+c.getcParty()+": eliminated with "+percentage+"% of the vote");
-        auditFile.println("Ballots assigned to "+c.getcName()+":");
+        auditFile.print(c.getcName()+", "+c.getcParty()+": eliminated with "+percentage+"% of the vote\n");
+        auditFile.print("Ballots assigned to "+c.getcName()+":\n");
 
         // print all ballots assigned to candidate
         for(Ballot b : c.getcBallots()){
@@ -418,11 +418,11 @@ public class IRElection extends VotingSystem{
                 if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
-                    auditFile.println();
+                    auditFile.print("\n");
                 }
             }
         }
-        auditFile.println("----------------------------------------");
+        auditFile.print("----------------------------------------\n");
     } // writeToAuditFile
     
     /**
@@ -431,12 +431,12 @@ public class IRElection extends VotingSystem{
      * they received.
      */
     public void printToScreen(){
-        System.out.println("Election Results");
-        System.out.println("------------------------------");
+        System.out.print("Election Results\n");
+        System.out.print("------------------------------\n");
         // print winner + percentage of votes
         System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
         double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
-        System.out.println(" won with "+percentage+"% of the vote");
+        System.out.print(" won with "+percentage+"% of the vote\n");
     } // printToScreen
 
 

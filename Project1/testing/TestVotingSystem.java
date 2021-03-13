@@ -39,8 +39,10 @@ public class TestVotingSystem {
     @Test
     public void testIRElec() {
 
-        system.setElectionType("IR");
-        system.main(String[5]); //also don't really know what to put here in main call 
+        String data = "IRTest\ndefault\ndefault\n";
+        provideInput(data);
+        system = new VotingSystem();
+        system.main(null); //also don't really know what to put here in main call
         //need to be able to skip prompt CSV, etc.
         //need to specify that I want to read in IRElection file
 
@@ -52,15 +54,18 @@ public class TestVotingSystem {
 
         assertEquals(system.getTotalNumBallots(), 6);
 
-        assertEquals(system.getCandidates(), "Rosen", "Kleinberg", "Chou", "Royce");
+        assertEquals("Rosen", system.getCandidates().get(0).getcName());
+        assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
+        assertEquals("Chou", system.getCandidates().get(2).getcName());
+        assertEquals("Royce", system.getCandidates().get(3).getcName());
 
-        assertEquals(system.getCandidates().length, 4);
+        assertEquals(system.getCandidates().size(), 4);
     }
 
     @Test
     public void testOPLElec(){
         system.setElectionType("OPL");
-        system.main(String[5]); //also don't really know what to put here in main call 
+        system.main(null); //also don't really know what to put here in main call
         //need to be able to skip prompt CSV, etc.
         //need to specify that I want to read in IRElection file
 
@@ -72,9 +77,9 @@ public class TestVotingSystem {
 
         assertEquals(system.getTotalNumBallots(), 9);
 
-        assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
+        //assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
 
-        assertEquals(system.getCandidates().length, 6);
+        assertEquals(system.getCandidates().size(), 6);
 
         //should I be checking OPL objects too?
     }

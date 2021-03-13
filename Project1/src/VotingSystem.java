@@ -78,12 +78,14 @@ public class VotingSystem {
      * auditFile to the PrintWriter to be accessed and written to throughout the algorithm.
      */
     public void promptAudit(){
-        String name = null;
+        String name = "";
         Scanner fromUser = new Scanner(System.in);
         System.out.print("What do you want the name of the audit file to be?\n");
         System.out.print("Do not include any extensions, the system will produce a .txt file\n");
         System.out.print("If you wish to use the default naming conventions, enter default (D)\n");
-        name = fromUser.nextLine();
+        if(fromUser.hasNext()){
+            name = fromUser.nextLine();
+        }
         if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d"))){
             System.out.print("You have entered: "+name+"\n Is this correct? (Y/N)\n");
             // check Y/N -> prompt accordingly
@@ -181,79 +183,18 @@ public class VotingSystem {
     }
 
     public static void main(String[] args){
-//        VotingSystem sys = promptCSV();
-//        System.out.println(sys == null);
-//        if(sys != null){
-//            System.out.println(sys.getCsvName());
-//            System.out.println(sys.getElectionType());
-//            sys.promptAudit();
-//            sys.promptMedia();
-//            System.out.println(sys.getAuditFile());
-//            System.out.println(sys.getMediaFile());
-//            if(sys.getElectionType().equals("OPL")){
-//                OPLElection oplSys = (OPLElection) sys;
-//                oplSys.readOPLCSV();
-//                System.out.println("Checking that all vars are set correctly: ");
-//                System.out.println("totalNumBallots: "+oplSys.getTotalNumBallots());
-//                System.out.println("totalNumSeats: "+oplSys.getTotalNumSeats());
-//                System.out.println("numSeatsLeft: "+oplSys.getNumSeatsLeft());
-//                System.out.println("quota: "+oplSys.getQuota());
-//                System.out.println("NumCandidates: "+oplSys.getCandidates().size());
-//                System.out.println("Candidates: ");
-//                ArrayList<Candidate> c = oplSys.getCandidates();
-//                for(int i = 0; i < c.size(); i++){
-//                    System.out.println("Name: "+c.get(i).getcName()+", Party: "+c.get(i).getcParty());
-//                }
-//                System.out.println("Parties: ");
-//                ArrayList<Party> p = oplSys.getParty();
-//                for(int i = 0; i < p.size(); i++){
-//                    System.out.println(p.get(i).getpName()+": ");
-//                    System.out.println("numCandidates: "+p.get(i).getCandidates().size());
-//                    for(int j = 0; j<p.get(i).getCandidates().size(); j++){
-//                        System.out.println("  - "+p.get(i).getCandidates().get(j).getcName());
-//                    }
-//                }
-//                oplSys.readBallots();
-//            }
-//            else if(sys.getElectionType().equals("IR")){
-//                IRElection irSys = (IRElection) sys;
-//            }
-//        }
-//        ArrayList<Candidate> candidates = new ArrayList<>(4);
-//        // Rosen (D), Kleinberg (R), Chou (I), Royce (L)
-//        candidates.add(new Candidate("Rosen", "D"));
-//        candidates.add(new Candidate("Kleinberg", "R"));
-//        candidates.add(new Candidate("Chou", "I"));
-//        candidates.add(new Candidate("Royce", "L"));
-//        IRBallot b = new IRBallot(0, candidates.size());
-//        String ballot = "1,3,4,2";
-//        int commasEncountered = 0;
-//        for(int i = 0; i < ballot.length(); i++){
-//            char current = ballot.charAt(i);
-//            if(current == ',') {
-//                commasEncountered++;
-//            } else {
-//                int rank = current-48-1; // 48 is the ASCII for 0
-//                Candidate c = candidates.get(commasEncountered);
-//                b.getRanking().set(rank, c);
-//            }
-//        }
-//
-//        System.out.println(b.getRankIndex());
-//        for(int i = 0; i < b.getRanking().size(); i++){
-//            System.out.println(b.getRanking().get(i).getcName());
-//            System.out.println(b.getRanking().get(i).getcParty());
-//        }
         VotingSystem electionT = promptCSV();
-        electionT.promptAudit();
-        electionT.promptMedia();
-        if (electionT.getElectionType().equals("OPL")){
-            OPLElection newOPL = new OPLElection();
-            newOPL.runElection();
-        }
-        else if(electionT.getElectionType().equals("IR")){
-            IRElection newIR = new IRElection();
-            newIR.runElection();
+        if(electionT != null){
+            electionT.promptAudit();
+            electionT.promptMedia();
+            if (electionT.getElectionType().equals("OPL")){
+                OPLElection newOPL = (OPLElection) electionT;
+                newOPL.runElection();
+            }
+            else if(electionT.getElectionType().equals("IR")){
+                IRElection newIR = (IRElection) electionT;
+                newIR.runElection();
+            }
         }
         //else? need to do something if it's neither?
     }
