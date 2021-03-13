@@ -134,6 +134,24 @@ public class TestIRElection {
 
       assertEquals("Did not find correct least Candidate", election.findLeasCand().getcName(), "Rosen");
 
+      candidate1.setcNumBallots(4);
+      candidate2.setcNumBallots(0);
+      candidate3.setcNumBallots(0);
+      candidate4.setcNumBallots(2);
+
+      ArrayList<Candidate> temp3 = new ArrayList<Candidate>();
+      temp3.add(candidate1);
+      temp3.add(candidate2);
+      temp3.add(candidate3);
+      temp3.add(candidate4);
+      ArrayList <Candidate> temp4 = new ArrayList<Candidate>();
+      election.setCurrCandidates(temp3);
+      election.setEliminatedCandidates(temp4);
+      election.setTotalNumBallots(6);
+
+      assertTrue(election.findLeastCand().getcName().equals("Kleinberg") || election.findLeastCand().getcName().equals("Chou"));
+
+
     }
 
     @Test
@@ -237,82 +255,33 @@ public class TestIRElection {
 
     @Test
     public void testRunElection() {
-      election = new IRElection();
-      candidate1 = new Candidate("Rosen", "D");
-      candidate2 = new Candidate("Kleinberg", "R");
-      candidate3 = new Candidate("Chou"," I");
-      candidate4 = new Candidate("Royce", "L");
-      ballot1 = new IRBallot(1, 4);
-      ballot2 = new IRBallot(2, 4);
-      ballot3 = new IRBallot(3, 4);
-      ballot4 = new IRBallot(4, 4);
-      ballot5 = new IRBallot(5, 4);
-      ballot6 = new IRBallot(6, 4);
+      String dataCSV = "IRTest\n";
+      provideInput(dataCSV);
+      election = (IRElection) VotingSystem.promptCSV();
 
-      ArrayList<Candidate> ranking1 = new ArrayList<Candidate>();
-      ranking1.add(candidate1);
-      ranking1.add(candidate4);
-      ranking1.add(candidate2);
-      ranking1.add(candidate3);
+      String dataAudit = "testAudit1\nY";
+      provideInput(dataAudit);
+      election.promptAudit();
 
-      ArrayList<Candidate> ranking2 = new ArrayList<Candidate>();
-      ranking2.add(candidate1);
-      ranking2.add(candidate3);
-
-      ArrayList<Candidate> ranking3 = new ArrayList<Candidate>();
-      ranking3.add(candidate1);
-      ranking3.add(candidate2);
-      ranking3.add(candidate3);
-
-      ArrayList<Candidate> ranking4 = new ArrayList<Candidate>();
-      ranking4.add(candidate3);
-      ranking4.add(candidate2);
-      ranking4.add(candidate1);
-      ranking4.add(candidate4);
-
-      ArrayList<Candidate> ranking5 = new ArrayList<Candidate>();
-      ranking5.add(candidate3);
-      ranking5.add(candidate4);
-
-      ArrayList<Candidate> ranking6 = new ArrayList<Candidate>();
-      ranking6.add(candidate4);
-
-      ballot1.setRanking(ranking1);
-      ballot2.setRanking(ranking2);
-      ballot3.setRanking(ranking3);
-      ballot4.setRanking(ranking4);
-      ballot5.setRanking(ranking5);
-      ballot6.setRanking(ranking6);
-
-      candidate1.setcNumBallots(3);
-      candidate2.setcNumBallots(0);
-      candidate3.setcNumBallots(2);
-      candidate4.setcNumBallots(1);
-
-      candidate1.addBallot(ballot1);
-      candidate1.addBallot(ballot2);
-      candidate1.addBallot(ballot3);
-      candidate3.addBallot(ballot4);
-      candidate3.addBallot(ballot5);
-      candidate4.addBallot(ballot6);
-
-      ArrayList<Candidate> temp = new ArrayList<Candidate>();
-      temp.add(candidate1);
-      temp.add(candidate2);
-      temp.add(candidate3);
-      temp.add(candidate4);
-      ArrayList <Candidate> temp2 = new ArrayList<Candidate>();
-      election.setCurrCandidates(temp);
-      election.setEliminatedCandidates(temp2);
-      election.setTotalNumBallots(6);
+      String dataMedia = "testMedia1\nY";
+      provideInput(dataMedia);
 
       election.runElection();
 
+      assertEquals("IR", election.getElectionType());
+      assertEquals("IRTest", election.getCsvName());
+      assertEquals(6, election.getTotalNumBallots());
+
       assertEquals("Did not find correct winner", election.getCurrCandidate().get(0).getcName(), "Rosen");
+      assertEquals("Did not have the correct number of ballots for winner", election.getCurrCandidate().get(0).getcNumBallots(), 4);
       assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().size(), 3);
-      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().contains(candidate2), true);
-      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().contains(candidate3), true);
-      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().contains(candidate4), true);
+      assertEquals("Did not remove losers from curr candidates", election.getCurrCandidates().size(), 1);
+      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(0).getcName(), "Kleinberg");
+      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(1).getcName(), "Royce");
+      assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(2).getcName(), "Chou");
+      assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+      assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+      assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(2).getcName(), 1);
 
       }
 

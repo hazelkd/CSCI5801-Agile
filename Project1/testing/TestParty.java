@@ -1,5 +1,5 @@
 package junitfaq;
-      
+
 import jdk.jfr.Timestamp;
 
 import org.junit.*;
@@ -12,7 +12,7 @@ public class TestParty {
     private Candidate candidate3;
     private Candidate candidate4;
     private Candidate candidate5;
-    private Candidate candidate6; 
+    private Candidate candidate6;
 
     private Party bestParty;
     private Party okayestParty;
@@ -56,7 +56,7 @@ public class TestParty {
     @Test
     public void testCalculateNumBallots() {
         bestParty = new Party("P"); // 1 candidate
-        okayestParty = new Party("O"); // no candidates 
+        okayestParty = new Party("O"); // no candidates
         partRock = new Party("R"); //2 candidates
 
         candidate1 = new Candidate("name", "P");
@@ -83,7 +83,7 @@ public class TestParty {
         candidate1.addBallot(ballotC);
         candidate1.addBallot(ballotD);
         bestParty.addCandidate(candiate1);
-        
+
         candiate2.addBallot(ballotE);
         candiate2.addBallot(ballotF);
         candiate2.addBallot(ballotG);
@@ -118,9 +118,29 @@ public void testSortCandidates() {
 
   bestParty.sortCandidates();
 
-  assertEquals("Did not put greatest in first position", bestParty.getCandidates().get(0).getName(), "Rosen");
-  assertEquals("Did not put second greatest in second position", bestParty.getCandidates().get(1).getName(), "Chou");
-  assertEquals("Did not put third greatest in third position", bestParty.getCandidates().get(2).getName(), "Royce");
-  assertEquals("Did not put last in last position", bestParty.getCandidates().get(3).getName(), "Kleinberg");
+  assertEquals("Did not put greatest in first position", bestParty.getCandidates().get(0).getcName(), "Rosen");
+  assertEquals("Did not put second greatest in second position", bestParty.getCandidates().get(1).getcName(), "Chou");
+  assertEquals("Did not put third greatest in third position", bestParty.getCandidates().get(2).getcName(), "Royce");
+  assertEquals("Did not put last in last position", bestParty.getCandidates().get(3).getcName(), "Kleinberg");
+
+  candidate1.setcNumBallots(4);
+  candidate2.setcNumBallots(0);
+  candidate3.setcNumBallots(0);
+  candidate4.setcNumBallots(2);
+
+  ArrayList<Candidate> temp2 = new ArrayList<Candidate>();
+  temp2.add(candidate1);
+  temp2.add(candidate2);
+  temp2.add(candidate3);
+  temp2.add(candidate4);
+
+  bestParty.setCandidates(temp2);
+
+  bestParty.sortCandidates();
+
+  assertEquals("Did not put greatest in first position", bestParty.getCandidates().get(0).getcName(), "Rosen");
+  assertEquals("Did not put second greatest in second position", bestParty.getCandidates().get(1).getcName(), "Royce");
+  assertTrue(bestParty.getCandidates().get(2).getcName().equals("Kleinberg") || bestParty.getCandidates().get(2).getcName().equals("Chou"));
+  assertTrue(bestParty.getCandidates().get(3).getcName().equals("Kleinberg") || bestParty.getCandidates().get(3).getcName().equals("Chou"));
 
 }
