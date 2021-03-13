@@ -888,10 +888,5 @@ public class TestOPLElection {
                 assertEquals(1, oplElection.getParty().get(i).getpNumBallots());
             }
         }
-        //readOPLCSV --> totalNumBallots, totalNumSeats, numSeatsLeft, set Quota, candidates/parties
-        //readBallots --> make and distribute ballots
-        //partyNumBallots --> set # ballots per party, order candidates in each party by popularity
-        //allocateByQuota --> numSeats per party, decrease numSeatsLeft, set remainder per party
-        //allocateByRemainder --> decrease numSeatsLeft, numSeats perParty,
     }
 }
