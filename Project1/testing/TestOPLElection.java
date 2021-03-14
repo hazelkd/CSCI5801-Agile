@@ -500,6 +500,9 @@ public class TestOPLElection {
         election.setNumSeatsLeft(3);
         ArrayList<Party> party = new ArrayList<>();
         //{"D", "R", "I"};
+        party.add(new Party("D"));
+        party.add(new Party("R"));
+        party.add(new Party("I"));
         election.setParty(party);
         election.setTotalNumBallots(9);
         election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
@@ -527,10 +530,14 @@ public class TestOPLElection {
 
     @Test
     public void testAllocateByRemainder() {
+        election = new OPLElection();
         election.setTotalNumSeats(3);
         election.setNumSeatsLeft(3);
         ArrayList<Party> party = new ArrayList<>();
         // {"D", "R", "I"};
+        party.add(new Party("D"));
+        party.add(new Party("R"));
+        party.add(new Party("I"));
         election.setParty(party);
         election.setTotalNumBallots(9);
         election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
@@ -622,7 +629,7 @@ public class TestOPLElection {
         candidate2.addBallot(ballotJ);
 
         candidate3 = new Candidate("one", "B");
-        candidate2.addBallot(ballotI);
+        candidate3.addBallot(ballotI);
 
         candidate4 = new Candidate("one", "P");
         candidate4.addBallot(ballotK);
@@ -648,7 +655,7 @@ public class TestOPLElection {
 
 
         election.partyNumBallots();
-        assertEquals("Zero Candidtes mean zero ballots", okayestParty.getpNumBallots(), 0); // no candidates = no ballots
+        assertEquals("Zero Candidates mean zero ballots", okayestParty.getpNumBallots(), 0); // no candidates = no ballots
 
         // test total num ballots in each party is correct
         assertEquals("BestParty had 7 ballots", bestParty.getpNumBallots(), 7);

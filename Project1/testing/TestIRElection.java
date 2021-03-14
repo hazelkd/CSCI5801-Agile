@@ -148,7 +148,8 @@ public class TestIRElection {
         election.setEliminatedCandidates(temp4);
         election.setTotalNumBallots(6);
 
-        assertTrue(election.findLeastCand().getcName().equals("Kleinberg") || election.findLeastCand().getcName().equals("Chou"));
+        Candidate least = election.findLeastCand();
+        assertTrue(least.getcName().equals("Kleinberg") || least.getcName().equals("Chou"));
 
 
     }

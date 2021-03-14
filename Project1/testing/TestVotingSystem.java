@@ -74,6 +74,7 @@ public class TestVotingSystem {
 
     @Test
     public void testIRElecLong(){
+        long startTime = System.currentTimeMillis();
         String data = "IRTestLong\n";
         provideInput(data);
         // copy of main code (with added input lines):
@@ -92,6 +93,9 @@ public class TestVotingSystem {
                 newIR.runElection();
             }
         }
+        long endTime = System.currentTimeMillis();
+        // 480,000 milliseconds in 8 minutes
+        assertTrue((endTime-startTime) < 480000);
     }
 
     @Test
@@ -134,6 +138,7 @@ public class TestVotingSystem {
 
     @Test
     public void testOPLElecLong(){
+        long startTime = System.currentTimeMillis();
         // copy of main code (with added input lines):
         provideInput("OPLTestLong\n");
         VotingSystem system = VotingSystem.promptCSV();
@@ -151,6 +156,9 @@ public class TestVotingSystem {
                 newIR.runElection();
             }
         }
+        long endTime = System.currentTimeMillis();
+        // 480,000 milliseconds in 8 minutes
+        assertTrue((endTime-startTime) < 480000);
     }
   
     @Test
