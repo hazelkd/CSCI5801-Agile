@@ -578,7 +578,8 @@ public class TestOPLElection {
         assertNotNull(election.getParty().get(2).getRemainder());
 
         assertTrue(election.getTotalNumSeats() != 0);
-        
+
+        election.allocateByQuota();
         election.allocateByRemainder();
 
         assertEquals(election.getParty().get(0).getNumSeats(), 2);

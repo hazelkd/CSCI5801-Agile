@@ -116,7 +116,7 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            assertEquals(system.getCsvName(), "OPLTest.txt");
+            assertEquals(system.getCsvName(), "OPLTest");
 
             assertEquals(system.getElectionType(), "OPL");
 
