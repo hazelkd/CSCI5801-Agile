@@ -107,7 +107,7 @@ public class VotingSystem {
         }
         else {
             System.out.print("Using default\n");
-            name = "audit.txt"; // need to figure out actual conventions
+            name = csvName + "AuditFile.txt"; // need to figure out actual conventions
         }
         try {
             auditFile = new PrintWriter(new File(name));
@@ -148,7 +148,7 @@ public class VotingSystem {
         }
         else {
             System.out.print("Using default\n");
-            name = "media.txt"; // need to figure out actual conventions
+            name = csvName + "MediaFile.txt"; // need to figure out actual conventions
         }
         try {
             mediaFile = new PrintWriter(new File(name));
@@ -187,11 +187,11 @@ public class VotingSystem {
         if(electionT != null){
             electionT.promptAudit();
             electionT.promptMedia();
-            if (electionT.getElectionType().equals("OPL")){
+            if (electionT.getElectionType().equals("OPL") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
                 OPLElection newOPL = (OPLElection) electionT;
                 newOPL.runElection();
             }
-            else if(electionT.getElectionType().equals("IR")){
+            else if(electionT.getElectionType().equals("IR") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
                 IRElection newIR = (IRElection) electionT;
                 newIR.runElection();
             }

@@ -115,29 +115,6 @@ public class TestOPLElection {
     }
 
     @Test
-    public void testReadOPLCSVCandidateListWrongLength() {
-        String data = "OPLInvTest3Length\n";
-        provideInput(data);
-        OPLElection sys = (OPLElection) VotingSystem.promptCSV();
-        if (sys != null) {
-            sys.readOPLCSV();
-            // check totalNumBallots totalNumSeats, numSeatsLeft, quota
-            // none should be set
-            assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
-
-            // creates party and candidate objects (makes sure that lists are right length)
-            // Both should be initialized -> size of candidate list != numCandidates
-            assertNull("Incorrect number of Parties", sys.getParty());
-            assertNull("Incorrect number of Candidates", sys.getCandidates());
-        } else {
-            assertNotNull("Testing data not present", sys);
-        }
-    }
-
-    @Test
     public void testReadOPLCSVInvalidFourthLine(){ // numSeats
         String data = "OPLInvTest4\n";
         provideInput(data);
@@ -202,7 +179,7 @@ public class TestOPLElection {
             sys.readOPLCSV();
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
-            assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
+            assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
             assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
             assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
             assertEquals("Incorrect quota", 0, sys.getQuota());
@@ -277,9 +254,9 @@ public class TestOPLElection {
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
+            assertEquals("Incorrect totalNumSeats", 3, sys.getTotalNumSeats());
+            assertEquals("Incorrect numSeatsLeft", 3, sys.getNumSeatsLeft());
+            assertEquals("Incorrect quota", 3, sys.getQuota());
 
             // creates party and candidate objects (makes sure that lists are right length)
             // Both should be initialized (and correct)
@@ -292,8 +269,8 @@ public class TestOPLElection {
                     sys.getParty().get(0).getpName());
 
             sys.readBallots();
-            // should create 9 ballots
-            assertEquals("Incorrect number of ballots created", 0, sys.getTotalNumBallots());
+            // no ballots should be created
+            assertEquals("Incorrect number of ballots created", 9, sys.getTotalNumBallots());
             assertEquals("Incorrect number of ballots assigned", 0,
                     (sys.getCandidates().get(0).getcNumBallots() +
                             sys.getCandidates().get(1).getcNumBallots() +
@@ -368,9 +345,10 @@ public class TestOPLElection {
         // set up
         OPLElection sys = new OPLElection();
         try {
-            sys.setMediaFile(new PrintWriter("OPLMediaTest.txt"));
+            sys.setMediaFile(new PrintWriter("OPLMediaTestFile.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("Unable to open test file");
+            return;
         }
 
         sys.setTotalNumBallots(15);
@@ -418,7 +396,7 @@ public class TestOPLElection {
 
         String mediaFile = null;
         try {
-            mediaFile = Files.readString(Path.of("OPLMediaTest.txt"));
+            mediaFile = Files.readString(Path.of("OPLMediaTestFile.txt"));
         } catch (IOException e) {
             System.out.println("Unable to read test file");
         }
@@ -435,7 +413,7 @@ public class TestOPLElection {
         // ballot (id, bCandidate, party)
         OPLElection sys = new OPLElection();
         try {
-            sys.setAuditFile(new PrintWriter("OPLAuditTest.txt"));
+            sys.setAuditFile(new PrintWriter("OPLAuditTestFile.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("Unable to open test file");
         }
@@ -503,7 +481,7 @@ public class TestOPLElection {
 
         String auditFile = null;
         try {
-            auditFile = Files.readString(Path.of("OPLAuditTest.txt"));
+            auditFile = Files.readString(Path.of("OPLAuditTestFile.txt"));
         } catch (IOException e) {
             System.out.println("Unable to read test file");
         }
@@ -517,7 +495,7 @@ public class TestOPLElection {
 
     //want to use OPL file with this one too but not sure how
     public void testAllocateByQuota() {
-
+        election = new OPLElection();
         election.setTotalNumSeats(3);
         election.setNumSeatsLeft(3);
         ArrayList<Party> party = new ArrayList<>();

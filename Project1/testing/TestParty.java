@@ -123,5 +123,25 @@ public class TestParty {
         assertEquals("Did not put third greatest in third position", bestParty.getCandidates().get(2).getcName(), "Royce");
         assertEquals("Did not put last in last position", bestParty.getCandidates().get(3).getcName(), "Kleinberg");
 
+        candidate1.setcNumBallots(4);
+        candidate2.setcNumBallots(0);
+        candidate3.setcNumBallots(0);
+        candidate4.setcNumBallots(2);
+
+        ArrayList<Candidate> temp2 = new ArrayList<Candidate>();
+        temp2.add(candidate1);
+        temp2.add(candidate2);
+        temp2.add(candidate3);
+        temp2.add(candidate4);
+
+        bestParty.setCandidates(temp2);
+
+        bestParty.sortCandidates();
+
+        assertEquals("Did not put greatest in first position", bestParty.getCandidates().get(0).getcName(), "Rosen");
+        assertEquals("Did not put second greatest in second position", bestParty.getCandidates().get(1).getcName(), "Royce");
+        assertTrue(bestParty.getCandidates().get(2).getcName().equals("Kleinberg") || bestParty.getCandidates().get(2).getcName().equals("Chou"));
+        assertTrue(bestParty.getCandidates().get(3).getcName().equals("Kleinberg") || bestParty.getCandidates().get(3).getcName().equals("Chou"));
+
     }
 }
