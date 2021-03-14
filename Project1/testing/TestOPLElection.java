@@ -10,6 +10,34 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 
 public class TestOPLElection {
+    private Candidate candidate1;
+    private Candidate candidate2;
+    private Candidate candidate3;
+    private Candidate candidate4;
+    private Candidate candidate5;
+    private Candidate candidate6; 
+
+    private Party bestParty;
+    private Party okayestParty;
+    private Party partyRock;
+
+    private Ballot ballotA;
+    private Ballot ballotB;
+    private Ballot ballotC;
+    private Ballot ballotD;
+    private Ballot ballotE;
+    private Ballot ballotF;
+    private Ballot ballotG;
+    private Ballot ballotH;
+    private Ballot ballotI;
+    private Ballot ballotJ;
+    private Ballot ballotK;
+    private Ballot ballotL;
+    private Ballot ballotM;
+
+    private OPLElection oplElection;
+
+    
     // for restoration
     public static InputStream systemIn = System.in;
     public static PrintStream systemOut = System.out;
@@ -115,29 +143,6 @@ public class TestOPLElection {
     }
 
     @Test
-    public void testReadOPLCSVCandidateListWrongLength() {
-        String data = "OPLInvTest3Length\n";
-        provideInput(data);
-        OPLElection sys = (OPLElection) VotingSystem.promptCSV();
-        if (sys != null) {
-            sys.readOPLCSV();
-            // check totalNumBallots totalNumSeats, numSeatsLeft, quota
-            // none should be set
-            assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
-
-            // creates party and candidate objects (makes sure that lists are right length)
-            // Both should be initialized -> size of candidate list != numCandidates
-            assertNull("Incorrect number of Parties", sys.getParty());
-            assertNull("Incorrect number of Candidates", sys.getCandidates());
-        } else {
-            assertNotNull("Testing data not present", sys);
-        }
-    }
-
-    @Test
     public void testReadOPLCSVInvalidFourthLine(){ // numSeats
         String data = "OPLInvTest4\n";
         provideInput(data);
@@ -202,7 +207,7 @@ public class TestOPLElection {
             sys.readOPLCSV();
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
-            assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
+            assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
             assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
             assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
             assertEquals("Incorrect quota", 0, sys.getQuota());
@@ -277,9 +282,9 @@ public class TestOPLElection {
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
-            assertEquals("Incorrect totalNumSeats", 0, sys.getTotalNumSeats());
-            assertEquals("Incorrect numSeatsLeft", 0, sys.getNumSeatsLeft());
-            assertEquals("Incorrect quota", 0, sys.getQuota());
+            assertEquals("Incorrect totalNumSeats", 3, sys.getTotalNumSeats());
+            assertEquals("Incorrect numSeatsLeft", 3, sys.getNumSeatsLeft());
+            assertEquals("Incorrect quota", 3, sys.getQuota());
 
             // creates party and candidate objects (makes sure that lists are right length)
             // Both should be initialized (and correct)
@@ -292,8 +297,8 @@ public class TestOPLElection {
                     sys.getParty().get(0).getpName());
 
             sys.readBallots();
-            // should create 9 ballots
-            assertEquals("Incorrect number of ballots created", 0, sys.getTotalNumBallots());
+            // no ballots should be created
+            assertEquals("Incorrect number of ballots created", 9, sys.getTotalNumBallots());
             assertEquals("Incorrect number of ballots assigned", 0,
                     (sys.getCandidates().get(0).getcNumBallots() +
                             sys.getCandidates().get(1).getcNumBallots() +
@@ -368,9 +373,10 @@ public class TestOPLElection {
         // set up
         OPLElection sys = new OPLElection();
         try {
-            sys.setMediaFile(new PrintWriter("OPLMediaTest.txt"));
+            sys.setMediaFile(new PrintWriter("OPLMediaTestFile.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("Unable to open test file");
+            return;
         }
 
         sys.setTotalNumBallots(15);
@@ -418,7 +424,7 @@ public class TestOPLElection {
 
         String mediaFile = null;
         try {
-            mediaFile = Files.readString(Path.of("OPLMediaTest.txt"));
+            mediaFile = Files.readString(Path.of("OPLMediaTestFile.txt"));
         } catch (IOException e) {
             System.out.println("Unable to read test file");
         }
@@ -435,7 +441,7 @@ public class TestOPLElection {
         // ballot (id, bCandidate, party)
         OPLElection sys = new OPLElection();
         try {
-            sys.setAuditFile(new PrintWriter("OPLAuditTest.txt"));
+            sys.setAuditFile(new PrintWriter("OPLAuditTestFile.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("Unable to open test file");
         }
@@ -503,7 +509,7 @@ public class TestOPLElection {
 
         String auditFile = null;
         try {
-            auditFile = Files.readString(Path.of("OPLAuditTest.txt"));
+            auditFile = Files.readString(Path.of("OPLAuditTestFile.txt"));
         } catch (IOException e) {
             System.out.println("Unable to read test file");
         }
@@ -517,11 +523,14 @@ public class TestOPLElection {
 
     //want to use OPL file with this one too but not sure how
     public void testAllocateByQuota() {
-
+        election = new OPLElection();
         election.setTotalNumSeats(3);
         election.setNumSeatsLeft(3);
         ArrayList<Party> party = new ArrayList<>();
         //{"D", "R", "I"};
+        party.add(new Party("D"));
+        party.add(new Party("R"));
+        party.add(new Party("I"));
         election.setParty(party);
         election.setTotalNumBallots(9);
         election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
@@ -549,10 +558,14 @@ public class TestOPLElection {
 
     @Test
     public void testAllocateByRemainder() {
+        election = new OPLElection();
         election.setTotalNumSeats(3);
         election.setNumSeatsLeft(3);
         ArrayList<Party> party = new ArrayList<>();
         // {"D", "R", "I"};
+        party.add(new Party("D"));
+        party.add(new Party("R"));
+        party.add(new Party("I"));
         election.setParty(party);
         election.setTotalNumBallots(9);
         election.setQuota(election.getTotalNumBallots()/election.getTotalNumSeats());
@@ -573,38 +586,9 @@ public class TestOPLElection {
         assertEquals(election.getParty().get(2).getNumSeats(), 0);
     }
 
-    // vars for tests below
-    private Candidate candidate1;
-    private Candidate candidate2;
-    private Candidate candidate3;
-    private Candidate candidate4;
-    private Candidate candidate5;
-    private Candidate candidate6;
-
-    private Party bestParty;
-    private Party okayestParty;
-    private Party partyRock;
-
-    private Ballot ballotA;
-    private Ballot ballotB;
-    private Ballot ballotC;
-    private Ballot ballotD;
-    private Ballot ballotE;
-    private Ballot ballotF;
-    private Ballot ballotG;
-    private Ballot ballotH;
-    private Ballot ballotI;
-    private Ballot ballotJ;
-    private Ballot ballotK;
-    private Ballot ballotL;
-    private Ballot ballotM;
-
-    private OPLElection oplElection;
-
     @Test
     public void testPartyNumBallots() {
         OPLElection election = new OPLElection();
-
 
         bestParty = new Party("B");
         okayestParty = new Party("O");
@@ -644,7 +628,7 @@ public class TestOPLElection {
         candidate2.addBallot(ballotJ);
 
         candidate3 = new Candidate("one", "B");
-        candidate2.addBallot(ballotI);
+        candidate3.addBallot(ballotI);
 
         candidate4 = new Candidate("one", "P");
         candidate4.addBallot(ballotK);
@@ -670,7 +654,7 @@ public class TestOPLElection {
 
 
         election.partyNumBallots();
-        assertEquals("Zero Candidtes mean zero ballots", okayestParty.getpNumBallots(), 0); // no candidates = no ballots
+        assertEquals("Zero Candidates mean zero ballots", okayestParty.getpNumBallots(), 0); // no candidates = no ballots
 
         // test total num ballots in each party is correct
         assertEquals("BestParty had 7 ballots", bestParty.getpNumBallots(), 7);
@@ -683,18 +667,21 @@ public class TestOPLElection {
         bestPartyOrder.add(candidate3);
         bestPartyOrder.add(candidate6);
 
+        // begin test caseID#016 step #5
         assertEquals(bestPartyOrder.get(0), bestParty.getCandidates().get(0));
         assertEquals(bestPartyOrder.get(1), bestParty.getCandidates().get(1));
         assertEquals(bestPartyOrder.get(2), bestParty.getCandidates().get(2));
         assertEquals(bestPartyOrder.get(3), bestParty.getCandidates().get(3));
+        // end test caseID#016 step #5
 
         ArrayList<Candidate> partyRockOrder = new ArrayList<Candidate>();
         partyRockOrder.add(candidate5);
         partyRockOrder.add(candidate4);
 
-
+        // begin test caseID#016 step #6
         assertEquals(partyRockOrder.get(0), partyRock.getCandidates().get(0));
         assertEquals(partyRockOrder.get(1), partyRock.getCandidates().get(1));
+        // end test caseID#016 step #6
     }
 
 
@@ -704,19 +691,15 @@ public class TestOPLElection {
         provideInput(dataCSV);
         oplElection = (OPLElection) VotingSystem.promptCSV();
 
-
         String dataAudit = "testAudit1\nY";
         provideInput(dataAudit);
         oplElection.promptAudit();
-
 
         String dataMedia = "testMedia1\nY";
         provideInput(dataMedia);
         oplElection.promptMedia();
 
-
         oplElection.runElection();
-
 
         // everything in VotingSystem was set correctly...
         assertEquals(6, oplElection.getCandidates().size());
@@ -724,13 +707,11 @@ public class TestOPLElection {
         assertEquals("OPLTest", oplElection.getCsvName());
         assertEquals(9, oplElection.getTotalNumBallots());
 
-
         // everything in OPLElection was correctly...
         assertEquals(3, oplElection.getTotalNumSeats());
         assertEquals(0, oplElection.getNumSeatsLeft());
         assertEquals(3, oplElection.getParty().size());
         assertEquals((9/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
-
 
         // test the candidates, parties, and ballots were assigned and sorted correctly
         for(int i = 0; i< oplElection.getParty().size(); i++) {
@@ -762,10 +743,5 @@ public class TestOPLElection {
                 assertEquals(1, oplElection.getParty().get(i).getpNumBallots());
             }
         }
-        //readOPLCSV --> totalNumBallots, totalNumSeats, numSeatsLeft, set Quota, candidates/parties
-        //readBallots --> make and distribute ballots
-        //partyNumBallots --> set # ballots per party, order candidates in each party by popularity
-        //allocateByQuota --> numSeats per party, decrease numSeatsLeft, set remainder per party
-        //allocateByRemainder --> decrease numSeatsLeft, numSeats perParty,
     }
 }
