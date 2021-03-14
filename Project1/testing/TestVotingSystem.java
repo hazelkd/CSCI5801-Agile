@@ -1,5 +1,7 @@
 import org.junit.AfterClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,50 +40,125 @@ public class TestVotingSystem {
 
     @Test
     public void testIRElec() {
-
-        String data = "IRTest\ndefault\ndefault\n";
+        String data = "IRTest\n";
         provideInput(data);
-        system = new VotingSystem();
-        system.main(null); //also don't really know what to put here in main call
-        //need to be able to skip prompt CSV, etc.
-        //need to specify that I want to read in IRElection file
+        // copy of main code (with added input lines):
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+            assertEquals(system.getCsvName(), "IRTest");
 
-        //should I check return of the functions?
+            assertEquals(system.getElectionType(), "IR");
 
-        assertEquals(system.getCsvName(), "IRTest.txt");
+            assertEquals(system.getTotalNumBallots(), 6);
 
-        assertEquals(system.getElectionType(), "IR");
+            assertEquals("Rosen", system.getCandidates().get(0).getcName());
+            assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
+            assertEquals("Chou", system.getCandidates().get(2).getcName());
+            assertEquals("Royce", system.getCandidates().get(3).getcName());
 
-        assertEquals(system.getTotalNumBallots(), 6);
+            assertEquals(system.getCandidates().size(), 4);
+        }
+    }
 
-        assertEquals("Rosen", system.getCandidates().get(0).getcName());
-        assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
-        assertEquals("Chou", system.getCandidates().get(2).getcName());
-        assertEquals("Royce", system.getCandidates().get(3).getcName());
-
-        assertEquals(system.getCandidates().size(), 4);
+    @Test
+    public void testIRElecLong(){
+        long startTime = System.currentTimeMillis();
+        String data = "IRTestLong\n";
+        provideInput(data);
+        // copy of main code (with added input lines):
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        // 480,000 milliseconds in 8 minutes
+        assertTrue((endTime-startTime) < 480000);
     }
 
     @Test
     public void testOPLElec(){
-        system.setElectionType("OPL");
-        system.main(null); //also don't really know what to put here in main call
-        //need to be able to skip prompt CSV, etc.
-        //need to specify that I want to read in IRElection file
+        // copy of main code (with added input lines):
+        provideInput("OPLTest\n");
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+            assertEquals(system.getCsvName(), "OPLTest");
 
-        //should I check return of the functions?
+            assertEquals(system.getElectionType(), "OPL");
 
-        assertEquals(system.getCsvName(), "OPLTest.txt");
+            assertEquals(system.getTotalNumBallots(), 9);
 
-        assertEquals(system.getElectionType(), "OPL");
+            //assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
+            assertEquals("Pike", system.getCandidates().get(0).getcName());
+            assertEquals("Foster", system.getCandidates().get(1).getcName());
+            assertEquals("Deutsch", system.getCandidates().get(2).getcName());
+            assertEquals("Borg", system.getCandidates().get(3).getcName());
+            assertEquals("Jones", system.getCandidates().get(4).getcName());
+            assertEquals("Smith", system.getCandidates().get(5).getcName());
 
-        assertEquals(system.getTotalNumBallots(), 9);
+            assertEquals(system.getCandidates().size(), 6);
 
-        //assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
+            //should I be checking OPL objects too?
+        }
+    }
 
-        assertEquals(system.getCandidates().size(), 6);
-
-        //should I be checking OPL objects too?
+    @Test
+    public void testOPLElecLong(){
+        long startTime = System.currentTimeMillis();
+        // copy of main code (with added input lines):
+        provideInput("OPLTestLong\n");
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        // 480,000 milliseconds in 8 minutes
+        assertTrue((endTime-startTime) < 480000);
     }
   
     @Test
@@ -165,9 +242,9 @@ public class TestVotingSystem {
     // promptAudit tests
     /**
      * Test Cases:
-     * User inputs name & accepts
-     * User inputs name & rejects
-     * User inputs name & has invalid input
+     * User inputs name and accepts
+     * User inputs name and rejects
+     * User inputs name and has invalid input
      * User uses default name
      * PrintWriter successfully opens file (tested with first 2 cases)
      * PrintWriter cannot open file (tested with 3rd case)
@@ -212,9 +289,9 @@ public class TestVotingSystem {
     // promptMedia tests
     /**
      * Test Cases:
-     * User inputs name & accepts
-     * User inputs name & rejects
-     * User inputs name & has invalid input
+     * User inputs name and accepts
+     * User inputs name and rejects
+     * User inputs name and has invalid input
      * User uses default name
      * PrintWriter successfully opens file (tested with first 2 cases)
      * PrintWriter cannot open file (tested with 3rd case)
