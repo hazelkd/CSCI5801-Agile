@@ -32,13 +32,11 @@ public class TestParty {
 
     @Test
     public void testAddCandidate() {
-        Candidate candidate1;
-        Candidate candidate2;
-        Party bestParty;
-
         bestParty = new Party("P");
-        candidate1 = new Candidate("name", "P");
-        candidate2 = new Candidate("name", "P");
+        candidate1 = new Candidate("nam1e", "P");
+        candidate2 = new Candidate("name2", "P");
+        candidate3 = null;
+        candidate4 = new Candidate("name4", "notP");
 
         bestParty.addCandidate(candidate1);
         bestParty.addCandidate(candidate2);
@@ -58,11 +56,10 @@ public class TestParty {
     public void testCalculateNumBallots() {
         bestParty = new Party("P"); // 1 candidate
         okayestParty = new Party("O"); // no candidates 
-        partyRock = new Party("R"); //2 candidates
 
         candidate1 = new Candidate("name", "P");
         candidate2 = new Candidate("name", "P");
-        candidate3 = new Candidate("name", "");
+        candidate3 = new Candidate("nam3", "P");
 
         ballotA = new Ballot();
         ballotB = new Ballot();
@@ -90,6 +87,8 @@ public class TestParty {
         candidate2.addBallot(ballotH);
         candidate2.addBallot(ballotI);
         bestParty.addCandidate(candidate2);
+
+        bestParty.addCandidate(candidate3); // candidate with 0 ballots assigned
 
         bestParty.calculateNumBallots();
         assertEquals(9, bestParty.getpNumBallots()); // calculate numBallots with 2 candidates
