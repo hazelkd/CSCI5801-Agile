@@ -296,6 +296,14 @@ public class OPLElection extends VotingSystem{
                 if (party.get(j).getRemainder()> party.get(topIndex).getRemainder()){   //if current party has greater remainder than curr topIndex
                     topIndex = j;
                 }
+                if (filledSeats == numSeats - 1){
+                    if (party.get(j).getRemainder() == party.get(topIndex).getRemainder()){
+                        int result = coinToss(2);
+                        if (result == 0){
+                            topIndex = j;
+                        }
+                    }
+                }
             }
             highestRemain.add(filledSeats, party.get(topIndex));    //add max remainder seat that was decided from this iteration
             party.get(topIndex).setNumSeats(party.get(topIndex).getNumSeats() + 1);

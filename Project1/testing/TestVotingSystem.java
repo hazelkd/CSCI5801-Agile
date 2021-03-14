@@ -116,13 +116,12 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            assertEquals(system.getCsvName(), "OPLTest");
+            assertEquals(system.getCsvName(), "OPLTest.txt");
 
             assertEquals(system.getElectionType(), "OPL");
 
             assertEquals(system.getTotalNumBallots(), 9);
 
-            //assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
             assertEquals("Pike", system.getCandidates().get(0).getcName());
             assertEquals("Foster", system.getCandidates().get(1).getcName());
             assertEquals("Deutsch", system.getCandidates().get(2).getcName());
