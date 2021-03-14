@@ -77,7 +77,12 @@ public class TestVotingSystem {
 
         assertEquals(system.getTotalNumBallots(), 9);
 
-        //assertEquals(system.getCandidates(), "Pike", "Foster", "Deutsch", "Borg", "Jones", "Smith");
+        assertEquals("Pike", system.getCandidates().get(0).getcName());
+        assertEquals("Foster", system.getCandidates().get(1).getcName());
+        assertEquals("Deutsch", system.getCandidates().get(2).getcName());
+        assertEquals("Borg", system.getCandidates().get(3).getcName());
+        assertEquals("Jones", system.getCandidates().get(4).getcName());
+        assertEquals("Smith", system.getCandidates().get(5).getcName());
 
         assertEquals(system.getCandidates().size(), 6);
 
