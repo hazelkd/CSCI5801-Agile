@@ -106,7 +106,7 @@ public class VotingSystem {
             name += ".txt";
         }
         else {
-            System.out.print("Using default\n");
+            System.out.print("Using default: " + csvName + "AuditFile.txt\n");
             name = csvName + "AuditFile.txt"; // need to figure out actual conventions
         }
         try {
@@ -147,7 +147,7 @@ public class VotingSystem {
             name += ".txt";
         }
         else {
-            System.out.print("Using default\n");
+            System.out.print("Using default: " + csvName + "MediaFile.txt\n");
             name = csvName + "MediaFile.txt"; // need to figure out actual conventions
         }
         try {
