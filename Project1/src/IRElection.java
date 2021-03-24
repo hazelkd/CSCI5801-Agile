@@ -14,59 +14,59 @@ public class IRElection extends VotingSystem{
     */
     public int runElection() {
 
-    //Reading in the CSV file up to the Ballots
-    //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
-    this.readIRCSV();
+        //Reading in the CSV file up to the Ballots
+        //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
+        this.readIRCSV();
 
-    //This reads in all of the Ballots in the csvFile
-    //It creates a ballot object for each line read, and sets the ranking array
-    //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
-    this.readBallots();
+        //This reads in all of the Ballots in the csvFile
+        //It creates a ballot object for each line read, and sets the ranking array
+        //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
+        this.readBallots();
 
-    //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
-    Candidate winner = this.findMajority();
-    //this will be used the track the loser to call the writeToAuditFile(Candidate)
-    Candidate loser;
+        //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
+        Candidate winner = this.findMajority();
+        //this will be used the track the loser to call the writeToAuditFile(Candidate)
+        Candidate loser;
 
-    //This will loop while there is not a majority
-    while(winner == null) {
-      //If there is only one candidate left, they win by populairty
-      if(currCandidates.size() == 1){
-        winner = currCandidates.get(0);
-      }
+        //This will loop while there is not a majority
+        while(winner == null) {
+          //If there is only one candidate left, they win by populairty
+          if(currCandidates.size() == 1){
+            winner = currCandidates.get(0);
+          }
 
-      //If there is more than 1 candiate left, you have to redistribute the least popular
-      else{
-        //This finds the least popluar candidate and writes their info to the audit file
-        loser = findLeastCand();
-        this.writeToAuditFile(loser);
+          //If there is more than 1 candiate left, you have to redistribute the least popular
+          else{
+            //This finds the least popluar candidate and writes their info to the audit file
+            loser = findLeastCand();
+            this.writeToAuditFile(loser);
 
-        //This function will call findLeastCand() and redistribute their ballots
-        //It will also move this candidate from CurrCandidates into eliminatedCandidates
-        this.redistributeBallots();
+            //This function will call findLeastCand() and redistribute their ballots
+            //It will also move this candidate from CurrCandidates into eliminatedCandidates
+            this.redistributeBallots();
 
-        //Now we see if there is a majority again
-        winner = this.findMajority();
-      }
-    }
+            //Now we see if there is a majority again
+            winner = this.findMajority();
+          }
+        }
 
-    //Eliminating all of the candidates that arent the winner
-    for(int i=0; i<currCandidates.size(); i++){
-      if(currCandidates.get(i) != winner){
-        eliminatedCandidates.add(currCandidates.get(i));
-        currCandidates.remove(currCandidates.get(i));
-      }
-    }
+        //Eliminating all of the candidates that arent the winner
+        for(int i=0; i<currCandidates.size(); i++){
+          if(currCandidates.get(i) != winner){
+            eliminatedCandidates.add(currCandidates.get(i));
+            currCandidates.remove(currCandidates.get(i));
+          }
+        }
 
-    //Finally, write all of the necessary info to each file
-    this.writeToMediaFile();
-    this.writeToAuditFile();
-    this.printToScreen();
+        //Finally, write all of the necessary info to each file
+        this.writeToMediaFile();
+        this.writeToAuditFile();
+        this.printToScreen();
 
-    csvFile.close();
-    return 0;
+        csvFile.close();
+        return 0;
 
-  } // runElection
+    } // runElection
 
     /**
      * This function will read lines 2-4 in a CSV file that has been determined to be an IR CSV file. It will set the

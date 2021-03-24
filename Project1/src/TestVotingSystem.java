@@ -327,7 +327,7 @@ public class TestVotingSystem {
         String data = "help?";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
-        sys.promptAudit();
+        sys.promptMedia();
         assertNull("Media File incorrectly initialized", sys.getMediaFile());
     }
     // end of promptMedia tests

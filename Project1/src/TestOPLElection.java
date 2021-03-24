@@ -745,4 +745,16 @@ public class TestOPLElection {
             }
         }
     }
+
+    // OPL System edge case tests
+    @Test
+    public void testOPLTiedHighestRemainder(){
+
+    }
+
+    @Test
+    public void testOPLTieBetweenCandidates(){
+
+    }
+    // end of edge case tests
 }

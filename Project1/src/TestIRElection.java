@@ -293,6 +293,28 @@ public class TestIRElection {
 
     }
 
+    // IR System edge case tests
+    @Test
+    public void testIRMajority(){
+
+    }
+
+    @Test
+    public void testIRPopularity(){
+
+    }
+
+    @Test
+    public void testIRPopularityTie(){
+
+    }
+
+    @Test
+    public void testIRRedistributeTie(){
+
+    }
+    // end of edge case tests
+
     // readIRCSV tests
     /**
      * Test Cases:
