@@ -14,59 +14,59 @@ public class IRElection extends VotingSystem{
     */
     public int runElection() {
 
-    //Reading in the CSV file up to the Ballots
-    //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
-    this.readIRCSV();
+        //Reading in the CSV file up to the Ballots
+        //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
+        this.readIRCSV();
 
-    //This reads in all of the Ballots in the csvFile
-    //It creates a ballot object for each line read, and sets the ranking array
-    //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
-    this.readBallots();
+        //This reads in all of the Ballots in the csvFile
+        //It creates a ballot object for each line read, and sets the ranking array
+        //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
+        this.readBallots();
 
-    //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
-    Candidate winner = this.findMajority();
-    //this will be used the track the loser to call the writeToAuditFile(Candidate)
-    Candidate loser;
+        //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
+        Candidate winner = this.findMajority();
+        //this will be used the track the loser to call the writeToAuditFile(Candidate)
+        Candidate loser;
 
-    //This will loop while there is not a majority
-    while(winner == null) {
-      //If there is only one candidate left, they win by populairty
-      if(currCandidates.size() == 1){
-        winner = currCandidates.get(0);
-      }
+        //This will loop while there is not a majority
+        while(winner == null) {
+          //If there is only one candidate left, they win by populairty
+          if(currCandidates.size() == 1){
+            winner = currCandidates.get(0);
+          }
 
-      //If there is more than 1 candiate left, you have to redistribute the least popular
-      else{
-        //This finds the least popluar candidate and writes their info to the audit file
-        loser = findLeastCand();
-        this.writeToAuditFile(loser);
+          //If there is more than 1 candiate left, you have to redistribute the least popular
+          else{
+            //This finds the least popluar candidate and writes their info to the audit file
+            loser = findLeastCand();
+            this.writeToAuditFile(loser);
 
-        //This function will call findLeastCand() and redistribute their ballots
-        //It will also move this candidate from CurrCandidates into eliminatedCandidates
-        this.redistributeBallots();
+            //This function will call findLeastCand() and redistribute their ballots
+            //It will also move this candidate from CurrCandidates into eliminatedCandidates
+            this.redistributeBallots();
 
-        //Now we see if there is a majority again
-        winner = this.findMajority();
-      }
-    }
+            //Now we see if there is a majority again
+            winner = this.findMajority();
+          }
+        }
 
-    //Eliminating all of the candidates that arent the winner
-    for(int i=0; i<currCandidates.size(); i++){
-      if(currCandidates.get(i) != winner){
-        eliminatedCandidates.add(currCandidates.get(i));
-        currCandidates.remove(currCandidates.get(i));
-      }
-    }
+        //Eliminating all of the candidates that arent the winner
+        for(int i=0; i<currCandidates.size(); i++){
+          if(currCandidates.get(i) != winner){
+            eliminatedCandidates.add(currCandidates.get(i));
+            currCandidates.remove(currCandidates.get(i));
+          }
+        }
 
-    //Finally, write all of the necessary info to each file
-    this.writeToMediaFile();
-    this.writeToAuditFile();
-    this.printToScreen();
+        //Finally, write all of the necessary info to each file
+        this.writeToMediaFile();
+        this.writeToAuditFile();
+        this.printToScreen();
 
-    csvFile.close();
-    return 0;
+        csvFile.close();
+        return 0;
 
-  } // runElection
+    } // runElection
 
     /**
      * This function will read lines 2-4 in a CSV file that has been determined to be an IR CSV file. It will set the
@@ -81,7 +81,7 @@ public class IRElection extends VotingSystem{
             numCandidates = Integer.parseInt(sNumCandidates);
         }
         else {
-            System.out.println("Incorrect File Format (numCandidates)");
+            System.out.print("Incorrect File Format (numCandidates)\n");
             return;
         }
 
@@ -91,7 +91,8 @@ public class IRElection extends VotingSystem{
             candidateLine = csvFile.nextLine();
         }
         else {
-            System.out.println("Incorrect File Format (candidate list)");
+            System.out.print("Incorrect File Format (candidate list)\n");
+            return;
         }
 
         // parse line
@@ -103,6 +104,10 @@ public class IRElection extends VotingSystem{
         // will not be used in this function, but needs to be initialized
         eliminatedCandidates = new ArrayList<>(numCandidates);
 
+        if(candidateLine == null){
+            System.out.print("Invalid Third Line\n");
+            return;
+        }
         String[] parsed = candidateLine.split(",");
 
         // each index of parsed will contain: name (party)
@@ -124,7 +129,7 @@ public class IRElection extends VotingSystem{
             totalNumBallots = Integer.parseInt(csvFile.nextLine());
         }
         else {
-            System.out.println("Incorrect File Format (numBallots)");
+            System.out.print("Incorrect File Format (numBallots)\n");
             return;
         }
     } // readIRCSV
@@ -334,18 +339,18 @@ public class IRElection extends VotingSystem{
      * to each candidate.
      */
     public void writeToMediaFile(){
-        mediaFile.println("Election Results");
-        mediaFile.println("------------------------------");
+        mediaFile.print("Election Result\n");
+        mediaFile.print("------------------------------\n");
         // print winner + percentage of votes
         mediaFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
         double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
-        mediaFile.println(" won with "+percentage+"% of the vote");
+        mediaFile.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
 
         // print rest of candidates + percentage of vote
-        mediaFile.println("Eliminated Candidates: ");
+        mediaFile.print("Eliminated Candidates: \n");
         for (Candidate c : eliminatedCandidates) {
             percentage = (c.getcNumBallots() / ((double)totalNumBallots)) * 100;
-            mediaFile.println(c.getcName()+", "+c.getcParty()+" had "+percentage+"% of the vote when they were eliminated");
+            mediaFile.print(c.getcName()+", "+c.getcParty()+" had "+String.format("%.3f", percentage)+"% of the vote when they were eliminated\n");
         }
         mediaFile.close();
     } // writeToMediaFile
@@ -358,8 +363,8 @@ public class IRElection extends VotingSystem{
     public void writeToAuditFile(){
         // print winner + percentage of votes
         double percentage = (currCandidates.get(0).getcNumBallots()/((double)totalNumBallots)) * 100;
-        auditFile.println(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+percentage+"% of the vote");
-        auditFile.println("Ballots assigned to "+currCandidates.get(0).getcName()+":");
+        auditFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+String.format("%.3f", percentage)+"% of the vote\n");
+        auditFile.print("Ballots assigned to "+currCandidates.get(0).getcName()+":\n");
 
         // print all ballots assigned to winner
         for(Ballot b : currCandidates.get(0).getcBallots()){
@@ -370,16 +375,16 @@ public class IRElection extends VotingSystem{
                 if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
-                    auditFile.println();
+                    auditFile.print("\n");
                 }
             }
         }
 
         // print the rest of the candidates
         // print all ballots not reassigned from these candidates
-        auditFile.println("Ballots not reassigned from eliminated candidates: ");
+        auditFile.print("Ballots not reassigned from eliminated candidates: \n");
         for (Candidate c : eliminatedCandidates) {
-            auditFile.println("Ballots assigned to "+c.getcName()+", "+c.getcParty()+":");
+            auditFile.print("Ballots assigned to "+c.getcName()+", "+c.getcParty()+":\n");
             for(Ballot b : c.getcBallots()){
                 IRBallot b1 = (IRBallot) b;
                 auditFile.print("    "+b1.getID()+" Ranking: ");
@@ -388,7 +393,7 @@ public class IRElection extends VotingSystem{
                     if(i != (b1.getNumCandidates()-1)){
                         auditFile.print(", ");
                     } else {
-                        auditFile.println();
+                        auditFile.print("\n");
                     }
                 }
             }
@@ -407,8 +412,8 @@ public class IRElection extends VotingSystem{
     public void writeToAuditFile(Candidate c){
         // print candidate name+party and percentage of votes
         double percentage = (c.getcNumBallots()/((double)totalNumBallots)) * 100;
-        auditFile.println(c.getcName()+", "+c.getcParty()+": eliminated with "+percentage+"% of the vote");
-        auditFile.println("Ballots assigned to "+c.getcName()+":");
+        auditFile.print(c.getcName()+", "+c.getcParty()+": eliminated with "+String.format("%.3f", percentage)+"% of the vote\n");
+        auditFile.print("Ballots assigned to "+c.getcName()+":\n");
 
         // print all ballots assigned to candidate
         for(Ballot b : c.getcBallots()){
@@ -419,11 +424,11 @@ public class IRElection extends VotingSystem{
                 if(i != (b1.getNumCandidates()-1)){
                     auditFile.print(", ");
                 } else {
-                    auditFile.println();
+                    auditFile.print("\n");
                 }
             }
         }
-        auditFile.println("----------------------------------------");
+        auditFile.print("----------------------------------------\n");
     } // writeToAuditFile
 
     /**
@@ -432,12 +437,12 @@ public class IRElection extends VotingSystem{
      * they received.
      */
     public void printToScreen(){
-        System.out.println("Election Results");
-        System.out.println("------------------------------");
+        System.out.print("Election Results\n");
+        System.out.print("------------------------------\n");
         // print winner + percentage of votes
         System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
         double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
-        System.out.println(" won with "+percentage+"% of the vote");
+        System.out.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
     } // printToScreen
 
 
