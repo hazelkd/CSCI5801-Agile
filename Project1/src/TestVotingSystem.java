@@ -1,5 +1,7 @@
 import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -18,6 +20,10 @@ public class TestVotingSystem {
 
     public ByteArrayOutputStream testOut;
     private VotingSystem votingSys;
+
+    // make sure that all tests run in under 8 minutes
+    @Rule
+    public Timeout globalTimeOut = Timeout.seconds(480);
 
     public void provideInput(String data) {
         testOut = new ByteArrayOutputStream();
@@ -324,7 +330,7 @@ public class TestVotingSystem {
 
     @Test
     public void testPromptMediaInvalidInput(){
-        String data = "help?";
+        String data = "help?\nY";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();

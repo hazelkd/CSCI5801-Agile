@@ -1,4 +1,5 @@
 import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.*;
@@ -306,12 +307,67 @@ public class TestIRElection {
 
     @Test
     public void testIRPopularityTie(){
+        int stylesWon = 0, horanWon = 0, error = 0;
+        for(int i = 0; i < 1000; i++){
+            String data = "IRTestPopularityTie\n";
+            provideInput(data);
+            election = (IRElection) VotingSystem.promptCSV();
 
+            data = "testAuditPopTie\nY";
+            provideInput(data);
+            election.promptAudit();
+
+            data = "testMediaPopTie\nY";
+            provideInput(data);
+            election.promptMedia();
+
+            election.runElection();
+            if(election.getCurrCandidates().get(0).getcName().equals("Styles")) {
+                stylesWon++;
+            } else if (election.getCurrCandidates().get(0).getcName().equals("Horan")) {
+                horanWon++;
+            } else {
+                error++;
+            }
+        }
+        // check that its a 50-50 chance
+        String sw = "Styles won less than 50% of the time (" + stylesWon + "/1000 times)";
+        String hw = "Horan won less than 50% of the time (" + horanWon + "/1000 times)";
+        assertTrue(sw, stylesWon > 450);
+        assertTrue(hw, horanWon > 450);
+        assertTrue("Styles or Horan did not win", error == 0);
     }
 
     @Test
     public void testIRRedistributeTie(){
+        int tolkienWon = 0, rowlingWon = 0, error = 0;
+        for(int i = 0; i < 1000; i++){
+            String data = "IRTestRedistributeTie\n";
+            provideInput(data);
+            election = (IRElection) VotingSystem.promptCSV();
 
+            data = "testAuditRedTie\nY";
+            provideInput(data);
+            election.promptAudit();
+
+            data = "testMediaRedTie\nY";
+            provideInput(data);
+            election.promptMedia();
+
+            election.runElection();
+            if(election.getCurrCandidates().get(0).getcName().equals("Tolkien")) {
+                tolkienWon++;
+            } else if (election.getCurrCandidates().get(0).getcName().equals("Rowling")) {
+                rowlingWon++;
+            } else {
+                error++;
+            }
+        }
+        String tw = "Tolkien won less than 50% of the time (" + tolkienWon + "/1000 times)";
+        String rw = "Rowling won less than 50% of the time (" + rowlingWon + "/1000 times)";
+        assertTrue(tw, tolkienWon > 450);
+        assertTrue(rw, rowlingWon > 450);
+        assertEquals("Tolkien or Rowling did not win", 0, error);
     }
     // end of edge case tests
 
