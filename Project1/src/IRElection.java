@@ -55,6 +55,7 @@ public class IRElection extends VotingSystem{
           if(currCandidates.get(i) != winner){
             eliminatedCandidates.add(currCandidates.get(i));
             currCandidates.remove(currCandidates.get(i));
+            i = i-1;
           }
         }
 
