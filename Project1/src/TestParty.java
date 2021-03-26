@@ -33,7 +33,7 @@ public class TestParty {
     @Test
     public void testAddCandidate() {
         bestParty = new Party("P");
-        candidate1 = new Candidate("nam1e", "P");
+        candidate1 = new Candidate("name1", "P");
         candidate2 = new Candidate("name2", "P");
         candidate3 = null;
         candidate4 = new Candidate("name4", "notP");
@@ -57,9 +57,9 @@ public class TestParty {
         bestParty = new Party("P"); // 1 candidate
         okayestParty = new Party("O"); // no candidates 
 
-        candidate1 = new Candidate("name", "P");
-        candidate2 = new Candidate("name", "P");
-        candidate3 = new Candidate("nam3", "P");
+        candidate1 = new Candidate("name1", "P");
+        candidate2 = new Candidate("name2", "P");
+        candidate3 = new Candidate("name3", "P");
 
         ballotA = new Ballot();
         ballotB = new Ballot();
@@ -72,7 +72,6 @@ public class TestParty {
         ballotI = new Ballot();
 
         okayestParty.calculateNumBallots();
-        assertEquals(0, okayestParty.getCandidates().size()); // no candidates in this party
         assertEquals(0, okayestParty.getpNumBallots()); // party with no candidates should have 0 ballots
 
         candidate1.addBallot(ballotA);
@@ -141,6 +140,5 @@ public class TestParty {
         assertEquals("Did not put second greatest in second position", bestParty.getCandidates().get(1).getcName(), "Royce");
         assertTrue(bestParty.getCandidates().get(2).getcName().equals("Kleinberg") || bestParty.getCandidates().get(2).getcName().equals("Chou"));
         assertTrue(bestParty.getCandidates().get(3).getcName().equals("Kleinberg") || bestParty.getCandidates().get(3).getcName().equals("Chou"));
-
     }
 }

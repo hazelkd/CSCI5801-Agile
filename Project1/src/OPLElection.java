@@ -32,7 +32,6 @@ public class OPLElection extends VotingSystem{
         // allocate by remainder
         if (numSeatsLeft != 0) {
             allocateByRemainder();
-
         }
 
         //write to media
