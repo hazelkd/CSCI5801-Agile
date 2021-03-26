@@ -754,6 +754,7 @@ public class TestOPLElection {
 
     @Test
     public void testOPLTieBetweenCandidates(){
+
         String fileCSV = "OPLTieBetweenCandidates\n";
         provideInput(fileCSV);
         oplElection = (OPLElection) VotingSystem.promptCSV();
@@ -768,10 +769,30 @@ public class TestOPLElection {
 
         int counterF = 0;
         int counterB = 0;
+        
+        oplElection.runElection();
 
+        int tieBreaker;
+        //Use BubbleSort to sort the candidates array by cNumBallots
+        for(int j = 0; j < oplElection.candidates.size(); j++){
+            for(int i = 0; i < oplElection.candidates.size() - j -1; i++){
+            //if a candidate with less votes is before a candidate with more votes, swap
+                if(oplElection.candidates.get(i).getcNumBallots() < oplElection.candidates.get(i+1).getcNumBallots()){
+                    Collections.swap(oplElection.candidates(), i, i+1);
+                }
+                //if tie, coin toss
+                else if(oplElection.candidates.get(i).getcNumBallots() == oplElection.candidates.get(i+1).getcNumBallots()){
+                    tieBreaker = coinToss(2);
+                }
+                    //If tieBreaker = 1, first candidate lost and you have to swap, otherwise do nothing
+                if(tieBreaker == 1){
+                    Collections.swap(oplElection.candidates(), i, i+1);
+                }
+            }
+        }
         for (int i = 0; i < 1000; i++) {
             oplElection.runElection();
-            
+
             if (oplElection.candidates.get(0).equals("Foster")) {
                 counterF++;
             }
@@ -779,6 +800,7 @@ public class TestOPLElection {
                 counterB++;
             }
         }
+
         
         assertTrue(counterF <= 700);
         assertTrue(counterF >= 300);
