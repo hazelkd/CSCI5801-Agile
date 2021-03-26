@@ -5,6 +5,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import static org.junit.Assert.*;
@@ -429,6 +430,11 @@ public class TestOPLElection {
             System.out.println("Unable to read test file");
         }
         assertEquals("Incorrect Output", expectOut, mediaFile);
+
+        // tear down
+        sys.getMediaFile().close();
+        File check = new File("OPLMediaTestFile.txt");
+        if(check.exists()) check.delete();
     }
     // end of writeToMediaFile tests
 
@@ -514,6 +520,11 @@ public class TestOPLElection {
             System.out.println("Unable to read test file");
         }
         assertEquals("Incorrect Output", expectOut, auditFile);
+
+        // tear down
+        sys.getAuditFile().close();
+        File check = new File("OPLAuditTestFile.txt");
+        if(check.exists()) check.delete();
     }
     // end of writeToAuditFile tests
   
@@ -744,5 +755,130 @@ public class TestOPLElection {
                 assertEquals(1, oplElection.getParty().get(i).getpNumBallots());
             }
         }
+
+        // tear down
+        File check = new File("testAudit1.txt");
+        if(check.exists()) check.delete();
+        check = new File("testMedia1.txt");
+        if(check.exists()) check.delete();
     }
+
+    // OPL System edge case tests
+    @Test
+    public void testOPLTiedHighestRemainder(){
+        // tie between these two candidates, test how many times they are randomly given a seat
+        int ferb = 0;
+        int patrick = 0;
+
+        // run OPL election 500 times and record which candidate gets the last seat
+        for(int k = 0; k < 1000; k++) {
+            String dataCSV = "OPLTiedHighestRemainder\n";
+            provideInput(dataCSV);
+            oplElection = (OPLElection) VotingSystem.promptCSV();
+
+            String dataAudit = "OPLAuditTiedR\nY";
+            provideInput(dataAudit);
+            oplElection.promptAudit();
+
+            String dataMedia = "OPLMediaTiedR\nY";
+            provideInput(dataMedia);
+            oplElection.promptMedia();
+
+            oplElection.runElection();
+
+            // everything in VotingSystem was set correctly...
+            assertEquals(4, oplElection.getCandidates().size());
+            assertEquals("OPL", oplElection.getElectionType());
+            assertEquals("OPLTiedHighestRemainder", oplElection.getCsvName());
+            assertEquals(12, oplElection.getTotalNumBallots());
+
+            // everything in OPLElection was correctly...
+            assertEquals(3, oplElection.getTotalNumSeats());
+            assertEquals(0, oplElection.getNumSeatsLeft());
+            assertEquals(2, oplElection.getParty().size());
+            assertEquals((12/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
+
+            // test the candidates, parties, and ballots were assigned and sorted correctly
+            for(int i = 0; i< oplElection.getParty().size(); i++) {
+                if (oplElection.getParty().get(i).getpName().equals("D")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    int numSeats = oplElection.getParty().get(i).getNumSeats();
+                    assertTrue((numSeats == 2) || (numSeats == 1));
+                    if (numSeats == 2) { ferb++; }
+                    // party has the correct number of ballots
+                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                }
+                if (oplElection.getParty().get(i).getpName().equals("N")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    int numSeats = oplElection.getParty().get(i).getNumSeats();
+                    assertTrue((numSeats == 2) || (numSeats == 1));
+                    if (numSeats == 2) { patrick++; }
+                    // party has the correct number of ballots
+                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                }
+            }
+        }
+        // ensure that there is a 5% error 225-275
+        String fw = ferb + " times";
+        assertTrue(fw, (450 < ferb) && (ferb < 550));
+        assertTrue((450 < patrick) && (patrick < 550));
+
+        // tear down
+        File check = new File("OPLAuditTiedR.txt");
+        if(check.exists()) check.delete();
+        check = new File("OPLMediaTiedR.txt");
+        if(check.exists()) check.delete();
+    }
+
+    @Test
+    public void testOPLTieBetweenCandidates(){
+        int counterF = 0;
+        int counterB = 0;
+
+        for (int k = 0; k < 1000; k++) {
+            String fileCSV = "OPLTieBetweenCandidates\n";
+            provideInput(fileCSV);
+            oplElection = (OPLElection) VotingSystem.promptCSV();
+
+            String dataAudit = "testAuditTieBetweenCandidates\nY";
+            provideInput(dataAudit);
+            oplElection.promptAudit();
+
+            String dataMedia = "testMediaTieBetweenCandidates\nY";
+            provideInput(dataMedia);
+            oplElection.promptMedia();
+
+            oplElection.runElection();
+
+            if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Foster")) {
+                counterF++;
+            }
+            else if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Borg")){
+                counterB++;
+            }
+        }
+
+        String assert1 = "Foster won more than 700 times (" + counterF + "/1000 times)";
+        String assert2 = "Foster won less than 300 times (" + counterF + "/1000 times)";
+        String assert3 = "Borg won more than 700 times (" + counterB + "/1000 times)";
+        String assert4 = "Borg won less than 300 times (" + counterB + "/1000 times)";
+
+        assertTrue(assert1, counterF <= 550);
+        assertTrue(assert2, counterF >= 450);
+        assertTrue(assert3, counterB <= 550);
+        assertTrue(assert4, counterB >= 450);
+
+        // tear down
+        File check = new File("testAuditTieBetweenCandidates.txt");
+        if(check.exists()) check.delete();
+        check = new File("testMediaTieBetweenCandidates.txt");
+        if(check.exists()) check.delete();
+    }
+    // end of edge case tests
 }
