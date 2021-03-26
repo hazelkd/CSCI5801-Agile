@@ -778,7 +778,9 @@ public class TestOPLElection {
             for(int i = 0; i < oplElection.candidates.size() - j -1; i++){
             //if a candidate with less votes is before a candidate with more votes, swap
                 if(oplElection.candidates.get(i).getcNumBallots() < oplElection.candidates.get(i+1).getcNumBallots()){
-                    Collections.swap(oplElection.candidates(), i, i+1);
+                    String temp = oplElection.candidates.get(i);
+                    oplElection.candidates.get(i) = oplElection.candidates.get(i+1);
+                    oplElection.candidates.get(i+1) = temp;
                 }
                 //if tie, coin toss
                 else if(oplElection.candidates.get(i).getcNumBallots() == oplElection.candidates.get(i+1).getcNumBallots()){
@@ -786,7 +788,9 @@ public class TestOPLElection {
                 }
                     //If tieBreaker = 1, first candidate lost and you have to swap, otherwise do nothing
                 if(tieBreaker == 1){
-                    Collections.swap(oplElection.candidates(), i, i+1);
+                    String temp = oplElection.candidates.get(i);
+                    oplElection.candidates.get(i) = oplElection.candidates.get(i+1);
+                    oplElection.candidates.get(i+1) = temp;
                 }
             }
         }
