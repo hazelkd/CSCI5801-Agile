@@ -754,7 +754,37 @@ public class TestOPLElection {
 
     @Test
     public void testOPLTieBetweenCandidates(){
+        String fileCSV = "OPLTieBetweenCandidates\n";
+        provideInput(fileCSV);
+        oplElection = (OPLElection) VotingSystem.promptCSV();
 
+        String dataAudit = "testAuditTieBetweenCandidates\nY";
+        provideInput(dataAudit);
+        oplElection.promptAudit();
+
+        String dataMedia = "testAuditTieBetweenCandidates\nY";
+        provideInput(dataMedia);
+        oplElection.promptMedia();
+
+        int counterF = 0;
+        int counterB = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            oplElection.runElection();
+            
+            if (oplElection.candidates.get(0).equals("Foster")) {
+                counterF++;
+            }
+            else if (oplElection.candidates.get(0).equals("Borg")){
+                counterB++;
+            }
+        }
+        
+        assertTrue(counterF <= 700);
+        assertTrue(counterF >= 300);
+        assertTrue(counterB <= 700);
+        assertTrue(counterB >= 300);
+        
     }
     // end of edge case tests
 }
