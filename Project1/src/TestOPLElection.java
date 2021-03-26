@@ -749,7 +749,67 @@ public class TestOPLElection {
     // OPL System edge case tests
     @Test
     public void testOPLTiedHighestRemainder(){
+        // tie between these two candidates, test how many times they are randomly given a seat
+        int ferb = 0;
+        int patrick = 0; 
+        
+        // run OPL election 500 times and record which candidate gets the last seat
+        for(int i = 0; i < 500; i++) {
+            String dataCSV = "OPLTiedHighestReminder\n";
+            provideInput(dataCSV);
+            oplElection = (OPLElection) VotingSystem.promptCSV();
 
+            String dataAudit = "OPLAuditTiedR\nY";
+            provideInput(dataAudit);
+            oplElection.promptAudit();
+
+            String dataMedia = "OPLMediaTiedR\nY";
+            provideInput(dataMedia);
+            oplElection.promptMedia();
+
+            oplElection.runElection();
+
+            // everything in VotingSystem was set correctly...
+            assertEquals(4, oplElection.getCandidates().size());
+            assertEquals("OPL", oplElection.getElectionType());
+            assertEquals("OPLTiedHighestReminder", oplElection.getCsvName());
+            assertEquals(12, oplElection.getTotalNumBallots());
+
+            // everything in OPLElection was correctly...
+            assertEquals(3, oplElection.getTotalNumSeats());
+            assertEquals(0, oplElection.getNumSeatsLeft());
+            assertEquals(2, oplElection.getParty().size());
+            assertEquals((12/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
+
+            // test the candidates, parties, and ballots were assigned and sorted correctly
+            for(int i = 0; i< oplElection.getParty().size(); i++) {
+                if (oplElection.getParty().get(i).equals("D")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    int numSeats = oplElection.getParty().get(i).getNumSeats();
+                    assertTrue((numSeats == 2) || (numSeats == 1));
+                    if (numSeats = 2) { ferb++; }
+                    // party has the correct number of ballots
+                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                }
+                if (oplElection.getParty().get(i).equals("N")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    int numSeats = oplElection.getParty().get(i).getNumSeats();
+                    assertTrue((numSeats == 2) || (numSeats == 1));
+                    if (numSeats = 2) { patrick++; }
+                    // party has the correct number of ballots
+                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                }
+            }
+        }
+        // ensure that there is a 5% error 225-275
+        assertTrue((225 < ferb) && (ferb < 275));
+        assertTrue((225 < partick) && (patrick < 275));
     }
 
     @Test
