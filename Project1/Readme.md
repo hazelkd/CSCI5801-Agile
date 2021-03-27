@@ -1,6 +1,6 @@
 This system’s primary purpose is to analyze an election’s results based on ballot data from an inputted CSV file. It then runs the appropriate voting system based on the election type in data from the file, which in this case is either an Instant Runoff election or Open Party Listing election. The analysis produces election results that are shown to the user and stored in external files for later use. 
 
-Minor changes were made to the design of the system, the Design Document has been updated accordingly
+Minor changes were made to the design of the system, the Design Document has been updated accordingly.
 
 Notes about Main Program:
 + Any input CSV file should be stored as a .txt file
