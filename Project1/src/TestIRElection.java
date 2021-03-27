@@ -266,31 +266,35 @@ public class TestIRElection {
         String dataCSV = "IRTest\n";
         provideInput(dataCSV);
         election = (IRElection) VotingSystem.promptCSV();
+        if(election != null){
+            String dataAudit = "testAudit1\nY";
+            provideInput(dataAudit);
+            election.promptAudit();
 
-        String dataAudit = "testAudit1\nY";
-        provideInput(dataAudit);
-        election.promptAudit();
+            String dataMedia = "testMedia1\nY";
+            provideInput(dataMedia);
+            election.promptMedia();
 
-        String dataMedia = "testMedia1\nY";
-        provideInput(dataMedia);
-        election.promptMedia();
+            election.runElection(); // closes media/audit files
 
-        election.runElection(); // closes media/audit files
+            assertEquals("IR", election.getElectionType());
+            assertEquals("IRTest", election.getCsvName());
+            assertEquals(6, election.getTotalNumBallots());
 
-        assertEquals("IR", election.getElectionType());
-        assertEquals("IRTest", election.getCsvName());
-        assertEquals(6, election.getTotalNumBallots());
+            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Rosen");
+            assertEquals("Did not have the correct number of ballots for winner", election.getCurrCandidates().get(0).getcNumBallots(), 4);
+            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().size(), 3);
+            assertEquals("Did not remove losers from curr candidates", election.getCurrCandidates().size(), 1);
+            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(0).getcName(), "Kleinberg");
+            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(1).getcName(), "Royce");
+            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(2).getcName(), "Chou");
+            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+        } else {
+            assertNotNull("Testing data not present", election);
+        }
 
-        assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Rosen");
-        assertEquals("Did not have the correct number of ballots for winner", election.getCurrCandidates().get(0).getcNumBallots(), 4);
-        assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().size(), 3);
-        assertEquals("Did not remove losers from curr candidates", election.getCurrCandidates().size(), 1);
-        assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(0).getcName(), "Kleinberg");
-        assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(1).getcName(), "Royce");
-        assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(2).getcName(), "Chou");
-        assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
-        assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-        assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
 
         // tear down
         File check = new File("testMedia1.txt");
@@ -305,23 +309,26 @@ public class TestIRElection {
         String dataCSV = "IRTestMajority\n";
         provideInput(dataCSV);
         election = (IRElection) VotingSystem.promptCSV();
+        if(election != null){
+            String dataAudit = "IRTestMajorityAudit\nY";
+            provideInput(dataAudit);
+            election.promptAudit();
 
-        String dataAudit = "IRTestMajorityAudit\nY";
-        provideInput(dataAudit);
-        election.promptAudit();
+            String dataMedia = "IRTestMajorityMedia\nY";
+            provideInput(dataMedia);
+            election.promptMedia();
 
-        String dataMedia = "IRTestMajorityMedia\nY";
-        provideInput(dataMedia);
-        election.promptMedia();
+            election.runElection();
 
-        election.runElection();
-
-        assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Weasley");
-        assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 5);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 0);
+            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Weasley");
+            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 5);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 0);
+        } else {
+            assertNotNull("Testing data not present", election);
+        }
 
         // tear down
         File check = new File("IRTestMajorityAudit.txt");
@@ -335,23 +342,26 @@ public class TestIRElection {
         String dataCSV = "IRTestPop\n";
         provideInput(dataCSV);
         election = (IRElection) VotingSystem.promptCSV();
+        if(election != null){
+            String dataAudit = "IRTestPopularityAudit\nY";
+            provideInput(dataAudit);
+            election.promptAudit();
 
-        String dataAudit = "IRTestPopularityAudit\nY";
-        provideInput(dataAudit);
-        election.promptAudit();
+            String dataMedia = "IRTestPopularityMedia\nY";
+            provideInput(dataMedia);
+            election.promptMedia();
 
-        String dataMedia = "IRTestPopularityMedia\nY";
-        provideInput(dataMedia);
-        election.promptMedia();
+            election.runElection();
 
-        election.runElection();
-
-        assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Shaggy");
-        assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 3);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
-        assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 2);
+            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Shaggy");
+            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 3);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 2);
+        } else {
+            assertNotNull("Testing data not present", election);
+        }
 
         // tear down
         File check = new File("IRTestPopularityAudit.txt");
@@ -368,21 +378,25 @@ public class TestIRElection {
             provideInput(data);
             election = (IRElection) VotingSystem.promptCSV();
 
-            data = "testAuditPopTie\nY";
-            provideInput(data);
-            election.promptAudit();
+            if(election != null){
+                data = "testAuditPopTie\nY";
+                provideInput(data);
+                election.promptAudit();
 
-            data = "testMediaPopTie\nY";
-            provideInput(data);
-            election.promptMedia();
+                data = "testMediaPopTie\nY";
+                provideInput(data);
+                election.promptMedia();
 
-            election.runElection();
-            if(election.getCurrCandidates().get(0).getcName().equals("Styles")) {
-                stylesWon++;
-            } else if (election.getCurrCandidates().get(0).getcName().equals("Horan")) {
-                horanWon++;
+                election.runElection();
+                if(election.getCurrCandidates().get(0).getcName().equals("Styles")) {
+                    stylesWon++;
+                } else if (election.getCurrCandidates().get(0).getcName().equals("Horan")) {
+                    horanWon++;
+                } else {
+                    error++;
+                }
             } else {
-                error++;
+                assertNotNull("Testing data not present", election);
             }
         }
         // check that its a 50-50 chance
@@ -406,22 +420,25 @@ public class TestIRElection {
             String data = "IRTestRedistributeTie\n";
             provideInput(data);
             election = (IRElection) VotingSystem.promptCSV();
+            if(election != null){
+                data = "testAuditRedTie\nY";
+                provideInput(data);
+                election.promptAudit();
 
-            data = "testAuditRedTie\nY";
-            provideInput(data);
-            election.promptAudit();
+                data = "testMediaRedTie\nY";
+                provideInput(data);
+                election.promptMedia();
 
-            data = "testMediaRedTie\nY";
-            provideInput(data);
-            election.promptMedia();
-
-            election.runElection();
-            if(election.getCurrCandidates().get(0).getcName().equals("Tolkien")) {
-                tolkienWon++;
-            } else if (election.getCurrCandidates().get(0).getcName().equals("Rowling")) {
-                rowlingWon++;
+                election.runElection();
+                if(election.getCurrCandidates().get(0).getcName().equals("Tolkien")) {
+                    tolkienWon++;
+                } else if (election.getCurrCandidates().get(0).getcName().equals("Rowling")) {
+                    rowlingWon++;
+                } else {
+                    error++;
+                }
             } else {
-                error++;
+                assertNotNull("Testing data not present", election);
             }
         }
         String tw = "Tolkien did not win around 50% of the time (" + tolkienWon + "/1000 times)";

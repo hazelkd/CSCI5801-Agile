@@ -702,58 +702,61 @@ public class TestOPLElection {
         String dataCSV = "OPLTest\n";
         provideInput(dataCSV);
         oplElection = (OPLElection) VotingSystem.promptCSV();
+        if(oplElection != null){
+            String dataAudit = "testAudit1\nY";
+            provideInput(dataAudit);
+            oplElection.promptAudit();
 
-        String dataAudit = "testAudit1\nY";
-        provideInput(dataAudit);
-        oplElection.promptAudit();
+            String dataMedia = "testMedia1\nY";
+            provideInput(dataMedia);
+            oplElection.promptMedia();
 
-        String dataMedia = "testMedia1\nY";
-        provideInput(dataMedia);
-        oplElection.promptMedia();
+            oplElection.runElection();
 
-        oplElection.runElection();
+            // everything in VotingSystem was set correctly...
+            assertEquals(6, oplElection.getCandidates().size());
+            assertEquals("OPL", oplElection.getElectionType());
+            assertEquals("OPLTest", oplElection.getCsvName());
+            assertEquals(9, oplElection.getTotalNumBallots());
 
-        // everything in VotingSystem was set correctly...
-        assertEquals(6, oplElection.getCandidates().size());
-        assertEquals("OPL", oplElection.getElectionType());
-        assertEquals("OPLTest", oplElection.getCsvName());
-        assertEquals(9, oplElection.getTotalNumBallots());
+            // everything in OPLElection was correctly...
+            assertEquals(3, oplElection.getTotalNumSeats());
+            assertEquals(0, oplElection.getNumSeatsLeft());
+            assertEquals(3, oplElection.getParty().size());
+            assertEquals((9/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
 
-        // everything in OPLElection was correctly...
-        assertEquals(3, oplElection.getTotalNumSeats());
-        assertEquals(0, oplElection.getNumSeatsLeft());
-        assertEquals(3, oplElection.getParty().size());
-        assertEquals((9/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
-
-        // test the candidates, parties, and ballots were assigned and sorted correctly
-        for(int i = 0; i< oplElection.getParty().size(); i++) {
-            if (oplElection.getParty().get(i).equals("D")) {
-                // party got all the candidates
-                int numCandidates = oplElection.getParty().get(i).getCandidates().size();
-                assertEquals(2, numCandidates);
-                // party go the correct number of seats
-                assertEquals(2, oplElection.getParty().get(i).getNumSeats());
-                // party has the correct number of ballots
-                assertEquals(5, oplElection.getParty().get(i).getpNumBallots());
+            // test the candidates, parties, and ballots were assigned and sorted correctly
+            for(int i = 0; i< oplElection.getParty().size(); i++) {
+                if (oplElection.getParty().get(i).equals("D")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    assertEquals(2, oplElection.getParty().get(i).getNumSeats());
+                    // party has the correct number of ballots
+                    assertEquals(5, oplElection.getParty().get(i).getpNumBallots());
+                }
+                if (oplElection.getParty().get(i).equals("R")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    assertEquals(1, oplElection.getParty().get(i).getNumSeats());
+                    // party has the correct number of ballots
+                    assertEquals(3, oplElection.getParty().get(i).getpNumBallots());
+                }
+                if (oplElection.getParty().get(i).equals("I")) {
+                    // party got all the candidates
+                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                    assertEquals(2, numCandidates);
+                    // party go the correct number of seats
+                    assertEquals(0, oplElection.getParty().get(i).getNumSeats());
+                    // party has the correct number of ballots
+                    assertEquals(1, oplElection.getParty().get(i).getpNumBallots());
+                }
             }
-            if (oplElection.getParty().get(i).equals("R")) {
-                // party got all the candidates
-                int numCandidates = oplElection.getParty().get(i).getCandidates().size();
-                assertEquals(2, numCandidates);
-                // party go the correct number of seats
-                assertEquals(1, oplElection.getParty().get(i).getNumSeats());
-                // party has the correct number of ballots
-                assertEquals(3, oplElection.getParty().get(i).getpNumBallots());
-            }
-            if (oplElection.getParty().get(i).equals("I")) {
-                // party got all the candidates
-                int numCandidates = oplElection.getParty().get(i).getCandidates().size();
-                assertEquals(2, numCandidates);
-                // party go the correct number of seats
-                assertEquals(0, oplElection.getParty().get(i).getNumSeats());
-                // party has the correct number of ballots
-                assertEquals(1, oplElection.getParty().get(i).getpNumBallots());
-            }
+        } else {
+            assertNotNull("Testing data not present", oplElection);
         }
 
         // tear down
@@ -775,53 +778,56 @@ public class TestOPLElection {
             String dataCSV = "OPLTiedHighestRemainder\n";
             provideInput(dataCSV);
             oplElection = (OPLElection) VotingSystem.promptCSV();
+            if(oplElection != null){
+                String dataAudit = "OPLAuditTiedR\nY";
+                provideInput(dataAudit);
+                oplElection.promptAudit();
 
-            String dataAudit = "OPLAuditTiedR\nY";
-            provideInput(dataAudit);
-            oplElection.promptAudit();
+                String dataMedia = "OPLMediaTiedR\nY";
+                provideInput(dataMedia);
+                oplElection.promptMedia();
 
-            String dataMedia = "OPLMediaTiedR\nY";
-            provideInput(dataMedia);
-            oplElection.promptMedia();
+                oplElection.runElection();
 
-            oplElection.runElection();
+                // everything in VotingSystem was set correctly...
+                assertEquals(4, oplElection.getCandidates().size());
+                assertEquals("OPL", oplElection.getElectionType());
+                assertEquals("OPLTiedHighestRemainder", oplElection.getCsvName());
+                assertEquals(12, oplElection.getTotalNumBallots());
 
-            // everything in VotingSystem was set correctly...
-            assertEquals(4, oplElection.getCandidates().size());
-            assertEquals("OPL", oplElection.getElectionType());
-            assertEquals("OPLTiedHighestRemainder", oplElection.getCsvName());
-            assertEquals(12, oplElection.getTotalNumBallots());
+                // everything in OPLElection was correctly...
+                assertEquals(3, oplElection.getTotalNumSeats());
+                assertEquals(0, oplElection.getNumSeatsLeft());
+                assertEquals(2, oplElection.getParty().size());
+                assertEquals((12/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
 
-            // everything in OPLElection was correctly...
-            assertEquals(3, oplElection.getTotalNumSeats());
-            assertEquals(0, oplElection.getNumSeatsLeft());
-            assertEquals(2, oplElection.getParty().size());
-            assertEquals((12/3), oplElection.getQuota()); //numVotes/numOfSeats = quota
-
-            // test the candidates, parties, and ballots were assigned and sorted correctly
-            for(int i = 0; i< oplElection.getParty().size(); i++) {
-                if (oplElection.getParty().get(i).getpName().equals("D")) {
-                    // party got all the candidates
-                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
-                    assertEquals(2, numCandidates);
-                    // party go the correct number of seats
-                    int numSeats = oplElection.getParty().get(i).getNumSeats();
-                    assertTrue((numSeats == 2) || (numSeats == 1));
-                    if (numSeats == 2) { ferb++; }
-                    // party has the correct number of ballots
-                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                // test the candidates, parties, and ballots were assigned and sorted correctly
+                for(int i = 0; i< oplElection.getParty().size(); i++) {
+                    if (oplElection.getParty().get(i).getpName().equals("D")) {
+                        // party got all the candidates
+                        int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                        assertEquals(2, numCandidates);
+                        // party go the correct number of seats
+                        int numSeats = oplElection.getParty().get(i).getNumSeats();
+                        assertTrue((numSeats == 2) || (numSeats == 1));
+                        if (numSeats == 2) { ferb++; }
+                        // party has the correct number of ballots
+                        assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                    }
+                    if (oplElection.getParty().get(i).getpName().equals("N")) {
+                        // party got all the candidates
+                        int numCandidates = oplElection.getParty().get(i).getCandidates().size();
+                        assertEquals(2, numCandidates);
+                        // party go the correct number of seats
+                        int numSeats = oplElection.getParty().get(i).getNumSeats();
+                        assertTrue((numSeats == 2) || (numSeats == 1));
+                        if (numSeats == 2) { patrick++; }
+                        // party has the correct number of ballots
+                        assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
+                    }
                 }
-                if (oplElection.getParty().get(i).getpName().equals("N")) {
-                    // party got all the candidates
-                    int numCandidates = oplElection.getParty().get(i).getCandidates().size();
-                    assertEquals(2, numCandidates);
-                    // party go the correct number of seats
-                    int numSeats = oplElection.getParty().get(i).getNumSeats();
-                    assertTrue((numSeats == 2) || (numSeats == 1));
-                    if (numSeats == 2) { patrick++; }
-                    // party has the correct number of ballots
-                    assertEquals(6, oplElection.getParty().get(i).getpNumBallots());
-                }
+            } else {
+                assertNotNull("Testing data not present", oplElection);
             }
         }
         // ensure that there is a 5% error 225-275
@@ -845,22 +851,25 @@ public class TestOPLElection {
             String fileCSV = "OPLTieBetweenCandidates\n";
             provideInput(fileCSV);
             oplElection = (OPLElection) VotingSystem.promptCSV();
+            if(oplElection != null){
+                String dataAudit = "testAuditTieBetweenCandidates\nY";
+                provideInput(dataAudit);
+                oplElection.promptAudit();
 
-            String dataAudit = "testAuditTieBetweenCandidates\nY";
-            provideInput(dataAudit);
-            oplElection.promptAudit();
+                String dataMedia = "testMediaTieBetweenCandidates\nY";
+                provideInput(dataMedia);
+                oplElection.promptMedia();
 
-            String dataMedia = "testMediaTieBetweenCandidates\nY";
-            provideInput(dataMedia);
-            oplElection.promptMedia();
+                oplElection.runElection();
 
-            oplElection.runElection();
-
-            if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Foster")) {
-                counterF++;
-            }
-            else if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Borg")){
-                counterB++;
+                if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Foster")) {
+                    counterF++;
+                }
+                else if (oplElection.getParty().get(1).getCandidates().get(0).getcName().equals("Borg")){
+                    counterB++;
+                }
+            } else {
+                assertNotNull("Testing data not present", oplElection);
             }
         }
 

@@ -117,6 +117,7 @@ public class OPLElection extends VotingSystem{
         if(csvFile.hasNextInt()){
             totalNumSeats = Integer.parseInt(csvFile.nextLine());
             numSeatsLeft = totalNumSeats;
+            if(totalNumSeats == 0) return;
         }
         else {
             System.out.print("Incorrect File Format (numSeats)\n");
