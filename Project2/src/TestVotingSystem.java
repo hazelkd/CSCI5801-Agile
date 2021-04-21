@@ -389,7 +389,7 @@ public class TestVotingSystem {
 
     @Test
     public void testPromptMediaInvalidInput(){
-        String data = "/help?";
+        String data = "/help?\nY";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();
