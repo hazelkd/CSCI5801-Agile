@@ -323,7 +323,7 @@ public class TestVotingSystem {
 
     @Test
     public void testPromptAuditInvalidInput(){
-        String data = "help?";
+        String data = "/help?";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptAudit();
@@ -389,7 +389,7 @@ public class TestVotingSystem {
 
     @Test
     public void testPromptMediaInvalidInput(){
-        String data = "help?\nY";
+        String data = "/help?";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();
