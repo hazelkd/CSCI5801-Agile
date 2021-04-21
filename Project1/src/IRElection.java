@@ -55,6 +55,7 @@ public class IRElection extends VotingSystem{
           if(currCandidates.get(i) != winner){
             eliminatedCandidates.add(currCandidates.get(i));
             currCandidates.remove(currCandidates.get(i));
+            i = i-1;
           }
         }
 
@@ -279,12 +280,14 @@ public class IRElection extends VotingSystem{
       ArrayList<Candidate> currBallotRanking;
       int currBallotRankIndex;
       boolean AddedBallot;
+      int loserNumBallots = loser.getcBallots().size();
+      int assignedBallots = 0;
 
       //Loop through all of the ballots in the losers Ballot ArrayList
-      for(int i =0; i < loser.getcBallots().size(); i++){
+      for(int i =0; i < loserNumBallots; i++){
 
         //Set all of the variables to the current Ballot information
-        currBallot = (IRBallot) loser.getcBallots().get(i);
+        currBallot = (IRBallot) loser.getcBallots().get(i - assignedBallots);
         currBallotRanking = currBallot.getRanking();
         currBallotRankIndex = currBallot.getRankIndex();
         AddedBallot = false;
@@ -311,8 +314,9 @@ public class IRElection extends VotingSystem{
             currBallotRanking.get(currBallotRankIndex).addBallot(currBallot);
             AddedBallot = true;
             //remove ballot from loser
-            loser.getcBallots().remove(i);
+            loser.getcBallots().remove(i - assignedBallots);
             loser.setcNumBallots(loser.getcNumBallots() - 1);
+            assignedBallots++;
             // i--;
           }
           //Otherwise, we have to check the next candidate in the ranking array

@@ -86,7 +86,7 @@ public class VotingSystem {
         if(fromUser.hasNext()){
             name = fromUser.nextLine();
         }
-        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d"))){
+        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d")) && (!name.equals("Default"))){
             System.out.print("You have entered: "+name+"\n Is this correct? (Y/N)\n");
             // check Y/N -> prompt accordingly
             String response = "";
@@ -130,7 +130,7 @@ public class VotingSystem {
         System.out.print("Do not include any extensions, the system will produce a .txt file\n");
         System.out.print("If you wish to use the default naming conventions, enter default (D)\n");
         name = fromUser.nextLine();
-        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d"))){
+        if((!name.equals("default")) && (!name.equals("D")) && (!name.equals("d")) && (!name.equals("Default"))){
             System.out.print("You have entered: "+name+"\n Is this correct? (Y/N)\n");
             // check Y/N -> prompt accordingly
             String response = fromUser.nextLine();
