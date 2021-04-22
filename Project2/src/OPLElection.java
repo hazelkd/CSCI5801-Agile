@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class OPLElection extends VotingSystem{
     /**
      * Driving force of the OPL Election class. It will call all of the functions for the algorithm of OPL voting.
-     * It will also close the media, audit, and CSV files at the end of the function, which will be the 
+     * It will also close the media, audit, and CSV files at the end of the function, which will be the
      * end of this election process.
      *
      * @return -1 to indicate error, 0 if everything operated properly
      */
-    public int runElection(){ 
+    public int runElection(){
 
         // read in the rest of the file & set totalNumBallots, totalNumSeats, numSeatsLeft
         // make/assign party objects and candidate objects
@@ -204,8 +204,8 @@ public class OPLElection extends VotingSystem{
     }
 
     /**
-     * This function will write all of election information to the specified audit file at the end of the election. 
-     * This information will include the basic election data, election results, as was put in the media file, as well 
+     * This function will write all of election information to the specified audit file at the end of the election.
+     * This information will include the basic election data, election results, as was put in the media file, as well
      * as unique ballot IDs, and a breakdown of how the ballots were distributed at each step of the analysis.
      */
     public void writeToAuditFile(){
@@ -314,16 +314,16 @@ public class OPLElection extends VotingSystem{
     }
 
     /**
-     * Iterate through the party array list object in this class. As it is iterating through, it will call the 
-     * calculateNumBallots() function for each party, which will calculate the number of ballots that each party has. 
-     * As it is iterating through the party list, it will also call sortCandidate() function, which will sort the 
-     * candidates in each party, with the person who has received the most votes at the beginning of the array. 
+     * Iterate through the party array list object in this class. As it is iterating through, it will call the
+     * calculateNumBallots() function for each party, which will calculate the number of ballots that each party has.
+     * As it is iterating through the party list, it will also call sortCandidate() function, which will sort the
+     * candidates in each party, with the person who has received the most votes at the beginning of the array.
      * This function will be called after all objects have been created and assigned.
      */
     public void partyNumBallots(){
         for (int i = 0; i < party.size(); i++) {
             party.get(i).calculateNumBallots(); //calculate the number of ballots for each party
-            party.get(i).sortCandidates(); // order the candidates in the party 
+            party.get(i).sortCandidates(); // order the candidates in the party
         }
     }
 
