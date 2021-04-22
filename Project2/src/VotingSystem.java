@@ -46,6 +46,7 @@ public class VotingSystem {
         }
 
         // TODO: FIX so that all strings are accepted
+        // Done?
         if(csvFile.hasNextLine()){
             firstLine = csvFile.nextLine();
             if(firstLine.length() == 2){
