@@ -20,8 +20,9 @@ public class VotingSystem {
         String name = null;
         boolean flag = false;
         boolean fileStatus = true;
+        boolean invalidFlag = false;
         Scanner csvFile = null;
-        String firstLine;
+        String firstLine = null;
         String statusKey = null;
 
         Scanner fromUser = new Scanner(System.in);
@@ -46,7 +47,8 @@ public class VotingSystem {
             }
         if(!flag){
             System.out.print("Unable to open file, exiting\n");
-            return null;
+            invalidFlag = true; 
+            //return null;
         }
 
         // TODO: FIX so that all strings are accepted
@@ -66,10 +68,12 @@ public class VotingSystem {
             }
         } else {
             System.out.print("Improper file format, exiting\n");
-            return null;
+            invalidFlag = true;
+            //return null;
         }
 
         // check if OPL or IR
+        if (!invalidFlag){
         if(firstLine.equals("OPL")){
             sys = new OPLElection();
             sys.setCsvName(name);
@@ -84,17 +88,27 @@ public class VotingSystem {
         }
         else {
             System.out.print("Invalid election type, exiting\n");
-            return null;
+            invalidFlag = true;
+            //return null;
+        }
         }
         //asking if user has another file 
-        System.out.print("Do you have another file to input? If yes, press Y/y, otherwise press any other key.");
+        if (invalidFlag){
+            System.out.print("The file you previously entered was invalid. You may still input another file if desired.\n");
+        }
+        System.out.print("Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n");
                 if(fromUser.hasNextLine()){
                     statusKey = fromUser.nextLine();
                     if (statusKey.equals("Y") || statusKey.equals("y")){
                         fileStatus = true;
                     }
                     else {
-                        fileStatus = false;
+                        if(invalidFlag){
+                            return null;
+                        }
+                        else {
+                            fileStatus = false;
+                        }
                     }
                 }
         }
