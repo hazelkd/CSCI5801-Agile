@@ -48,11 +48,11 @@ public class VotingSystem {
         if(!flag){
             System.out.print("Unable to open file, exiting\n");
             invalidFlag = true; 
-            //return null;
         }
 
         // TODO: FIX so that all strings are accepted
         // Done?
+        if (!invalidFlag){
         if(csvFile.hasNextLine()){
             firstLine = csvFile.nextLine();
             if(firstLine.length() == 2){
@@ -74,24 +74,22 @@ public class VotingSystem {
         }
 
         // check if OPL or IR
-        if (!invalidFlag){
-        if(firstLine.equals("OPL")){
-            sys = new OPLElection();
-            sys.setCsvName(name);
-            sys.setCsvFile(csvFile);
-            sys.setElectionType(firstLine);
-        }
-        else if(firstLine.equals("IR")) {
-            sys = new IRElection();
-            sys.setCsvName(name);
-            sys.setCsvFile(csvFile);
-            sys.setElectionType(firstLine);
-        }
-        else {
-            System.out.print("Invalid election type, exiting\n");
-            invalidFlag = true;
-            //return null;
-        }
+            if(firstLine.equals("OPL")){
+                sys = new OPLElection();
+                sys.setCsvName(name);
+                sys.setCsvFile(csvFile);
+                sys.setElectionType(firstLine);
+            }
+            else if(firstLine.equals("IR")) {
+                sys = new IRElection();
+                sys.setCsvName(name);
+                sys.setCsvFile(csvFile);
+                sys.setElectionType(firstLine);
+            }
+            else {
+                System.out.print("Invalid election type, exiting\n");
+                invalidFlag = true;
+            }
         }
         //asking if user has another file 
         if (invalidFlag){
@@ -104,12 +102,7 @@ public class VotingSystem {
                         fileStatus = true;
                     }
                     else {
-                        if(invalidFlag){
-                            return null;
-                        }
-                        else {
                             fileStatus = false;
-                        }
                     }
                 }
         }
