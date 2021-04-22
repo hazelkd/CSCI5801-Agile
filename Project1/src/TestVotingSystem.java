@@ -1,12 +1,11 @@
 import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +17,10 @@ public class TestVotingSystem {
 
     public ByteArrayOutputStream testOut;
     private VotingSystem votingSys;
+
+    // make sure that all tests run in under 8 minutes
+    @Rule
+    public Timeout globalTimeOut = Timeout.seconds(480);
 
     public void provideInput(String data) {
         testOut = new ByteArrayOutputStream();
@@ -69,6 +72,12 @@ public class TestVotingSystem {
             assertEquals("Royce", system.getCandidates().get(3).getcName());
 
             assertEquals(system.getCandidates().size(), 4);
+
+            File check = new File("IRTestAuditFile.txt");
+            if(check.exists()) check.delete();
+            check = new File("IRTestMediaFile.txt");
+            if(check.exists()) check.delete();
+
         }
     }
 
@@ -96,6 +105,12 @@ public class TestVotingSystem {
         long endTime = System.currentTimeMillis();
         // 480,000 milliseconds in 8 minutes
         assertTrue((endTime-startTime) < 480000);
+
+        // tear down
+        File check = new File("IRTestLongAuditFile.txt");
+        if(check.exists()) check.delete();
+        check = new File("IRTestLongMediaFile.txt");
+        if(check.exists()) check.delete();
     }
 
     @Test
@@ -132,6 +147,12 @@ public class TestVotingSystem {
             assertEquals(system.getCandidates().size(), 6);
 
             //should I be checking OPL objects too?
+
+            // tear down
+            File check = new File("OPLTestAuditFile.txt");
+            if(check.exists()) check.delete();
+            check = new File("OPLTestMediaFile.txt");
+            if(check.exists()) check.delete();
         }
     }
 
@@ -158,6 +179,12 @@ public class TestVotingSystem {
         long endTime = System.currentTimeMillis();
         // 480,000 milliseconds in 8 minutes
         assertTrue((endTime-startTime) < 480000);
+
+        // tear down
+        File check = new File("OPLTestLongAuditFile.txt");
+        if(check.exists()) check.delete();
+        check = new File("OPLTestLongMediaFile.txt");
+        if(check.exists()) check.delete();
     }
   
     @Test
@@ -254,16 +281,28 @@ public class TestVotingSystem {
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptAudit();
+        sys.getAuditFile().close();
+        File check = new File("testAudit1.txt");
         assertNotNull("Audit File not initialized", sys.getAuditFile());
+        assertTrue("Audit File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
     public void testPromptAuditSecondInput(){
-        String data = "testAudit1\nN\ntestAudit1";
+        String data = "testAudit1\nN\ntestAudit2";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptAudit();
+        sys.getAuditFile().close();
+        File check = new File("testAudit2.txt");
         assertNotNull("Audit File not initialized", sys.getAuditFile());
+        assertTrue("Audit File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
@@ -271,8 +310,15 @@ public class TestVotingSystem {
         String data = "D";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
+        sys.setCsvName("DefaultTest");
         sys.promptAudit();
+        sys.getAuditFile().close();
+        File check = new File("DefaultTestAuditFile.txt");
         assertNotNull("Audit File not initialized", sys.getAuditFile());
+        assertTrue("Audit File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
@@ -301,16 +347,28 @@ public class TestVotingSystem {
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();
+        sys.getMediaFile().close();
+        File check = new File("testMedia1.txt");
         assertNotNull("Media File not initialized", sys.getMediaFile());
+        assertTrue("Media File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
     public void testPromptMediaSecondInput(){
-        String data = "testMedia1\nN\ntestMedia1";
+        String data = "testMedia1\nN\ntestMedia2";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();
+        sys.getMediaFile().close();
+        File check = new File("testMedia2.txt");
         assertNotNull("Media File not initialized", sys.getMediaFile());
+        assertTrue("Media File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
@@ -318,13 +376,20 @@ public class TestVotingSystem {
         String data = "D";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
+        sys.setCsvName("DefaultTest");
         sys.promptMedia();
+        sys.getMediaFile().close();
+        File check = new File("DefaultTestMediaFile.txt");
         assertNotNull("Media File not initialized", sys.getMediaFile());
+        assertTrue("Media File not created correctly", check.exists());
+
+        // remove created file
+        check.delete();
     }
 
     @Test
     public void testPromptMediaInvalidInput(){
-        String data = "help?";
+        String data = "help?\nY";
         provideInput(data);
         VotingSystem sys = new VotingSystem();
         sys.promptMedia();
