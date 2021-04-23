@@ -47,7 +47,8 @@ public class VotingSystem {
             }
         if(!flag){
             System.out.print("Unable to open file, exiting\n");
-            invalidFlag = true; 
+            invalidFlag = true;
+            return null; 
         }
 
         // TODO: FIX so that all strings are accepted
@@ -70,7 +71,7 @@ public class VotingSystem {
         } else {
             System.out.print("Improper file format, exiting\n");
             invalidFlag = true;
-            //return null;
+            return null;
         }
 
         // check if OPL or IR
