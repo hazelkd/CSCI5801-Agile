@@ -3,6 +3,7 @@
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class IRElection extends VotingSystem{
 
@@ -82,7 +83,7 @@ public class IRElection extends VotingSystem{
             numCandidates = Integer.parseInt(sNumCandidates);
             
             // set validRank, number of candidates valid ballots must rank
-            int valid = (numCandidates/2) + (((numCandidates % 2) == 0)? 0 : 1);
+            int valid = (int)Math.ceil((double)numCandidates/2.0);
             setValidRank(valid);
         }
         else {
