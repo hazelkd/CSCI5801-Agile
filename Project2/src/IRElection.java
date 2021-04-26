@@ -80,6 +80,10 @@ public class IRElection extends VotingSystem{
         if(csvFile.hasNextInt()){
             String sNumCandidates = csvFile.nextLine();
             numCandidates = Integer.parseInt(sNumCandidates);
+            
+            // set validRank, number of candidates valid ballots must rank
+            int valid = (numCandidates/2) + (((numCandidates % 2) == 0)? 0 : 1);
+            setValidRank(valid);
         }
         else {
             System.out.print("Incorrect File Format (numCandidates)\n");
@@ -128,6 +132,7 @@ public class IRElection extends VotingSystem{
         // read numVotes from file
         if(csvFile.hasNextInt()){
             totalNumBallots = Integer.parseInt(csvFile.nextLine());
+            numValidBallots = totalNumBallots; // assume all ballots are valid to begin with
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");
@@ -152,8 +157,9 @@ public class IRElection extends VotingSystem{
 
             // loop through string and place candidates at correct index in ranking
             int commasEncountered = 0;
+            int numRanked = 0; // number of candidates ranked on a ballot
             for(int i = 0; i < ballot.length(); i++){
-                char current = ballot.charAt(i);
+              char current = ballot.charAt(i);
                 if(current == ','){
                     commasEncountered++;
                 }
@@ -165,14 +171,22 @@ public class IRElection extends VotingSystem{
                     Candidate c = candidates.get(commasEncountered);
                     b.getRanking().set(rank, c);
                     b.setNumCandidates(b.getNumCandidates()+1);
+                    numRanked++;
                 }
             }
 
             // look at first index of ranking and assign ballot to candidate
             Candidate check = b.getRanking().get(0);
-            candidates.get(candidates.indexOf(check)).addBallot(b);
-            index++;
-        }
+            
+            // if the ballot had the correct number of candidates ranked, add to candidate's ballot arrays
+            // else do not make ballot, not valid, subtrack 1 from numValidBallots
+            if(numRanked >= validRank) {
+              candidates.get(candidates.indexOf(check)).addBallot(b);
+              index++;
+            } else {
+              numValidBallots--;
+            }
+        }// while loop here
     } // readBallots
 
     /**
@@ -205,7 +219,7 @@ public class IRElection extends VotingSystem{
       }
 
       //If the max candidate has a majority, return that candidate, otherwise return null
-      if(maxBallot/this.getTotalNumBallots() > .50){
+      if(maxBallot/this.getNumValidBallots() > .50){
         return maxCan;
       }
       else{
@@ -347,13 +361,13 @@ public class IRElection extends VotingSystem{
         mediaFile.print("------------------------------\n");
         // print winner + percentage of votes
         mediaFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)numValidBallots)) * 100;
         mediaFile.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
 
         // print rest of candidates + percentage of vote
         mediaFile.print("Eliminated Candidates: \n");
         for (Candidate c : eliminatedCandidates) {
-            percentage = (c.getcNumBallots() / ((double)totalNumBallots)) * 100;
+            percentage = (c.getcNumBallots() / ((double)numValidBallots)) * 100;
             mediaFile.print(c.getcName()+", "+c.getcParty()+" had "+String.format("%.3f", percentage)+"% of the vote when they were eliminated\n");
         }
         mediaFile.close();
@@ -366,7 +380,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(){
         // print winner + percentage of votes
-        double percentage = (currCandidates.get(0).getcNumBallots()/((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots()/((double)numValidBallots)) * 100;
         auditFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+String.format("%.3f", percentage)+"% of the vote\n");
         auditFile.print("Ballots assigned to "+currCandidates.get(0).getcName()+":\n");
 
@@ -415,7 +429,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(Candidate c){
         // print candidate name+party and percentage of votes
-        double percentage = (c.getcNumBallots()/((double)totalNumBallots)) * 100;
+        double percentage = (c.getcNumBallots()/((double)numValidBallots)) * 100;
         auditFile.print(c.getcName()+", "+c.getcParty()+": eliminated with "+String.format("%.3f", percentage)+"% of the vote\n");
         auditFile.print("Ballots assigned to "+c.getcName()+":\n");
 
@@ -445,7 +459,7 @@ public class IRElection extends VotingSystem{
         System.out.print("------------------------------\n");
         // print winner + percentage of votes
         System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)numValidBallots)) * 100;
         System.out.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
     } // printToScreen
 
@@ -468,7 +482,25 @@ public class IRElection extends VotingSystem{
         this.eliminatedCandidates = eliminatedCandidates;
     }
 
+    public int getNumValidBallots() {
+      return numValidBallots;
+    }
+    
+    public void setNumValidBallots(int num) {
+      numValidBallots = num;
+    }
+
+    public int getValidRank() {
+      return validRank;
+    }
+    
+    public void setValidRank(int num) {
+      validRank = num;
+    }
+
 
     private ArrayList<Candidate> currCandidates;
-    private ArrayList<Candidate> eliminatedCandidates;
+    private ArrayList<Candidate> eliminatedCandidates; // ArrayList of 
+    private int numValidBallots; // number of valid ballots
+    private int validRank;  // number of candidates a ballots must rank to be valid
 }
