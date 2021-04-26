@@ -786,7 +786,7 @@ public class TestIRElection {
             assertEquals("Assert valid Rank", 3, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
             assertEquals("Assert winner", "Spiderman (I)", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
-            assertEquals("Assert number of ballots for the winner", 1, irElection.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Assert number of ballots for the winner", 7, irElection.getCurrCandidates().get(0).getcNumBallots());
             assertEquals("Assert size of eliminated candidates", 4, irElection.getEliminatedCandidates().size());
             assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
             assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots()); //Ironman
