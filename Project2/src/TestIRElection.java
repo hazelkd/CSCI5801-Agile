@@ -766,7 +766,7 @@ public class TestIRElection {
     @Test 
     public void testInvalidIRBallotsUp() { //RoundUp
         String dataCSV = "IRInvalidTestUp\n";
-        provideInout(dataCSV);
+        provideInput(dataCSV);
 
         irElection = (IRElection) VotingSystem.promptCSV();
         if(irElection != null){
@@ -784,14 +784,14 @@ public class TestIRElection {
             assertEquals("Assert Total Number of ballots", 17, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 11, irElection.getNumValidBallots()); //numValidBallots
             assertEquals("Assert valid Rank", 3, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
-            assertEquals("Assert winner", "Spiderman (I)", irElection.getCurrCandidates().get(0).getcName());
+            assertEquals("Assert winner", "Spiderman", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
             assertEquals("Assert number of ballots for the winner", 7, irElection.getCurrCandidates().get(0).getcNumBallots());
             assertEquals("Assert size of eliminated candidates", 4, irElection.getEliminatedCandidates().size());
-            assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
-            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots()); //Ironman
-            assertEquals("Did not redistribute ballots correctly", 3, election.getEliminatedCandidates().get(2).getcNumBallots()); //Thor
-            assertEquals("Did not redistribute ballots correctly", 4, election.getEliminatedCandidates().get(3).getcNumBallots()); //CaptainAmerica
+            assertEquals("Did not redistribute ballots correctly", 0, irElection.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
+            assertEquals("Did not redistribute ballots correctly", 0, irElection.getEliminatedCandidates().get(1).getcNumBallots()); //Ironman
+            assertEquals("Did not redistribute ballots correctly", 0, irElection.getEliminatedCandidates().get(2).getcNumBallots()); //Thor
+            assertEquals("Did not redistribute ballots correctly", 4, irElection.getEliminatedCandidates().get(3).getcNumBallots()); //CaptainAmerica
         } else {
             assertNotNull("Testing data not present", election);
         }
@@ -805,7 +805,7 @@ public class TestIRElection {
     @Test 
     public void testInvalidIRBallotsDown() { //RoundDown
         String dataCSV = "IRInvalidTestDown\n";
-        provideInout(dataCSV);
+        provideInput(dataCSV);
 
         irElection = (IRElection) VotingSystem.promptCSV();
         if(irElection != null){
@@ -823,13 +823,13 @@ public class TestIRElection {
             assertEquals("Assert Total Number of ballots", 15, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 10, irElection.getNumValidBallots()); //numValidBallots
             assertEquals("Assert valid Rank", 2, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
-            assertEquals("Assert winner", "CaptinAmerica (D)", irElection.getCurrCandidates().get(0).getcName());
+            assertEquals("Assert winner", "CaptainAmerica", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert number of ballots for the winner", 6, irElection.getCurrCandidates().get(0).getcNumBallots());
             assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
             assertEquals("Assert size of eliminated candidates", 3, irElection.getEliminatedCandidates().size());
-            assertEquals("Did not redistribute ballots correctly", 1, election.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
-            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots()); //SpiderMan
-            assertEquals("Did not redistribute ballots correctly", 4, election.getEliminatedCandidates().get(2).getcNumBallots()); //IronMan
+            assertEquals("Did not redistribute ballots correctly", 0, irElection.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
+            assertEquals("Did not redistribute ballots correctly", 0, irElection.getEliminatedCandidates().get(1).getcNumBallots()); //SpiderMan
+            assertEquals("Did not redistribute ballots correctly", 4, irElection.getEliminatedCandidates().get(2).getcNumBallots()); //IronMan
         } else {
             assertNotNull("Testing data not present", election);
         }
