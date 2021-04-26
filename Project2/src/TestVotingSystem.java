@@ -246,7 +246,8 @@ public class TestVotingSystem {
         VotingSystem sys = VotingSystem.promptCSV();
         assertNull("Returned a non-null object", sys);
         String expectOut = "Please enter the name of your file (do not include .csv extension): \n" +
-                "Invalid election type, exiting\n";
+                "Invalid election type, exiting\n" +"The file you previously entered was invalid. You may still input another file if desired.\n"
+                + "Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n" ;
         assertEquals("Unexpected Output", expectOut, getOutput());
     }
 
