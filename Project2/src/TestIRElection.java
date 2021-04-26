@@ -2,6 +2,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import jdk.jfr.Timestamp;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,6 +46,8 @@ public class TestIRElection {
     private IRBallot ballot4;
     private IRBallot ballot5;
     private IRBallot ballot6;
+
+    private IRElection irElection;
 
     @Test
     public void testFindMajority() {
@@ -757,4 +761,43 @@ public class TestIRElection {
         assertEquals("Incorrect Output", expectOut, getOutput());
     }
     // end of printToScreen tests
+
+    @Test 
+    public void testInvalidIRBallots() { //RoundUp
+        String dataCSV = "IRInvalidTest\n";
+        provideInout(dataCSV);
+
+        irElection = (IRElection) VotingSystem.promptCSV();
+        if(irElection != null){
+            String dataAudit = "testIREInvalidBallotsAudit1\nY"; // do there need to be a Y at the end? There is in testOPLRunElection()
+            provideInput(dataAudit);
+            oplElection.promptAudit();
+
+            String dataMedia = "testIRInvalidBallotsMedia1\nY"; // do we need the Y?
+            provideInput(dataMedia);
+            oplElection.promptMedia();
+
+            irElection.runElection();
+            
+            //assertEquals("Assert totalNumBallots", expected, acctual);
+            //assertEquals("Assert winner",irElection.getCurrCandidates().get(0).getcName(), "Name");
+            //assertEquals("Assert removed losers from curr candidates", election.getCurrCandidates().size(), 1);
+            //assertEquals("Asser size of eliminated candidates", election.getCurrCandidates().get(0).getcNumBallots(),)
+            //assertEquals("Asser size of eliminated candidates")
+            //assertEquals("Asser size of eliminated candidates")
+            //assertEquals("Assert Total Number of Ballots")
+            //assertEquals("Assert Total Number of Valid Ballots") //numValidBallots
+            //assertEquals("Assert valid Rank") //validRank, number of candidates a ballot must rank to be valid
+            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+        } else {
+            assertNotNull("Testing data not present", election);
+        }
+        // tear down
+        File check = new File("testIREInvalidBallotsAudit1.txt");
+        if(check.exists()) check.delete();
+        check = new File("testIREInvalidBallotsMedia1.txt");
+        if(check.exists()) check.delete();
+    }
   }
