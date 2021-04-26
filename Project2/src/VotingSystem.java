@@ -54,27 +54,27 @@ public class VotingSystem {
         // TODO: FIX so that all strings are accepted
         // Done?
         if (!invalidFlag){
-        if(csvFile.hasNextLine()){
-            firstLine = csvFile.nextLine();
-            if(firstLine.length() == 2){
-                char[] test = new char[2];
-                test[0] = firstLine.charAt(0);
-                test[1] = firstLine.charAt(1);
-                firstLine = new String(test);
-            } else if(firstLine.length() == 3) {
-                char[] test = new char[3];
-                test[0] = firstLine.charAt(0);
-                test[1] = firstLine.charAt(1);
-                test[2] = firstLine.charAt(2);
-                firstLine = new String(test);
+            if(csvFile.hasNextLine()){
+                firstLine = csvFile.nextLine();
+                if(firstLine.length() == 2){
+                    char[] test = new char[2];
+                    test[0] = firstLine.charAt(0);
+                    test[1] = firstLine.charAt(1);
+                    firstLine = new String(test);
+                } else if(firstLine.length() == 3) {
+                    char[] test = new char[3];
+                    test[0] = firstLine.charAt(0);
+                    test[1] = firstLine.charAt(1);
+                    test[2] = firstLine.charAt(2);
+                    firstLine = new String(test);
+                }
+            } else {
+                System.out.print("Improper file format, exiting\n");
+                invalidFlag = true;
+                return null;
             }
-        } else {
-            System.out.print("Improper file format, exiting\n");
-            invalidFlag = true;
-            return null;
-        }
 
-        // check if OPL or IR
+            // check if OPL or IR
             if(firstLine.equals("OPL")){
                 sys = new OPLElection();
                 sys.setCsvName(name);
@@ -105,6 +105,8 @@ public class VotingSystem {
                     else {
                             fileStatus = false;
                     }
+                } else {
+                    break;
                 }
         }
         return sys; // need to check that sys is not null in calling method
