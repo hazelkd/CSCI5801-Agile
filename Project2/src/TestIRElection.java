@@ -762,35 +762,36 @@ public class TestIRElection {
     }
     // end of printToScreen tests
 
+    // Test all invalid ballots are taken out of the analysis. Round up when calculating validRank
     @Test 
-    public void testInvalidIRBallots() { //RoundUp
-        String dataCSV = "IRInvalidTest\n";
+    public void testInvalidIRBallotsUp() { //RoundUp
+        String dataCSV = "IRInvalidTestUp\n";
         provideInout(dataCSV);
 
         irElection = (IRElection) VotingSystem.promptCSV();
         if(irElection != null){
-            String dataAudit = "testIREInvalidBallotsAudit1\nY"; // do there need to be a Y at the end? There is in testOPLRunElection()
+            String dataAudit = "testIREInvalidBallotsAuditUp\nY"; // do there need to be a Y at the end? There is in testOPLRunElection()
             provideInput(dataAudit);
-            oplElection.promptAudit();
+            irElection.promptAudit();
 
-            String dataMedia = "testIRInvalidBallotsMedia1\nY"; // do we need the Y?
+            String dataMedia = "testIRInvalidBallotsMediaUp\nY"; // do we need the Y?
             provideInput(dataMedia);
-            oplElection.promptMedia();
+            irElection.promptMedia();
 
             irElection.runElection();
             
             //assertEquals("Assert totalNumBallots", expected, acctual);
-            //assertEquals("Assert winner",irElection.getCurrCandidates().get(0).getcName(), "Name");
-            //assertEquals("Assert removed losers from curr candidates", election.getCurrCandidates().size(), 1);
-            //assertEquals("Asser size of eliminated candidates", election.getCurrCandidates().get(0).getcNumBallots(),)
-            //assertEquals("Asser size of eliminated candidates")
-            //assertEquals("Asser size of eliminated candidates")
-            //assertEquals("Assert Total Number of Ballots")
-            //assertEquals("Assert Total Number of Valid Ballots") //numValidBallots
-            //assertEquals("Assert valid Rank") //validRank, number of candidates a ballot must rank to be valid
-            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
-            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
-            //assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
+            assertEquals("Assert Total Number of ballots", 17, irElection.getTotalNumBallots());
+            assertEquals("Assert Total Number of Valid Ballots", 11, irElection.getNumValidBallots()); //numValidBallots
+            assertEquals("Assert valid Rank", 3, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
+            assertEquals("Assert winner", "Spiderman (I)", irElection.getCurrCandidates().get(0).getcName());
+            assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
+            assertEquals("Assert number of ballots for the winner", 1, irElection.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Assert size of eliminated candidates", 4, irElection.getEliminatedCandidates().size());
+            assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
+            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots()); //Ironman
+            assertEquals("Did not redistribute ballots correctly", 3, election.getEliminatedCandidates().get(2).getcNumBallots()); //Thor
+            assertEquals("Did not redistribute ballots correctly", 4, election.getEliminatedCandidates().get(3).getcNumBallots()); //CaptainAmerica
         } else {
             assertNotNull("Testing data not present", election);
         }
@@ -799,5 +800,44 @@ public class TestIRElection {
         if(check.exists()) check.delete();
         check = new File("testIREInvalidBallotsMedia1.txt");
         if(check.exists()) check.delete();
-    }
+    } // testInvalidIRBallotsUp
+
+    @Test 
+    public void testInvalidIRBallotsDown() { //RoundDown
+        String dataCSV = "IRInvalidTestDown\n";
+        provideInout(dataCSV);
+
+        irElection = (IRElection) VotingSystem.promptCSV();
+        if(irElection != null){
+            String dataAudit = "testIREInvalidBallotsDownAudit\nY"; // do there need to be a Y at the end? There is in testOPLRunElection()
+            provideInput(dataAudit);
+            irElection.promptAudit();
+
+            String dataMedia = "testIRInvalidBallotsDownMedia\nY"; // do we need the Y?
+            provideInput(dataMedia);
+            irElection.promptMedia();
+
+            irElection.runElection();
+            
+            //assertEquals("Assert totalNumBallots", expected, acctual);
+            assertEquals("Assert Total Number of ballots", 15, irElection.getTotalNumBallots());
+            assertEquals("Assert Total Number of Valid Ballots", 10, irElection.getNumValidBallots()); //numValidBallots
+            assertEquals("Assert valid Rank", 2, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
+            assertEquals("Assert winner", "CaptinAmerica (D)", irElection.getCurrCandidates().get(0).getcName());
+            assertEquals("Assert number of ballots for the winner", 6, irElection.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
+            assertEquals("Assert size of eliminated candidates", 3, irElection.getEliminatedCandidates().size());
+            assertEquals("Did not redistribute ballots correctly", 1, election.getEliminatedCandidates().get(0).getcNumBallots()); //BlackWidow
+            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots()); //SpiderMan
+            assertEquals("Did not redistribute ballots correctly", 4, election.getEliminatedCandidates().get(2).getcNumBallots()); //IronMan
+        } else {
+            assertNotNull("Testing data not present", election);
+        }
+        // tear down
+        File check = new File("testIREInvalidBallotsAudit1.txt");
+        if(check.exists()) check.delete();
+        check = new File("testIREInvalidBallotsMedia1.txt");
+        if(check.exists()) check.delete();
+    } // testInvalidIRBallotsDown
+
   }
