@@ -24,6 +24,8 @@ public class VotingSystem {
         Scanner csvFile = null;
         String firstLine = null;
         String statusKey = null;
+        String[] fileNameList;
+        int count = 0;
 
         Scanner fromUser = new Scanner(System.in);
 
@@ -95,6 +97,10 @@ public class VotingSystem {
         //asking if user has another file 
         if (invalidFlag){
             System.out.print("The file you previously entered was invalid. You may still input another file if desired.\n");
+        }
+        else {
+            fileNameList[count] = namePath;
+            count++;
         }
         System.out.print("Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n");
                 if(fromUser.hasNextLine()){
