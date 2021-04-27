@@ -131,7 +131,7 @@ public class IRElection extends VotingSystem{
         // read numVotes from file
         if(fileScanner.hasNextInt()){
           //want to do plus equals here 
-            totalNumBallots = Integer.parseInt(fileScanner.nextLine());
+            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");

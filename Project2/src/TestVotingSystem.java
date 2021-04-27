@@ -441,4 +441,49 @@ public class TestVotingSystem {
             assertNotNull("Testing data not present", system);
         }
     }
+     @Test
+    public void testOPLElecMultipleFiles(){
+        // copy of main code (with added input lines):
+        provideInput("OPLTest\nY\nOPLTestMultFiles1\n");
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+            assertEquals(system.getCsvName(), "OPLTestMultFiles1");
+
+            assertEquals(system.getElectionType(), "OPL");
+
+            assertEquals(system.getTotalNumBallots(), 16);
+
+            assertEquals("Pike", system.getCandidates().get(0).getcName());
+            assertEquals("Foster", system.getCandidates().get(1).getcName());
+            assertEquals("Deutsch", system.getCandidates().get(2).getcName());
+            assertEquals("Borg", system.getCandidates().get(3).getcName());
+            assertEquals("Jones", system.getCandidates().get(4).getcName());
+            assertEquals("Smith", system.getCandidates().get(5).getcName());
+
+            assertEquals(system.getCandidates().size(), 6);
+
+            //should I be checking OPL objects too?
+
+            // tear down
+            File check = new File("OPLTestAuditFile.txt");
+            if(check.exists()) check.delete();
+            check = new File("OPLTestMediaFile.txt");
+            if(check.exists()) check.delete();
+        }
+        else {
+            assertNotNull("Testing data not present", system); 
+        }
+    }
 }

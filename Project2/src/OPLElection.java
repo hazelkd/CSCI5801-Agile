@@ -19,9 +19,11 @@ public class OPLElection extends VotingSystem{
 
         // read in the rest of the file & set totalNumBallots, totalNumSeats, numSeatsLeft
         // make/assign party objects and candidate objects
-        readOPLCSV();
+        for (int i = 0; i < count; i++){
+            this.readOPLCSV(scannerNameList.get(i));
         // read/make/distribute ballots
-        readBallots();
+            this.readBallots(scannerNameList.get(i));
+        }
 
         // calculate number of seats for each party
         partyNumBallots();
@@ -58,11 +60,11 @@ public class OPLElection extends VotingSystem{
      * Additionally, this function will create candidate objects and assign them to their respective parties. It will
      * read in the candidate name from the CSV, and assign it to the party class that is specified.
      */
-    public void readOPLCSV(){
+    public void readOPLCSV(Scanner fileScanner){
         int numCandidates;
         // read in numCandidates from file
-        if(csvFile.hasNextInt()){
-            String sNumCandidates = csvFile.nextLine();
+        if(fileScanner.hasNextInt()){
+            String sNumCandidates = fileScanner.nextLine();
             numCandidates = Integer.parseInt(sNumCandidates);
         }
         else {
@@ -72,8 +74,8 @@ public class OPLElection extends VotingSystem{
 
         // read in candidate,party list from file
         String candidateLine = "";
-        if(csvFile.hasNext()){
-            candidateLine = csvFile.nextLine();
+        if(fileScanner.hasNext()){
+            candidateLine = fileScanner.nextLine();
         }
         else {
             System.out.print("Incorrect File Format (candidate list)\n");
@@ -114,8 +116,8 @@ public class OPLElection extends VotingSystem{
         }
 
         // read numSeats from file
-        if(csvFile.hasNextInt()){
-            totalNumSeats = Integer.parseInt(csvFile.nextLine());
+        if(fileScanner.hasNextInt()){
+            totalNumSeats = Integer.parseInt(fileScanner.nextLine());
             numSeatsLeft = totalNumSeats;
             if(totalNumSeats == 0) return;
         }
@@ -125,8 +127,8 @@ public class OPLElection extends VotingSystem{
         }
 
         // read numVotes from file
-        if(csvFile.hasNextInt()){
-            totalNumBallots = Integer.parseInt(csvFile.nextLine());
+        if(fileScanner.hasNextInt()){
+            totalNumBallots = totalNumBallots + Integer.parseInt(csvFile.nextLine());
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");
@@ -148,10 +150,10 @@ public class OPLElection extends VotingSystem{
      * It will also distribute each ballot that is touched to their respective candidate that they voted for, which
      * will be stored in the cBallots object in the candidate class.
      */
-    public void readBallots(){
+    public void readBallots(Scanner fileScanner){
         int index = 0;
-        while(csvFile.hasNextLine()){
-            String[] ballot = csvFile.nextLine().split(",");
+        while(fileScanner.hasNextLine()){
+            String[] ballot = fileScanner.nextLine().split(",");
             // length of ballot ^ will determine which candidate it is voting for
             // ie: length of 3 -> voting for third candidate
             Candidate c = candidates.get(ballot.length-1);
