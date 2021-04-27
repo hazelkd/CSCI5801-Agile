@@ -18,12 +18,12 @@ public class IRElection extends VotingSystem{
         //Reading in the CSV file up to the Ballots
         //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
         for (int i = 0; i < count; i++){
-          this.readIRCSV(scannerNameList[i]);
+          this.readIRCSV(scannerNameList.get(i));
 
         //This reads in all of the Ballots in the csvFile
         //It creates a ballot object for each line read, and sets the ranking array
         //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
-          this.readBallots(scannerNameList[i]);
+          this.readBallots(scannerNameList.get(i));
         }
 
         //findMajority will return the Candidate with the Majority is there is one, and null if there isn't

@@ -419,7 +419,7 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-        }
+
             assertEquals(system.getCsvName(), "IRTestMultFiles1");
 
             assertEquals(system.getElectionType(), "IR");
@@ -437,5 +437,8 @@ public class TestVotingSystem {
             if(check.exists()) check.delete();
             check = new File("IRTestMultFiles1MediaFile.txt");
             if(check.exists()) check.delete();
+        } else {
+            assertNotNull("Testing data not present", system);
+        }
     }
 }

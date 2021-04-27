@@ -1,6 +1,7 @@
 // VotingSystem
 // The main class for running the entire system
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.io.File;
 import java.io.PrintWriter;
@@ -25,6 +26,7 @@ public class VotingSystem {
         String firstLine = null;
         String statusKey = null;
         Scanner csvFile = null;
+        ArrayList<Scanner> scannerList = new ArrayList<>();
 
         int count = 0;
 
@@ -100,7 +102,7 @@ public class VotingSystem {
             System.out.print("The file you previously entered was invalid. You may still input another file if desired.\n");
         }
         else {
-            scannerNameList[count] = csvFile;
+            scannerList.add(csvFile);
             count++;
         }
         System.out.print("Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n");
@@ -115,6 +117,10 @@ public class VotingSystem {
                 } else {
                     break;
                 }
+        }
+        if(sys != null){
+            sys.setScannerNameList(scannerList);
+            sys.setCount(count);
         }
         return sys; // need to check that sys is not null in calling method
     } // promptCSV
@@ -320,6 +326,22 @@ public class VotingSystem {
         this.electionType = electionType;
     }
 
+    public ArrayList<Scanner> getScannerNameList(){
+        return this.scannerNameList;
+    }
+
+    public void setScannerNameList(ArrayList<Scanner> list){
+        this.scannerNameList = list;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     protected PrintWriter auditFile;
     protected PrintWriter mediaFile;
     protected String csvName;
@@ -329,7 +351,7 @@ public class VotingSystem {
     protected long startTime;
     protected long stopTime;
     protected String electionType;
-    protected Scanner[] scannerNameList;
+    protected ArrayList<Scanner> scannerNameList;
     protected int count;
 
 }
