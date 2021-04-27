@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import java.io.*;
+import java.util.*;  
 
 import static org.junit.Assert.*;
 
@@ -401,7 +402,7 @@ public class TestVotingSystem {
     //tests for multiple file input in system 
     @Test
     public void testIRElecMultipleFiles() {
-        String data = "IRTest\nIRTestMultFiles1\n";
+        String data = "IRTest\nY\nIRTestMultFiles1\n";
         provideInput(data);
         // copy of main code (with added input lines):
         VotingSystem system = VotingSystem.promptCSV();
@@ -419,11 +420,11 @@ public class TestVotingSystem {
                 newIR.runElection();
             }
         }
-            assertEquals(system.getCsvName(), "IRTest");
+            assertEquals(system.getCsvName(), "IRTestMultFiles1");
 
             assertEquals(system.getElectionType(), "IR");
 
-            assertEquals(system.getTotalNumBallots(), 6);
+            assertEquals(system.getTotalNumBallots(), 13);
 
             assertEquals("Rosen", system.getCandidates().get(0).getcName());
             assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
@@ -432,29 +433,9 @@ public class TestVotingSystem {
 
             assertEquals(system.getCandidates().size(), 4);
 
-            File check = new File("IRTestAuditFile.txt");
-            if(check.exists()) check.delete();
-            check = new File("IRTestMediaFile.txt");
-            if(check.exists()) check.delete();
-
-            assertEquals(system.getCsvName(), "IRTestMultFiles1");
-
-            assertEquals(system.getElectionType(), "IR");
-
-            assertEquals(system.getTotalNumBallots(), 7);
-
-            assertEquals("Apple", system.getCandidates().get(0).getcName());
-            assertEquals("Banana", system.getCandidates().get(1).getcName());
-            assertEquals("Clementine", system.getCandidates().get(2).getcName());
-            assertEquals("Date", system.getCandidates().get(3).getcName());
-
-            assertEquals(system.getCandidates().size(), 4);
-
             File check = new File("IRTestMultFiles1AuditFile.txt");
             if(check.exists()) check.delete();
             check = new File("IRTestMultFiles1MediaFile.txt");
             if(check.exists()) check.delete();
-
-        }
     }
 }

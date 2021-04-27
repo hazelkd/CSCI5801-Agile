@@ -469,7 +469,7 @@ public class TestIRElection {
         provideInput(data);
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         assert sys != null;
-        sys.readIRCSV();
+        sys.readIRCSV(sys.getCsvFile());
         // check totalNumBallots, candidates (size)
         assertEquals("Incorrect totalNumBallots", 6, sys.getTotalNumBallots());
         assertEquals("Incorrect number of Candidates", 4, sys.getCandidates().size());
@@ -486,7 +486,7 @@ public class TestIRElection {
         provideInput("IRInvTest2\n");
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         if(sys != null){
-            sys.readIRCSV();
+            sys.readIRCSV(sys.getCsvFile());
             // check totalNumBallots, candidates (size) -> should be 0
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
             assertNull("Incorrect number of Candidates", sys.getCandidates());
@@ -500,7 +500,7 @@ public class TestIRElection {
         provideInput("IRInvTest3\n");
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         if(sys != null){
-            sys.readIRCSV();
+            sys.readIRCSV(sys.getCsvFile());
             // check totalNumBallots, candidates (size) -> should be 0
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
             assertNull("Incorrect number of Candidates", sys.getCandidates());
@@ -514,7 +514,7 @@ public class TestIRElection {
         provideInput("IRInvTest4\n");
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         if(sys != null){
-            sys.readIRCSV();
+            sys.readIRCSV(sys.getCsvFile());
             // check totalNumBallots, candidates (size)
             // totalNumBallots should be 0
             // candidates.size() = 0, currCandidates.size() = 4, eliminatedCandidates.size() = 0
@@ -541,10 +541,10 @@ public class TestIRElection {
         provideInput("IRTest\n");
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         if(sys != null){
-            sys.readIRCSV(); // assume that it works
+            sys.readIRCSV(sys.getCsvFile()); // assume that it works
 
             // should create 6 ballots
-            sys.readBallots();
+            sys.readBallots(sys.getCsvFile());
             assertEquals("Incorrect number of ballots created", 6, sys.getTotalNumBallots());
             assertEquals("Incorrect number of ballots assigned", 6,
                     (sys.getCandidates().get(0).getcNumBallots() +
@@ -561,7 +561,7 @@ public class TestIRElection {
         provideInput("IRTestInvalid\n");
         IRElection sys = (IRElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readIRCSV(); // assume that it works
+            sys.readIRCSV(sys.getCsvFile()); // assume that it works
 
             // no ballots should be created
             assertEquals("Incorrect number of ballots created", 6, sys.getTotalNumBallots());

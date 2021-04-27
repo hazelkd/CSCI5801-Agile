@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.*;  
 
 public class VotingSystem {
     /**
@@ -21,10 +22,10 @@ public class VotingSystem {
         boolean flag = false;
         boolean fileStatus = true;
         boolean invalidFlag = false;
-        Scanner csvFile = null;
         String firstLine = null;
         String statusKey = null;
-        String[] fileNameList;
+        Scanner csvFile = null;
+
         int count = 0;
 
         Scanner fromUser = new Scanner(System.in);
@@ -99,7 +100,7 @@ public class VotingSystem {
             System.out.print("The file you previously entered was invalid. You may still input another file if desired.\n");
         }
         else {
-            fileNameList[count] = namePath;
+            scannerNameList[count] = csvFile;
             count++;
         }
         System.out.print("Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n");
@@ -328,5 +329,7 @@ public class VotingSystem {
     protected long startTime;
     protected long stopTime;
     protected String electionType;
+    protected Scanner[] scannerNameList;
+    protected int count;
 
 }
