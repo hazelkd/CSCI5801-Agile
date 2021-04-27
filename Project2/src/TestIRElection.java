@@ -285,16 +285,16 @@ public class TestIRElection {
             assertEquals("IRTest", election.getCsvName());
             assertEquals(6, election.getTotalNumBallots());
 
-            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Rosen");
-            assertEquals("Did not have the correct number of ballots for winner", election.getCurrCandidates().get(0).getcNumBallots(), 4);
-            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().size(), 3);
-            assertEquals("Did not remove losers from curr candidates", election.getCurrCandidates().size(), 1);
-            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(0).getcName(), "Kleinberg");
-            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(1).getcName(), "Royce");
-            assertEquals("Did not move losers to eliminated candidates", election.getEliminatedCandidates().get(2).getcName(), "Chou");
-            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(0).getcNumBallots(), 0);
-            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-            assertEquals("Did not redistribute ballots correctly", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+            assertEquals("Did not find correct winner", "Rosen", election.getCurrCandidates().get(0).getcName());
+            assertEquals("Did not have the correct number of ballots for winner",  3, election.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Did not move losers to eliminated candidates", 3, election.getEliminatedCandidates().size());
+            assertEquals("Did not remove losers from curr candidates", 1, election.getCurrCandidates().size());
+            assertEquals("Did not move losers to eliminated candidates", "Kleinberg", election.getEliminatedCandidates().get(0).getcName());
+            assertEquals("Did not move losers to eliminated candidates", "Chou", election.getEliminatedCandidates().get(1).getcName());
+            assertEquals("Did not move losers to eliminated candidates", "Royce", election.getEliminatedCandidates().get(2).getcName());
+            assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(0).getcNumBallots());
+            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots());
+            assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(2).getcNumBallots());
         } else {
             assertNotNull("Testing data not present", election);
         }
@@ -324,12 +324,12 @@ public class TestIRElection {
 
             election.runElection();
 
-            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Weasley");
-            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 5);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 0);
+            assertEquals("Did not find correct winner", "Weasley", election.getCurrCandidates().get(0).getcName());
+            assertEquals("Did not find correct winner", 5, election.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(0).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 1, election.getEliminatedCandidates().get(1).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(2).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(3).getcNumBallots());
         } else {
             assertNotNull("Testing data not present", election);
         }
