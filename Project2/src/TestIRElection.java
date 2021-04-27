@@ -783,6 +783,7 @@ public class TestIRElection {
             //assertEquals("Assert totalNumBallots", expected, acctual);
             assertEquals("Assert Total Number of ballots", 17, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 11, irElection.getNumValidBallots()); //numValidBallots
+            assertEquals("Assert number of invalid ballots", 6, irElection.getInvalidBallots().size());
             assertEquals("Assert valid Rank", 3, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
             assertEquals("Assert winner", "Spiderman", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
@@ -822,6 +823,7 @@ public class TestIRElection {
             //assertEquals("Assert totalNumBallots", expected, acctual);
             assertEquals("Assert Total Number of ballots", 15, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 10, irElection.getNumValidBallots()); //numValidBallots
+            assertEquals("Assert number of invalid ballots", 5, irElection.getInvalidBallots().size());
             assertEquals("Assert valid Rank", 2, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
             assertEquals("Assert winner", "CaptainAmerica", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert number of ballots for the winner", 6, irElection.getCurrCandidates().get(0).getcNumBallots());

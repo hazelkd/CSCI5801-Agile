@@ -180,11 +180,12 @@ public class IRElection extends VotingSystem{
             Candidate check = b.getRanking().get(0);
             
             // if the ballot had the correct number of candidates ranked, add to candidate's ballot arrays
-            // else do not make ballot, not valid, subtrack 1 from numValidBallots
+            // else not valid, put ballot in invalid ballot arraylist, subtrack 1 from numValidBallots
             if(numRanked >= validRank) {
               candidates.get(candidates.indexOf(check)).addBallot(b);
               index++;
             } else {
+              invalidBallots.add(b); // add invalid ballot to the list of invalidBallots
               numValidBallots--;
             }
         }// while loop here
@@ -488,7 +489,7 @@ public class IRElection extends VotingSystem{
     }
     
     public void setNumValidBallots(int num) {
-      numValidBallots = num;
+      this.numValidBallots = num;
     }
 
     public int getValidRank() {
@@ -496,12 +497,20 @@ public class IRElection extends VotingSystem{
     }
     
     public void setValidRank(int num) {
-      validRank = num;
+      this.validRank = num;
     }
 
+    public ArrayList<IRBallot> getInvalidBallots() {
+      return invalidBallots;
+    }
+
+    public void setCurrCandidates(ArrayList<Candidate> ballots) {
+      this.invalidBallots = ballots;
+  }
 
     private ArrayList<Candidate> currCandidates;
-    private ArrayList<Candidate> eliminatedCandidates; // ArrayList of 
+    private ArrayList<Candidate> eliminatedCandidates;
     private int numValidBallots; // number of valid ballots
     private int validRank;  // number of candidates a ballots must rank to be valid
+    private ArrayList<IRBallot> invalidBallots; // ArrayList of invalid ballots
 }
