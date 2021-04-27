@@ -149,7 +149,8 @@ public class IRElection extends VotingSystem{
      * function will then assign the ballot to the first choice candidate
      */
     public void readBallots(){
-        int index = 0;
+      invalidBallots = new ArrayList<>();  
+      int index = 0;
         while(csvFile.hasNextLine()){
             String ballot = csvFile.nextLine();
 
@@ -504,7 +505,7 @@ public class IRElection extends VotingSystem{
       return invalidBallots;
     }
 
-    public void setCurrCandidates(ArrayList<Candidate> ballots) {
+    public void setInvalidBallots(ArrayList<IRBallot> ballots) {
       this.invalidBallots = ballots;
   }
 
