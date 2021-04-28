@@ -80,7 +80,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         assert sys != null;
-        sys.readOPLCSV();
+        sys.readOPLCSV(sys.getCsvFile());
         // check totalNumBallots totalNumSeats, numSeatsLeft, quota
         assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
         assertEquals("Incorrect totalNumSeats", 3, sys.getTotalNumSeats());
@@ -103,7 +103,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if(sys != null){
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // none should be set
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
@@ -126,7 +126,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // none should be set
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
@@ -149,7 +149,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // none should be set
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
@@ -177,7 +177,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
@@ -205,7 +205,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 0, sys.getTotalNumBallots());
@@ -240,7 +240,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
@@ -258,7 +258,7 @@ public class TestOPLElection {
             assertEquals("Incorrect [Candidate, Party] format, for Party Object", "D",
                     sys.getParty().get(0).getpName());
 
-            sys.readBallots();
+            sys.readBallots(sys.getCsvFile());
             // should create 9 ballots
             assertEquals("Incorrect number of ballots created", 9, sys.getTotalNumBallots());
             assertEquals("Incorrect number of ballots assigned", 9,
@@ -279,7 +279,7 @@ public class TestOPLElection {
         provideInput(data);
         OPLElection sys = (OPLElection) VotingSystem.promptCSV();
         if (sys != null) {
-            sys.readOPLCSV();
+            sys.readOPLCSV(sys.getCsvFile());
             // check totalNumBallots totalNumSeats, numSeatsLeft, quota
             // totalNumSeats and numSeatsLeft should be set
             assertEquals("Incorrect totalNumBallots", 9, sys.getTotalNumBallots());
@@ -297,7 +297,7 @@ public class TestOPLElection {
             assertEquals("Incorrect [Candidate, Party] format, for Party Object", "D",
                     sys.getParty().get(0).getpName());
 
-            sys.readBallots();
+            sys.readBallots(sys.getCsvFile());
             // no ballots should be created
             assertEquals("Incorrect number of ballots created", 9, sys.getTotalNumBallots());
             assertEquals("Incorrect number of ballots assigned", 0,

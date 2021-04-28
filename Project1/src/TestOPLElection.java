@@ -873,6 +873,64 @@ public class TestOPLElection {
             }
         }
 
+<<<<<<< HEAD
+        String fileCSV = "OPLTieBetweenCandidates\n";
+        provideInput(fileCSV);
+        oplElection = (OPLElection) VotingSystem.promptCSV();
+
+        String dataAudit = "testAuditTieBetweenCandidates\nY";
+        provideInput(dataAudit);
+        oplElection.promptAudit();
+
+        String dataMedia = "testAuditTieBetweenCandidates\nY";
+        provideInput(dataMedia);
+        oplElection.promptMedia();
+
+        int counterF = 0;
+        int counterB = 0;
+        
+        oplElection.runElection();
+
+        int tieBreaker;
+        //Use BubbleSort to sort the candidates array by cNumBallots
+        for(int j = 0; j < oplElection.candidates.size(); j++){
+            for(int i = 0; i < oplElection.candidates.size() - j -1; i++){
+            //if a candidate with less votes is before a candidate with more votes, swap
+                if(oplElection.candidates.get(i).getcNumBallots() < oplElection.candidates.get(i+1).getcNumBallots()){
+                    String temp = oplElection.candidates.get(i);
+                    oplElection.candidates.get(i) = oplElection.candidates.get(i+1);
+                    oplElection.candidates.get(i+1) = temp;
+                }
+                //if tie, coin toss
+                else if(oplElection.candidates.get(i).getcNumBallots() == oplElection.candidates.get(i+1).getcNumBallots()){
+                    tieBreaker = coinToss(2);
+                }
+                    //If tieBreaker = 1, first candidate lost and you have to swap, otherwise do nothing
+                if(tieBreaker == 1){
+                    String temp = oplElection.candidates.get(i);
+                    oplElection.candidates.get(i) = oplElection.candidates.get(i+1);
+                    oplElection.candidates.get(i+1) = temp;
+                }
+            }
+        }
+        for (int i = 0; i < 1000; i++) {
+            oplElection.runElection();
+
+            if (oplElection.candidates.get(0).equals("Foster")) {
+                counterF++;
+            }
+            else if (oplElection.candidates.get(0).equals("Borg")){
+                counterB++;
+            }
+        }
+
+        
+        assertTrue(counterF <= 700);
+        assertTrue(counterF >= 300);
+        assertTrue(counterB <= 700);
+        assertTrue(counterB >= 300);
+        
+=======
         String assert1 = "Foster won more than 700 times (" + counterF + "/1000 times)";
         String assert2 = "Foster won less than 300 times (" + counterF + "/1000 times)";
         String assert3 = "Borg won more than 700 times (" + counterB + "/1000 times)";
@@ -888,6 +946,7 @@ public class TestOPLElection {
         if(check.exists()) check.delete();
         check = new File("testMediaTieBetweenCandidates.txt");
         if(check.exists()) check.delete();
+>>>>>>> master
     }
     // end of edge case tests
 }
