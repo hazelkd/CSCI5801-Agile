@@ -99,6 +99,11 @@ public class POElection extends VotingSystem{
            String[] ballot = fileScanner.nextLine().split(",");
            // length of ballot ^ will determine which candidate it is voting for
            // ie: length of 3 -> voting for third candidate
+           for (int i = 1; i <= sys.numCandidates(); i++){
+               if (i == ballot.length!= null){
+                   candidates.get(i).addBallot(new POBallot(sys.getIndex(), candidates.get(i)));
+               }
+           }
            Candidate c = candidates.get(ballot.length-1);
            c.addBallot(new POBallot(sys.getIndex(), c));
            sys.setIndex(index++);
