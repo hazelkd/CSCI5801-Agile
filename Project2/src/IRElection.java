@@ -3,7 +3,8 @@
 // Eileen Campbell, Hazel Dunn, Olivia Hansen, Maranda Donaldson
 
 import java.util.ArrayList;
-import java.util.*;  
+import java.lang.Math;
+import java.util.*;
 
 public class IRElection extends VotingSystem{
 
@@ -83,6 +84,10 @@ public class IRElection extends VotingSystem{
         if(fileScanner.hasNextInt()){
             String sNumCandidates = fileScanner.nextLine();
             numCandidates = numCandidates + Integer.parseInt(sNumCandidates);
+            
+            // set validRank, number of candidates valid ballots must rank
+            int valid = (int)Math.ceil((double)numCandidates/2.0);
+            setValidRank(valid);
         }
         else {
             System.out.print("Incorrect File Format (numCandidates)\n");
@@ -131,7 +136,8 @@ public class IRElection extends VotingSystem{
         // read numVotes from file
         if(fileScanner.hasNextInt()){
           //want to do plus equals here 
-            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());
+            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());.
+            numValidBallots = totalNumBallots; // assume all ballots are valid to begin with
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");
@@ -147,6 +153,7 @@ public class IRElection extends VotingSystem{
      * function will then assign the ballot to the first choice candidate
      */
     public void readBallots(Scanner fileScanner){
+        invalidBallots = new ArrayList<>();  
         int index = 0;
         while(fileScanner.hasNextLine()){
             String ballot = fileScanner.nextLine();
@@ -156,8 +163,9 @@ public class IRElection extends VotingSystem{
 
             // loop through string and place candidates at correct index in ranking
             int commasEncountered = 0;
+            int numRanked = 0; // number of candidates ranked on a ballot
             for(int i = 0; i < ballot.length(); i++){
-                char current = ballot.charAt(i);
+              char current = ballot.charAt(i);
                 if(current == ','){
                     commasEncountered++;
                 }
@@ -169,14 +177,23 @@ public class IRElection extends VotingSystem{
                     Candidate c = candidates.get(commasEncountered);
                     b.getRanking().set(rank, c);
                     b.setNumCandidates(b.getNumCandidates()+1);
+                    numRanked++;
                 }
             }
 
             // look at first index of ranking and assign ballot to candidate
             Candidate check = b.getRanking().get(0);
-            candidates.get(candidates.indexOf(check)).addBallot(b);
-            index++;
-        }
+            
+            // if the ballot had the correct number of candidates ranked, add to candidate's ballot arrays
+            // else not valid, put ballot in invalid ballot arraylist, subtrack 1 from numValidBallots
+            if(numRanked >= validRank) {
+              candidates.get(candidates.indexOf(check)).addBallot(b);
+              index++;
+            } else {
+              invalidBallots.add(b); // add invalid ballot to the list of invalidBallots
+              numValidBallots--;
+            }
+        }// while loop here
     } // readBallots
 
     /**
@@ -209,7 +226,7 @@ public class IRElection extends VotingSystem{
       }
 
       //If the max candidate has a majority, return that candidate, otherwise return null
-      if(maxBallot/this.getTotalNumBallots() > .50){
+      if(maxBallot/this.getNumValidBallots() > .50){
         return maxCan;
       }
       else{
@@ -351,13 +368,13 @@ public class IRElection extends VotingSystem{
         mediaFile.print("------------------------------\n");
         // print winner + percentage of votes
         mediaFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)numValidBallots)) * 100;
         mediaFile.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
 
         // print rest of candidates + percentage of vote
         mediaFile.print("Eliminated Candidates: \n");
         for (Candidate c : eliminatedCandidates) {
-            percentage = (c.getcNumBallots() / ((double)totalNumBallots)) * 100;
+            percentage = (c.getcNumBallots() / ((double)numValidBallots)) * 100;
             mediaFile.print(c.getcName()+", "+c.getcParty()+" had "+String.format("%.3f", percentage)+"% of the vote when they were eliminated\n");
         }
         mediaFile.close();
@@ -370,7 +387,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(){
         // print winner + percentage of votes
-        double percentage = (currCandidates.get(0).getcNumBallots()/((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots()/((double)numValidBallots)) * 100;
         auditFile.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty()+": won with "+String.format("%.3f", percentage)+"% of the vote\n");
         auditFile.print("Ballots assigned to "+currCandidates.get(0).getcName()+":\n");
 
@@ -419,7 +436,7 @@ public class IRElection extends VotingSystem{
      */
     public void writeToAuditFile(Candidate c){
         // print candidate name+party and percentage of votes
-        double percentage = (c.getcNumBallots()/((double)totalNumBallots)) * 100;
+        double percentage = (c.getcNumBallots()/((double)numValidBallots)) * 100;
         auditFile.print(c.getcName()+", "+c.getcParty()+": eliminated with "+String.format("%.3f", percentage)+"% of the vote\n");
         auditFile.print("Ballots assigned to "+c.getcName()+":\n");
 
@@ -449,7 +466,7 @@ public class IRElection extends VotingSystem{
         System.out.print("------------------------------\n");
         // print winner + percentage of votes
         System.out.print(currCandidates.get(0).getcName()+", "+currCandidates.get(0).getcParty());
-        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)totalNumBallots)) * 100;
+        double percentage = (currCandidates.get(0).getcNumBallots() / ((double)numValidBallots)) * 100;
         System.out.print(" won with "+String.format("%.3f", percentage)+"% of the vote\n");
     } // printToScreen
 
@@ -472,7 +489,33 @@ public class IRElection extends VotingSystem{
         this.eliminatedCandidates = eliminatedCandidates;
     }
 
+    public int getNumValidBallots() {
+      return numValidBallots;
+    }
+    
+    public void setNumValidBallots(int num) {
+      this.numValidBallots = num;
+    }
+
+    public int getValidRank() {
+      return validRank;
+    }
+    
+    public void setValidRank(int num) {
+      this.validRank = num;
+    }
+
+    public ArrayList<IRBallot> getInvalidBallots() {
+      return invalidBallots;
+    }
+
+    public void setInvalidBallots(ArrayList<IRBallot> ballots) {
+      this.invalidBallots = ballots;
+  }
 
     private ArrayList<Candidate> currCandidates;
     private ArrayList<Candidate> eliminatedCandidates;
+    private int numValidBallots; // number of valid ballots
+    private int validRank;  // number of candidates a ballots must rank to be valid
+    private ArrayList<IRBallot> invalidBallots; // ArrayList of invalid ballots
 }

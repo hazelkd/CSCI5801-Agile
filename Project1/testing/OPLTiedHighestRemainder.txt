@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+OPL
+4
+[Spongebob,N], [Ferb, D], [PerryThePlatypus, D], [Patrick,N]
+3
+12
+1,,,
+,,1,
+1,,,
+,1,,
+1,,,
+,,,1
+,,1,
+,1,,
+,,1,
+,,,1
+,,1,
+=======
 OPL
 4
 [Spongebob,N], [Ferb,D], [PerryThePlatypus,D], [Patrick,N]
@@ -14,4 +32,5 @@ OPL
 ,,1,
 ,,,1
 ,,1,
+>>>>>>> master
 1,,,
