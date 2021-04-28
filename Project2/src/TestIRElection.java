@@ -287,15 +287,15 @@ public class TestIRElection {
             assertEquals(6, election.getTotalNumBallots());
 
             assertEquals("Did not find correct winner", "Rosen", election.getCurrCandidates().get(0).getcName());
-            assertEquals("Did not have the correct number of ballots for winner",  3, election.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Did not have the correct number of ballots for winner",  4, election.getCurrCandidates().get(0).getcNumBallots());
             assertEquals("Did not move losers to eliminated candidates", 3, election.getEliminatedCandidates().size());
             assertEquals("Did not remove losers from curr candidates", 1, election.getCurrCandidates().size());
             assertEquals("Did not move losers to eliminated candidates", "Kleinberg", election.getEliminatedCandidates().get(0).getcName());
-            assertEquals("Did not move losers to eliminated candidates", "Chou", election.getEliminatedCandidates().get(1).getcName());
-            assertEquals("Did not move losers to eliminated candidates", "Royce", election.getEliminatedCandidates().get(2).getcName());
+            assertEquals("Did not move losers to eliminated candidates", "Royce", election.getEliminatedCandidates().get(1).getcName());
+            assertEquals("Did not move losers to eliminated candidates", "Chou", election.getEliminatedCandidates().get(2).getcName());
             assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(0).getcNumBallots());
-            assertEquals("Did not redistribute ballots correctly", 2, election.getEliminatedCandidates().get(1).getcNumBallots());
-            assertEquals("Did not redistribute ballots correctly", 0, election.getEliminatedCandidates().get(2).getcNumBallots());
+            assertEquals("Did not redistribute ballots correctly", 1, election.getEliminatedCandidates().get(1).getcNumBallots());
+            assertEquals("Did not redistribute ballots correctly", 1, election.getEliminatedCandidates().get(2).getcNumBallots());
         } else {
             assertNotNull("Testing data not present", election);
         }
@@ -551,7 +551,7 @@ public class TestIRElection {
             // should create 6 ballots
             sys.readBallots(sys.getCsvFile());
             assertEquals("Incorrect number of ballots created", 6, sys.getTotalNumBallots());
-            assertEquals("Incorrect number of ballots assigned", 5,
+            assertEquals("Incorrect number of ballots assigned", 6,
                     (sys.getCandidates().get(0).getcNumBallots() +
                     sys.getCandidates().get(1).getcNumBallots() +
                     sys.getCandidates().get(2).getcNumBallots() +
@@ -802,9 +802,9 @@ public class TestIRElection {
             assertNotNull("Testing data not present", election);
         }
         // tear down
-        File check = new File("testIREInvalidBallotsAudit1.txt");
+        File check = new File("testIREInvalidBallotsAuditUp.txt");
         if(check.exists()) check.delete();
-        check = new File("testIREInvalidBallotsMedia1.txt");
+        check = new File("testIRInvalidBallotsMediaUptxt");
         if(check.exists()) check.delete();
     } // testInvalidIRBallotsUp
 
@@ -842,9 +842,9 @@ public class TestIRElection {
             assertNotNull("Testing data not present", election);
         }
         // tear down
-        File check = new File("testIREInvalidBallotsAudit1.txt");
+        File check = new File("testIREInvalidBallotsDownAudit.txt");
         if(check.exists()) check.delete();
-        check = new File("testIREInvalidBallotsMedia1.txt");
+        check = new File("testIRInvalidBallotsDownMedia.txt");
         if(check.exists()) check.delete();
     } // testInvalidIRBallotsDown
 

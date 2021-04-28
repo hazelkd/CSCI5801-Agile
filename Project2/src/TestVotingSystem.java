@@ -501,9 +501,9 @@ public class TestVotingSystem {
             //should I be checking OPL objects too?
 
             // tear down
-            File check = new File("OPLTestAuditFile.txt");
+            File check = new File("OPLTestMultFiles1AuditFile.txt");
             if(check.exists()) check.delete();
-            check = new File("OPLTestMediaFile.txt");
+            check = new File("OPLTestMultFiles1MediaFile.txt");
             if(check.exists()) check.delete();
         }
         else {
