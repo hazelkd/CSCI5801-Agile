@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
         TestIRElection.class,
         TestOPLElection.class,
         TestParty.class,
-        TestVotingSystem.class
+        TestVotingSystem.class,
+        TestPOElection.class
 })
 public class TestSuite {
 }
