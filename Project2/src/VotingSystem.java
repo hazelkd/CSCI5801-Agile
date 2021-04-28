@@ -91,8 +91,12 @@ public class VotingSystem {
                 sys.setCsvName(name);
                 sys.setCsvFile(csvFile);
                 sys.setElectionType(firstLine);
-            }
-            else {
+            } else if(firstLine.equals("PO")) {
+                sys = new POElection();
+                sys.setCsvName(name);
+                sys.setCsvFile(csvFile);
+                sys.setElectionType(firstLine);
+            } else {
                 System.out.print("Invalid election type, exiting\n");
                 invalidFlag = true;
             }
@@ -100,14 +104,7 @@ public class VotingSystem {
         //asking if user has another file 
         if (invalidFlag){
             System.out.print("The file you previously entered was invalid. You may still input another file if desired.\n");
-        }
-        else if(firstLine.equals("PO")) {
-            sys = new POElection();
-            sys.setCsvName(name);
-            sys.setCsvFile(csvFile);
-            sys.setElectionType(firstLine);
-        }
-        else {
+        } else {
             scannerList.add(csvFile);
             count++;
         }

@@ -61,8 +61,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
             assertEquals(system.getCsvName(), "IRTest");
@@ -106,8 +106,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
         }
@@ -140,8 +140,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
             assertEquals(system.getCsvName(), "OPLTest");
@@ -188,8 +188,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
         }
@@ -435,8 +435,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
 
@@ -479,8 +479,8 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
-            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
-                POElection newPO = (POElection) electionT;
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
                 newPO.runElection();
             }
             assertEquals(system.getCsvName(), "OPLTestMultFiles1");

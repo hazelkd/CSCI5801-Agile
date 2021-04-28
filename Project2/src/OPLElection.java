@@ -128,7 +128,7 @@ public class OPLElection extends VotingSystem{
 
         // read numVotes from file
         if(fileScanner.hasNextInt()){
-            totalNumBallots = totalNumBallots + Integer.parseInt(csvFile.nextLine());
+            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");
