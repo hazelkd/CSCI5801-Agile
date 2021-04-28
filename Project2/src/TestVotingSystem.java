@@ -61,6 +61,10 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
+            }
             assertEquals(system.getCsvName(), "IRTest");
 
             assertEquals(system.getElectionType(), "IR");
@@ -102,6 +106,10 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
+            }
         }
         long endTime = System.currentTimeMillis();
         // 480,000 milliseconds in 8 minutes
@@ -131,6 +139,10 @@ public class TestVotingSystem {
             else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
+            }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
             }
             assertEquals(system.getCsvName(), "OPLTest");
 
@@ -175,6 +187,10 @@ public class TestVotingSystem {
             else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
+            }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
             }
         }
         long endTime = System.currentTimeMillis();
@@ -419,6 +435,10 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
+            }
 
             assertEquals(system.getCsvName(), "IRTestMultFiles1");
 
@@ -458,6 +478,10 @@ public class TestVotingSystem {
             else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
+            }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
             }
             assertEquals(system.getCsvName(), "OPLTestMultFiles1");
 
