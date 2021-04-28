@@ -134,7 +134,7 @@ public class IRElection extends VotingSystem{
             return;
         }
     } // readIRCSV
-  
+
     /**
      * This function will read the majority of the input CSV file. For each line of input, an IRBallot object is
      * created with a unique ID, the ranking ArrayList is initialized to the size of the candidate's ArrayList, and
@@ -358,7 +358,7 @@ public class IRElection extends VotingSystem{
         }
         mediaFile.close();
     } // writeToMediaFile
-  
+
     /**
      * This function will write all final election information to the specified audit file. This information will
      * include the basic election data, election results, as was put in the media file, as well as unique ballot IDs,
@@ -404,7 +404,7 @@ public class IRElection extends VotingSystem{
         }
         auditFile.close();
     } // writeToAuditFile
-  
+
     /**
      * This function will write to the specified audit file the candidate, the percentage of votes, and the ballots
      * that the input candidate has before the candidate is eliminated. It is assumed that this function will be called
@@ -434,7 +434,7 @@ public class IRElection extends VotingSystem{
         }
         auditFile.print("----------------------------------------\n");
     } // writeToAuditFile
-    
+
     /**
      * This function will print information to the screen at the end of the program, giving the general election
      * info to the user. This information will include the candidate that won and the percentage of votes that

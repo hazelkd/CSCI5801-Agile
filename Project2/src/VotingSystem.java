@@ -10,7 +10,7 @@ import java.util.Random;
 public class VotingSystem {
     /**
      * This function will prompt the user for the name of the CSV containing the election information. It will then
-     * read in the first line of the file and create a new instance of either OPLElection or IRElection based on that
+     * read in the first line of the file and create a new instance of OPLElection, IRElection, or POElection based on that
      * line. Once this instance has been created, the class variables csvName, csvFile, and electionType will be set
      *
      * @return sys A VotingSystem instance with csvName, csvFile, and electionType set
@@ -75,6 +75,12 @@ public class VotingSystem {
         }
         else if(firstLine.equals("IR")) {
             sys = new IRElection();
+            sys.setCsvName(name);
+            sys.setCsvFile(csvFile);
+            sys.setElectionType(firstLine);
+        }
+        else if(firstLine.equals("PO")) {
+            sys = new POElection();
             sys.setCsvName(name);
             sys.setCsvFile(csvFile);
             sys.setElectionType(firstLine);
@@ -174,19 +180,19 @@ public class VotingSystem {
     } // promptMedia
 
     /**
-     * Break any ties throughout either algorithm. It takes in the number of candidates involved in the tie, 
-     * and returns an integer representing the losing candidate. It will simulate 1000 coin tosses and take 
+     * Break any ties throughout either algorithm. It takes in the number of candidates involved in the tie,
+     * and returns an integer representing the losing candidate. It will simulate 1000 coin tosses and take
      * the 1001 result to ensure randomness.
      *
      * @param numTied       an int, the number of objects with the same values
-     * @return option       an int, the chosen 
+     * @return option       an int, the chosen
      */
     public int coinToss(int numTied){
         if (numTied <= 0) {
             return -1;
         }
 
-        int option; 
+        int option;
         Random rand = new Random();
 
         for (int i = 0; i < 1000; i ++) {
@@ -208,6 +214,10 @@ public class VotingSystem {
             else if(electionT.getElectionType().equals("IR") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
                 IRElection newIR = (IRElection) electionT;
                 newIR.runElection();
+            }
+            else if(electionT.getElectionType().equals("PO") && (electionT.mediaFile != null) && (electionT.auditFile != null)){
+                POElection newPO = (POElection) electionT;
+                newPO.runElection();
             }
         }
         //else? need to do something if it's neither?
