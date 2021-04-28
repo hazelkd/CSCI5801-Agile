@@ -70,8 +70,9 @@ public class TestIRElection {
         election.setCurrCandidates(temp);
         election.setEliminatedCandidates(temp2);
         election.setTotalNumBallots(6);
+        election.setNumValidBallots(6);
 
-        assertEquals("Did not find null majority", election.findMajority(), null);
+        assertEquals("Did not find null majority", null, election.findMajority());
 
         candidate1.setcNumBallots(4);
         candidate3.setcNumBallots(1);
@@ -357,12 +358,12 @@ public class TestIRElection {
 
             election.runElection();
 
-            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Shaggy");
-            assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 3);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
-            assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 2);
+            assertEquals("Did not find correct winner", "Shaggy", election.getCurrCandidates().get(0).getcName());
+            assertEquals("Did not find correct winner", 3, election.getCurrCandidates().get(0).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(0).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(1).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(2).getcNumBallots());
+            assertEquals("Did not have the correct number for loser", 0, election.getEliminatedCandidates().get(3).getcNumBallots());
         } else {
             assertNotNull("Testing data not present", election);
         }
@@ -550,7 +551,7 @@ public class TestIRElection {
             // should create 6 ballots
             sys.readBallots();
             assertEquals("Incorrect number of ballots created", 6, sys.getTotalNumBallots());
-            assertEquals("Incorrect number of ballots assigned", 6,
+            assertEquals("Incorrect number of ballots assigned", 5,
                     (sys.getCandidates().get(0).getcNumBallots() +
                     sys.getCandidates().get(1).getcNumBallots() +
                     sys.getCandidates().get(2).getcNumBallots() +
@@ -598,6 +599,7 @@ public class TestIRElection {
         sys.setEliminatedCandidates(new ArrayList<Candidate>(2));
 
         sys.setTotalNumBallots(6);
+        sys.setNumValidBallots(6);
 
         Candidate c1 = new Candidate("name1", "D");
         c1.setcNumBallots(3);
@@ -656,6 +658,7 @@ public class TestIRElection {
         sys.setEliminatedCandidates(new ArrayList<Candidate>(2));
 
         sys.setTotalNumBallots(6);
+        sys.setNumValidBallots(6);
         ArrayList<Candidate> rank1 = new ArrayList<>(3);
         ArrayList<Candidate> rank2 = new ArrayList<>();
         ArrayList<Candidate> rank3 = new ArrayList<>();
@@ -750,6 +753,7 @@ public class TestIRElection {
         cand.add(c1);
         sys.setCurrCandidates(cand);
         sys.setTotalNumBallots(6);
+        sys.setNumValidBallots(6);
 
         // testing
         sys.printToScreen();
@@ -784,6 +788,7 @@ public class TestIRElection {
             assertEquals("Assert Total Number of ballots", 17, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 11, irElection.getNumValidBallots()); //numValidBallots
             assertEquals("Assert number of invalid ballots", 6, irElection.getInvalidBallots().size());
+            assertEquals("Assert size of invalid ballots array", 6, irElection.getInvalidBallots().size());
             assertEquals("Assert valid Rank", 3, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
             assertEquals("Assert winner", "Spiderman", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert removed losers from curr candidates", 1, irElection.getCurrCandidates().size());
@@ -824,6 +829,7 @@ public class TestIRElection {
             assertEquals("Assert Total Number of ballots", 15, irElection.getTotalNumBallots());
             assertEquals("Assert Total Number of Valid Ballots", 10, irElection.getNumValidBallots()); //numValidBallots
             assertEquals("Assert number of invalid ballots", 5, irElection.getInvalidBallots().size());
+            assertEquals("Assert size of invalid ballots array", 5, irElection.getInvalidBallots().size());
             assertEquals("Assert valid Rank", 2, irElection.getValidRank()); //validRank, number of candidates a ballot must rank to be valid
             assertEquals("Assert winner", "CaptainAmerica", irElection.getCurrCandidates().get(0).getcName());
             assertEquals("Assert number of ballots for the winner", 6, irElection.getCurrCandidates().get(0).getcNumBallots());
