@@ -10,18 +10,20 @@ import java.util.Scanner;
 public class OPLElection extends VotingSystem{
     /**
      * Driving force of the OPL Election class. It will call all of the functions for the algorithm of OPL voting.
-     * It will also close the media, audit, and CSV files at the end of the function, which will be the 
+     * It will also close the media, audit, and CSV files at the end of the function, which will be the
      * end of this election process.
      *
      * @return -1 to indicate error, 0 if everything operated properly
      */
-    public int runElection(){ 
+    public int runElection(){
 
         // read in the rest of the file & set totalNumBallots, totalNumSeats, numSeatsLeft
         // make/assign party objects and candidate objects
-        readOPLCSV();
+        for (int i = 0; i < count; i++){
+            this.readOPLCSV(scannerNameList.get(i));
         // read/make/distribute ballots
-        readBallots();
+            this.readBallots(scannerNameList.get(i));
+        }
 
         // calculate number of seats for each party
         partyNumBallots();
@@ -58,11 +60,11 @@ public class OPLElection extends VotingSystem{
      * Additionally, this function will create candidate objects and assign them to their respective parties. It will
      * read in the candidate name from the CSV, and assign it to the party class that is specified.
      */
-    public void readOPLCSV(){
+    public void readOPLCSV(Scanner fileScanner){
         int numCandidates;
         // read in numCandidates from file
-        if(csvFile.hasNextInt()){
-            String sNumCandidates = csvFile.nextLine();
+        if(fileScanner.hasNextInt()){
+            String sNumCandidates = fileScanner.nextLine();
             numCandidates = Integer.parseInt(sNumCandidates);
         }
         else {
@@ -72,8 +74,8 @@ public class OPLElection extends VotingSystem{
 
         // read in candidate,party list from file
         String candidateLine = "";
-        if(csvFile.hasNext()){
-            candidateLine = csvFile.nextLine();
+        if(fileScanner.hasNext()){
+            candidateLine = fileScanner.nextLine();
         }
         else {
             System.out.print("Incorrect File Format (candidate list)\n");
@@ -114,8 +116,8 @@ public class OPLElection extends VotingSystem{
         }
 
         // read numSeats from file
-        if(csvFile.hasNextInt()){
-            totalNumSeats = Integer.parseInt(csvFile.nextLine());
+        if(fileScanner.hasNextInt()){
+            totalNumSeats = Integer.parseInt(fileScanner.nextLine());
             numSeatsLeft = totalNumSeats;
             if(totalNumSeats == 0) return;
         }
@@ -125,8 +127,8 @@ public class OPLElection extends VotingSystem{
         }
 
         // read numVotes from file
-        if(csvFile.hasNextInt()){
-            totalNumBallots = Integer.parseInt(csvFile.nextLine());
+        if(fileScanner.hasNextInt()){
+            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());
         }
         else {
             System.out.print("Incorrect File Format (numBallots)\n");
@@ -148,10 +150,10 @@ public class OPLElection extends VotingSystem{
      * It will also distribute each ballot that is touched to their respective candidate that they voted for, which
      * will be stored in the cBallots object in the candidate class.
      */
-    public void readBallots(){
+    public void readBallots(Scanner fileScanner){
         int index = 0;
-        while(csvFile.hasNextLine()){
-            String[] ballot = csvFile.nextLine().split(",");
+        while(fileScanner.hasNextLine()){
+            String[] ballot = fileScanner.nextLine().split(",");
             // length of ballot ^ will determine which candidate it is voting for
             // ie: length of 3 -> voting for third candidate
             Candidate c = candidates.get(ballot.length-1);
@@ -204,8 +206,8 @@ public class OPLElection extends VotingSystem{
     }
 
     /**
-     * This function will write all of election information to the specified audit file at the end of the election. 
-     * This information will include the basic election data, election results, as was put in the media file, as well 
+     * This function will write all of election information to the specified audit file at the end of the election.
+     * This information will include the basic election data, election results, as was put in the media file, as well
      * as unique ballot IDs, and a breakdown of how the ballots were distributed at each step of the analysis.
      */
     public void writeToAuditFile(){
@@ -314,16 +316,16 @@ public class OPLElection extends VotingSystem{
     }
 
     /**
-     * Iterate through the party array list object in this class. As it is iterating through, it will call the 
-     * calculateNumBallots() function for each party, which will calculate the number of ballots that each party has. 
-     * As it is iterating through the party list, it will also call sortCandidate() function, which will sort the 
-     * candidates in each party, with the person who has received the most votes at the beginning of the array. 
+     * Iterate through the party array list object in this class. As it is iterating through, it will call the
+     * calculateNumBallots() function for each party, which will calculate the number of ballots that each party has.
+     * As it is iterating through the party list, it will also call sortCandidate() function, which will sort the
+     * candidates in each party, with the person who has received the most votes at the beginning of the array.
      * This function will be called after all objects have been created and assigned.
      */
     public void partyNumBallots(){
         for (int i = 0; i < party.size(); i++) {
             party.get(i).calculateNumBallots(); //calculate the number of ballots for each party
-            party.get(i).sortCandidates(); // order the candidates in the party 
+            party.get(i).sortCandidates(); // order the candidates in the party
         }
     }
 

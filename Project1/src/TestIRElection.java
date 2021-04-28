@@ -32,7 +32,7 @@ public class TestIRElection {
         System.setIn(systemIn);
         System.setOut(systemOut);
     }
-  
+
     private Candidate candidate1;
     private Candidate candidate2;
     private Candidate candidate3;
@@ -83,8 +83,6 @@ public class TestIRElection {
         assertEquals("Found majority with one candidate left even tho there is no majority", election.findMajority(), null);
         candidate1.setcNumBallots(4);
         assertEquals("Didn't find majority with one candidate left", election.findMajority().getcName(), "Rosen");
-
-        //add tie?
 
     }
 
@@ -306,6 +304,29 @@ public class TestIRElection {
     // IR System edge case tests
     @Test
     public void testIRMajority(){
+<<<<<<< HEAD
+      String dataCSV = "IRTestMajority\n";
+      provideInput(dataCSV);
+      election = (IRElection) VotingSystem.promptCSV();
+
+      String dataAudit = "IRTestMajorityAudit\nY";
+      provideInput(dataAudit);
+      election.promptAudit();
+
+      String dataMedia = "IRTestMajorityMedia\nY";
+      provideInput(dataMedia);
+      election.promptMedia();
+
+      election.runElection();
+
+      assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Weasley");
+      assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 5);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 0);
+
+=======
         String dataCSV = "IRTestMajority\n";
         provideInput(dataCSV);
         election = (IRElection) VotingSystem.promptCSV();
@@ -329,6 +350,7 @@ public class TestIRElection {
         } else {
             assertNotNull("Testing data not present", election);
         }
+>>>>>>> master
 
         // tear down
         File check = new File("IRTestMajorityAudit.txt");
@@ -339,6 +361,28 @@ public class TestIRElection {
 
     @Test
     public void testIRPopularity(){
+<<<<<<< HEAD
+      String dataCSV = "IRTestPopularity\n";
+      provideInput(dataCSV);
+      election = (IRElection) VotingSystem.promptCSV();
+
+      String dataAudit = "IRTestPopularityAudit\nY";
+      provideInput(dataAudit);
+      election.promptAudit();
+
+      String dataMedia = "IRTestPopularityMedia\nY";
+      provideInput(dataMedia);
+      election.promptMedia();
+
+      election.runElection();
+
+      assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcName(), "Shaggy");
+      assertEquals("Did not find correct winner", election.getCurrCandidates().get(0).getcNumBallots(), 3);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(0).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(1).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(2).getcNumBallots(), 1);
+      assertEquals("Did not have the correct number for loser", election.getEliminatedCandidates().get(3).getcNumBallots(), 2);
+=======
         String dataCSV = "IRTestPop\n";
         provideInput(dataCSV);
         election = (IRElection) VotingSystem.promptCSV();
@@ -362,6 +406,7 @@ public class TestIRElection {
         } else {
             assertNotNull("Testing data not present", election);
         }
+>>>>>>> master
 
         // tear down
         File check = new File("IRTestPopularityAudit.txt");

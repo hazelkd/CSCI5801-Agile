@@ -4,6 +4,7 @@
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.*;
 
 public class IRElection extends VotingSystem{
 
@@ -17,12 +18,14 @@ public class IRElection extends VotingSystem{
 
         //Reading in the CSV file up to the Ballots
         //Sets totalNumBallots and fills the currCandidates and Candidates ArrayLists full of candidates
-        this.readIRCSV();
+        for (int i = 0; i < count; i++){
+          this.readIRCSV(scannerNameList.get(i));
 
         //This reads in all of the Ballots in the csvFile
         //It creates a ballot object for each line read, and sets the ranking array
         //It assigns each ballot to the respective Candidate's ballot cBallot ArrayList
-        this.readBallots();
+          this.readBallots(scannerNameList.get(i));
+        }
 
         //findMajority will return the Candidate with the Majority is there is one, and null if there isn't
         Candidate winner = this.findMajority();
@@ -75,12 +78,12 @@ public class IRElection extends VotingSystem{
      * variable totalNumBallots and initialize the candidates ArrayList to be the size read from line 4. In addition,
      * it will create and add candidate objects to this candidate ArrayList.
      */
-    public void readIRCSV(){
-        int numCandidates;
+    public void readIRCSV(Scanner fileScanner){
+        int numCandidates = 0;
         // read in numCandidates from file
-        if(csvFile.hasNextInt()){
-            String sNumCandidates = csvFile.nextLine();
-            numCandidates = Integer.parseInt(sNumCandidates);
+        if(fileScanner.hasNextInt()){
+            String sNumCandidates = fileScanner.nextLine();
+            numCandidates = numCandidates + Integer.parseInt(sNumCandidates);
             
             // set validRank, number of candidates valid ballots must rank
             int valid = (int)Math.ceil((double)numCandidates/2.0);
@@ -93,8 +96,8 @@ public class IRElection extends VotingSystem{
 
         // read in candidate,party list from file
         String candidateLine = null;
-        if(csvFile.hasNext()){
-            candidateLine = csvFile.nextLine();
+        if(fileScanner.hasNext()){
+            candidateLine = fileScanner.nextLine();
         }
         else {
             System.out.print("Incorrect File Format (candidate list)\n");
@@ -131,8 +134,9 @@ public class IRElection extends VotingSystem{
         }
 
         // read numVotes from file
-        if(csvFile.hasNextInt()){
-            totalNumBallots = Integer.parseInt(csvFile.nextLine());
+        if(fileScanner.hasNextInt()){
+          //want to do plus equals here 
+            totalNumBallots = totalNumBallots + Integer.parseInt(fileScanner.nextLine());.
             numValidBallots = totalNumBallots; // assume all ballots are valid to begin with
         }
         else {
@@ -140,7 +144,7 @@ public class IRElection extends VotingSystem{
             return;
         }
     } // readIRCSV
-  
+
     /**
      * This function will read the majority of the input CSV file. For each line of input, an IRBallot object is
      * created with a unique ID, the ranking ArrayList is initialized to the size of the candidate's ArrayList, and
@@ -148,11 +152,11 @@ public class IRElection extends VotingSystem{
      * place each candidate in the appropriate spot in the ranking ArrayList. Once the ballot is initialized, this
      * function will then assign the ballot to the first choice candidate
      */
-    public void readBallots(){
-      invalidBallots = new ArrayList<>();  
-      int index = 0;
-        while(csvFile.hasNextLine()){
-            String ballot = csvFile.nextLine();
+    public void readBallots(Scanner fileScanner){
+        invalidBallots = new ArrayList<>();  
+        int index = 0;
+        while(fileScanner.hasNextLine()){
+            String ballot = fileScanner.nextLine();
 
             // create ballot
             IRBallot b = new IRBallot(index, candidates.size());
@@ -375,7 +379,7 @@ public class IRElection extends VotingSystem{
         }
         mediaFile.close();
     } // writeToMediaFile
-  
+
     /**
      * This function will write all final election information to the specified audit file. This information will
      * include the basic election data, election results, as was put in the media file, as well as unique ballot IDs,
@@ -421,7 +425,7 @@ public class IRElection extends VotingSystem{
         }
         auditFile.close();
     } // writeToAuditFile
-  
+
     /**
      * This function will write to the specified audit file the candidate, the percentage of votes, and the ballots
      * that the input candidate has before the candidate is eliminated. It is assumed that this function will be called
@@ -451,7 +455,7 @@ public class IRElection extends VotingSystem{
         }
         auditFile.print("----------------------------------------\n");
     } // writeToAuditFile
-    
+
     /**
      * This function will print information to the screen at the end of the program, giving the general election
      * info to the user. This information will include the candidate that won and the percentage of votes that

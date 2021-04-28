@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import java.io.*;
+import java.util.*;  
 
 import static org.junit.Assert.*;
 
@@ -60,6 +61,10 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
+            }
             assertEquals(system.getCsvName(), "IRTest");
 
             assertEquals(system.getElectionType(), "IR");
@@ -101,6 +106,10 @@ public class TestVotingSystem {
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
             }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
+            }
         }
         long endTime = System.currentTimeMillis();
         // 480,000 milliseconds in 8 minutes
@@ -130,6 +139,10 @@ public class TestVotingSystem {
             else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
+            }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
             }
             assertEquals(system.getCsvName(), "OPLTest");
 
@@ -174,6 +187,10 @@ public class TestVotingSystem {
             else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
                 IRElection newIR = (IRElection) system;
                 newIR.runElection();
+            }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
             }
         }
         long endTime = System.currentTimeMillis();
@@ -246,7 +263,8 @@ public class TestVotingSystem {
         VotingSystem sys = VotingSystem.promptCSV();
         assertNull("Returned a non-null object", sys);
         String expectOut = "Please enter the name of your file (do not include .csv extension): \n" +
-                "Invalid election type, exiting\n";
+                "Invalid election type, exiting\n" +"The file you previously entered was invalid. You may still input another file if desired.\n"
+                + "Do you have another file to input? If yes, press Y/y, otherwise press any other key.\n" ;
         assertEquals("Unexpected Output", expectOut, getOutput());
     }
 
@@ -396,4 +414,100 @@ public class TestVotingSystem {
         assertNull("Media File incorrectly initialized", sys.getMediaFile());
     }
     // end of promptMedia tests
+
+    //tests for multiple file input in system 
+    @Test
+    public void testIRElecMultipleFiles() {
+        String data = "IRTest\nY\nIRTestMultFiles1\n";
+        provideInput(data);
+        // copy of main code (with added input lines):
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
+            }
+
+            assertEquals(system.getCsvName(), "IRTestMultFiles1");
+
+            assertEquals(system.getElectionType(), "IR");
+
+            assertEquals(system.getTotalNumBallots(), 13);
+
+            assertEquals("Rosen", system.getCandidates().get(0).getcName());
+            assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
+            assertEquals("Chou", system.getCandidates().get(2).getcName());
+            assertEquals("Royce", system.getCandidates().get(3).getcName());
+
+            assertEquals(system.getCandidates().size(), 4);
+
+            File check = new File("IRTestMultFiles1AuditFile.txt");
+            if(check.exists()) check.delete();
+            check = new File("IRTestMultFiles1MediaFile.txt");
+            if(check.exists()) check.delete();
+        } else {
+            assertNotNull("Testing data not present", system);
+        }
+    }
+     @Test
+    public void testOPLElecMultipleFiles(){
+        // copy of main code (with added input lines):
+        provideInput("OPLTest\nY\nOPLTestMultFiles1\n");
+        VotingSystem system = VotingSystem.promptCSV();
+        if(system != null){
+            provideInput("d\n");
+            system.promptAudit();
+            provideInput("d\n");
+            system.promptMedia();
+            if (system.getElectionType().equals("OPL") && (system.mediaFile != null) && (system.auditFile != null)){
+                OPLElection newOPL = (OPLElection) system;
+                newOPL.runElection();
+            }
+            else if(system.getElectionType().equals("IR") && (system.mediaFile != null) && (system.auditFile != null)){
+                IRElection newIR = (IRElection) system;
+                newIR.runElection();
+            }
+            else if(system.getElectionType().equals("PO") && (system.mediaFile != null) && (system.auditFile != null)){
+                POElection newPO = (POElection) system;
+                newPO.runElection();
+            }
+            assertEquals(system.getCsvName(), "OPLTestMultFiles1");
+
+            assertEquals(system.getElectionType(), "OPL");
+
+            assertEquals(system.getTotalNumBallots(), 16);
+
+            assertEquals("Pike", system.getCandidates().get(0).getcName());
+            assertEquals("Foster", system.getCandidates().get(1).getcName());
+            assertEquals("Deutsch", system.getCandidates().get(2).getcName());
+            assertEquals("Borg", system.getCandidates().get(3).getcName());
+            assertEquals("Jones", system.getCandidates().get(4).getcName());
+            assertEquals("Smith", system.getCandidates().get(5).getcName());
+
+            assertEquals(system.getCandidates().size(), 6);
+
+            //should I be checking OPL objects too?
+
+            // tear down
+            File check = new File("OPLTestAuditFile.txt");
+            if(check.exists()) check.delete();
+            check = new File("OPLTestMediaFile.txt");
+            if(check.exists()) check.delete();
+        }
+        else {
+            assertNotNull("Testing data not present", system); 
+        }
+    }
 }
