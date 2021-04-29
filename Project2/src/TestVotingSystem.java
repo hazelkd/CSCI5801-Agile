@@ -418,7 +418,7 @@ public class TestVotingSystem {
     //tests for multiple file input in system
     @Test
     public void testIRElecMultipleFiles() {
-        String data = "IRTest\nY\nIRTestMultFiles1\n";
+        String data = "IRTest\nY\nIRTestMult1\nY\nIRTestMult2\nY\nIRTestMult3\nY\nIRTestMult4\n";
         provideInput(data);
         // copy of main code (with added input lines):
         VotingSystem system = VotingSystem.promptCSV();
@@ -440,11 +440,11 @@ public class TestVotingSystem {
                 newPO.runElection();
             }
 
-            assertEquals(system.getCsvName(), "IRTestMultFiles1");
+            assertEquals(system.getCsvName(), "IRTestMult4");
 
             assertEquals(system.getElectionType(), "IR");
 
-            assertEquals(system.getTotalNumBallots(), 13);
+            assertEquals(system.getTotalNumBallots(), 43);
 
             assertEquals("Rosen", system.getCandidates().get(0).getcName());
             assertEquals("Kleinberg", system.getCandidates().get(1).getcName());
@@ -464,7 +464,7 @@ public class TestVotingSystem {
      @Test
     public void testOPLElecMultipleFiles(){
         // copy of main code (with added input lines):
-        provideInput("OPLTest\nY\nOPLTestMultFiles1\n");
+        provideInput("OPLTest\nY\nOPLTestMult1\nY\nOPLTestMult2\nY\nOPLTestMult3\nY\nOPLTestMult4\n");
         VotingSystem system = VotingSystem.promptCSV();
         if(system != null){
             provideInput("d\n");
@@ -483,11 +483,11 @@ public class TestVotingSystem {
                 POElection newPO = (POElection) system;
                 newPO.runElection();
             }
-            assertEquals(system.getCsvName(), "OPLTestMultFiles1");
+            assertEquals(system.getCsvName(), "OPLTestMult4");
 
             assertEquals(system.getElectionType(), "OPL");
 
-            assertEquals(system.getTotalNumBallots(), 16);
+            assertEquals(system.getTotalNumBallots(), 50);
 
             assertEquals("Pike", system.getCandidates().get(0).getcName());
             assertEquals("Foster", system.getCandidates().get(1).getcName());
@@ -497,8 +497,6 @@ public class TestVotingSystem {
             assertEquals("Smith", system.getCandidates().get(5).getcName());
 
             assertEquals(system.getCandidates().size(), 6);
-
-            //should I be checking OPL objects too?
 
             // tear down
             File check = new File("OPLTestAuditFile.txt");
@@ -514,7 +512,7 @@ public class TestVotingSystem {
     @Test
    public void testPOElecMultipleFiles(){
        // copy of main code (with added input lines):
-       provideInput("POTest\nY\nPOTestMulti\n");
+       provideInput("POTest\nY\nPOTestMult1\nY\nPOTestMult2\nY\nPOTestMult3\nY\nPOTestMult4\n");
        VotingSystem system = VotingSystem.promptCSV();
        if(system != null){
            provideInput("d\n");
@@ -533,11 +531,11 @@ public class TestVotingSystem {
                POElection newPO = (POElection) system;
                newPO.runElection();
            }
-           assertEquals(system.getCsvName(), "POTestMulti");
+           assertEquals(system.getCsvName(), "POTestMult4");
 
            assertEquals(system.getElectionType(), "PO");
 
-           assertEquals(system.getTotalNumBallots(), 18);
+           assertEquals(system.getTotalNumBallots(), 45);
 
            assertEquals("Pike", system.getCandidates().get(0).getcName());
            assertEquals("Foster", system.getCandidates().get(1).getcName());
@@ -548,12 +546,12 @@ public class TestVotingSystem {
 
            assertEquals(system.getCandidates().size(), 6);
 
-           assertEquals(6, system.getCandidates().get(0).getcBallots().size());
-           assertEquals(4, system.getCandidates().get(1).getcBallots().size());
+           assertEquals(15, system.getCandidates().get(0).getcBallots().size());
+           assertEquals(10, system.getCandidates().get(1).getcBallots().size());
            assertEquals(0, system.getCandidates().get(2).getcBallots().size());
-           assertEquals(4, system.getCandidates().get(3).getcBallots().size());
-           assertEquals(2, system.getCandidates().get(4).getcBallots().size());
-           assertEquals(2, system.getCandidates().get(5).getcBallots().size());
+           assertEquals(10, system.getCandidates().get(3).getcBallots().size());
+           assertEquals(5, system.getCandidates().get(4).getcBallots().size());
+           assertEquals(5, system.getCandidates().get(5).getcBallots().size());
 
            // tear down
            File check = new File("OPLTestAuditFile.txt");
