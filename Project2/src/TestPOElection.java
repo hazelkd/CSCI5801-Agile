@@ -120,48 +120,4 @@ public class TestPOElection {
       if(check.exists()) check.delete();
   }
 
-  @Test
-  public void testPORunElectionMultFiles1() {
-      //set up input
-      String dataCSV = "POTest\nY\nPOTestMultFiles1";
-      provideInput(dataCSV);
-      poElection = (POElection) VotingSystem.promptCSV();
-      if(poElection != null){
-
-          poElection.runElection();
-
-          // everything in VotingSystem was set correctly...
-          assertEquals(6, poElection.getCandidates().size());
-          assertEquals("PO", poElection.getElectionType());
-          assertEquals("POTestMultFiles1", poElection.getCsvName());
-          assertEquals(18, poElection.getTotalNumBallots());
-
-          // test the candidates and ballots were assigned correctly
-          assertEquals("Pike", poElection.getCandidates().get(0).getcName());
-          assertEquals("Foster", poElection.getCandidates().get(1).getcName());
-          assertEquals("Deutsch", poElection.getCandidates().get(2).getcName());
-          assertEquals("Borg", poElection.getCandidates().get(3).getcName());
-          assertEquals("Jones", poElection.getCandidates().get(4).getcName());
-          assertEquals("Smith", poElection.getCandidates().get(5).getcName());
-
-          assertEquals(6, poElection.getCandidates().get(0).getcBallots().size());
-          assertEquals(4, poElection.getCandidates().get(1).getcBallots().size());
-          assertEquals(0, poElection.getCandidates().get(2).getcBallots().size());
-          assertEquals(4, poElection.getCandidates().get(3).getcBallots().size());
-          assertEquals(2, poElection.getCandidates().get(4).getcBallots().size());
-          assertEquals(2, poElection.getCandidates().get(5).getcBallots().size());
-
-
-      }
-      else {
-          assertNotNull("Testing data not present", poElection);
-      }
-
-      // tear down
-      File check = new File("testAudit1.txt");
-      if(check.exists()) check.delete();
-      check = new File("testMedia1.txt");
-      if(check.exists()) check.delete();
-  }
-
 }

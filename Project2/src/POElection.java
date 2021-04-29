@@ -16,11 +16,11 @@ public class POElection extends VotingSystem{
    */
    public int runElection(){
 
-    for (int i = 0; i < count; i++){
-            this.readPOCSV(scannerNameList.get(i));
-        // read/make/distribute ballots
-            this.readBallots(scannerNameList.get(i));
-    }
+     for (int i = 0; i < count; i++){
+         this.readPOCSV(scannerNameList.get(i));
+     // read/make/distribute ballots
+         this.readBallots(scannerNameList.get(i));
+     }
 
      System.out.print("PO ballots read in\n");
 
@@ -35,7 +35,6 @@ public class POElection extends VotingSystem{
     */
    public void readPOCSV(Scanner fileScanner){
      int numCandidates;
-     int index = 0;
      // read in numCandidates from file
      if(fileScanner.hasNextInt()){
          String sNumCandidates = fileScanner.nextLine();
@@ -58,22 +57,24 @@ public class POElection extends VotingSystem{
 
      // parse line
      // format: [Candidate,Party],[Candidate,Party],...
-     candidates = new ArrayList<>(numCandidates);
+     if(candidates == null){
+       candidates = new ArrayList<>(numCandidates);
 
-     // parse line -> array will switch between candidate and party
-     String[] parsed = candidateLine.split(",");
-     //removes all brackets
-     for(int i = 0; i < parsed.length; i++){
-         if(i%2 == 0){
-             parsed[i] = parsed[i].substring(1);
-         } else {
-             parsed[i] = parsed[i].substring(0,1);
-         }
-     }
+       // parse line -> array will switch between candidate and party
+       String[] parsed = candidateLine.split(",");
+       //removes all brackets
+       for(int i = 0; i < parsed.length; i++){
+           if(i%2 == 0){
+               parsed[i] = parsed[i].substring(1);
+           } else {
+               parsed[i] = parsed[i].substring(0,1);
+           }
+       }
 
-     // create candidate objects
-     for(int i = 0; i < parsed.length; i = i + 2){
-         candidates.add(new Candidate(parsed[i], parsed[i+1]));
+       // create candidate objects
+       for(int i = 0; i < parsed.length; i = i + 2){
+           candidates.add(new Candidate(parsed[i], parsed[i+1]));
+       }
      }
 
      // read numVotes from file
@@ -95,30 +96,16 @@ public class POElection extends VotingSystem{
     * will be stored in the cBallots object in the candidate class.
     */
    public void readBallots(Scanner fileScanner){
+       int index = 0;
        while(fileScanner.hasNextLine()){
            String[] ballot = fileScanner.nextLine().split(",");
            // length of ballot ^ will determine which candidate it is voting for
            // ie: length of 3 -> voting for third candidate
-           for (int i = 1; i <= sys.numCandidates(); i++){
-               if (i == ballot.length!= null){
-                   candidates.get(i).addBallot(new POBallot(sys.getIndex(), candidates.get(i)));
-               }
-           }
            Candidate c = candidates.get(ballot.length-1);
-           c.addBallot(new POBallot(sys.getIndex(), c));
-           sys.setIndex(index++);
+           c.addBallot(new POBallot(index, c));
+           index++;
        }
    } // readBallots
-
-   public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-   protected int index;
 
 
 }
