@@ -3,7 +3,7 @@ This system’s primary purpose is to analyze an election’s results based on b
 
 Minor changes were made to the design of the system, the Design Document has been updated accordingly.
 
-##Running the System:
+## Running the System:
 *All instructions are for running through the terminal/command prompt*
 ### Normal Usage
 - The following files are necessary to run the system:
