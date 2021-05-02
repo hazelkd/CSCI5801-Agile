@@ -1,6 +1,0 @@
-Election Result
-------------------------------
-name1, D won with Infinity% of the vote
-Eliminated Candidates: 
-name2, D had Infinity% of the vote when they were eliminated
-name3, R had Infinity% of the vote when they were eliminated

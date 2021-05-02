@@ -1,8 +1,0 @@
-Election Result
-------------------------------
-Weasley, D won with 83.333% of the vote
-Eliminated Candidates: 
-Granger, R had 0.000% of the vote when they were eliminated
-Potter, I had 16.667% of the vote when they were eliminated
-Lovegood, L had 0.000% of the vote when they were eliminated
-Malfoy, I had 0.000% of the vote when they were eliminated

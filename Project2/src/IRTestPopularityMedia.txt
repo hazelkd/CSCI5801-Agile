@@ -1,8 +1,0 @@
-Election Result
-------------------------------
-Scooby, R won with NaN% of the vote
-Eliminated Candidates: 
-Fred, R had NaN% of the vote when they were eliminated
-Daphne, D had NaN% of the vote when they were eliminated
-Velma, I had NaN% of the vote when they were eliminated
-Shaggy, D had NaN% of the vote when they were eliminated
