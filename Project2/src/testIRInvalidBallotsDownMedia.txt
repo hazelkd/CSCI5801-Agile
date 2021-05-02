@@ -1,0 +1,7 @@
+Election Result
+------------------------------
+CaptainAmerica, D won with 60.000% of the vote
+Eliminated Candidates: 
+BlackWidow, I had 0.000% of the vote when they were eliminated
+Spiderman, I had 0.000% of the vote when they were eliminated
+IronMan, R had 40.000% of the vote when they were eliminated

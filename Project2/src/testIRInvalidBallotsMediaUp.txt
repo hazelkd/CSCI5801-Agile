@@ -1,0 +1,8 @@
+Election Result
+------------------------------
+Spiderman, I won with 63.636% of the vote
+Eliminated Candidates: 
+BlackWidow, I had 0.000% of the vote when they were eliminated
+IronMan, R had 0.000% of the vote when they were eliminated
+Thor, R had 0.000% of the vote when they were eliminated
+CaptinAmerica, D had 36.364% of the vote when they were eliminated

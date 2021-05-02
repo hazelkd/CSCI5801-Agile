@@ -1,0 +1,32 @@
+BlackWidow, I: eliminated with 0.000% of the vote
+Ballots assigned to BlackWidow:
+----------------------------------------
+IronMan, R: eliminated with 18.182% of the vote
+Ballots assigned to IronMan:
+    1 Ranking: 0: IronMan, 1: Spiderman, 2: Thor, 3: BlackWidow, 4: CaptinAmerica
+    3 Ranking: 0: IronMan, 1: CaptinAmerica, 2: Thor, 3: Spiderman
+----------------------------------------
+Thor, R: eliminated with 27.273% of the vote
+Ballots assigned to Thor:
+    4 Ranking: 0: Thor, 1: Spiderman, 2: BlackWidow
+    6 Ranking: 0: Thor, 1: Spiderman, 2: IronMan, 3: BlackWidow, 4: CaptinAmerica
+    7 Ranking: 0: Thor, 1: Spiderman, 2: BlackWidow
+----------------------------------------
+Spiderman, I: won with 63.636% of the vote
+Ballots assigned to Spiderman:
+    2 Ranking: 0: Spiderman, 1: BlackWidow, 2: CaptinAmerica
+    8 Ranking: 0: Spiderman, 1: IronMan, 2: Thor, 3: CaptinAmerica, 4: BlackWidow
+    10 Ranking: 0: Spiderman, 1: Thor, 2: BlackWidow
+    1 Ranking: 0: IronMan, 1: Spiderman, 2: Thor, 3: BlackWidow, 4: CaptinAmerica
+    4 Ranking: 0: Thor, 1: Spiderman, 2: BlackWidow
+    6 Ranking: 0: Thor, 1: Spiderman, 2: IronMan, 3: BlackWidow, 4: CaptinAmerica
+    7 Ranking: 0: Thor, 1: Spiderman, 2: BlackWidow
+Ballots not reassigned from eliminated candidates: 
+Ballots assigned to BlackWidow, I:
+Ballots assigned to IronMan, R:
+Ballots assigned to Thor, R:
+Ballots assigned to CaptinAmerica, D:
+    0 Ranking: 0: CaptinAmerica, 1: IronMan, 2: Spiderman
+    5 Ranking: 0: CaptinAmerica, 1: IronMan, 2: Spiderman, 3: Thor, 4: BlackWidow
+    9 Ranking: 0: CaptinAmerica, 1: Thor, 2: IronMan, 3: Spiderman, 4: BlackWidow
+    3 Ranking: 0: IronMan, 1: CaptinAmerica, 2: Thor, 3: Spiderman

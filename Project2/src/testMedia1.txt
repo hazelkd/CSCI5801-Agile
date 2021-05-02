@@ -1,0 +1,7 @@
+Election Result
+------------------------------
+Rosen, D won with 60.000% of the vote
+Eliminated Candidates: 
+Kleinberg, R had 0.000% of the vote when they were eliminated
+Chou, I had 40.000% of the vote when they were eliminated
+Royce, L had 0.000% of the vote when they were eliminated

@@ -1,0 +1,13 @@
+Weasley, D: won with 83.333% of the vote
+Ballots assigned to Weasley:
+    0 Ranking: 0: Weasley, 1: Lovegood, 2: Granger, 3: Potter, 4: Malfoy
+    1 Ranking: 0: Weasley, 1: Granger, 2: Potter, 3: Malfoy, 4: Lovegood
+    2 Ranking: 0: Weasley, 1: Granger, 2: Potter
+    4 Ranking: 0: Weasley, 1: Potter, 2: Lovegood
+    5 Ranking: 0: Weasley, 1: Lovegood, 2: Potter, 3: Granger, 4: Malfoy
+Ballots not reassigned from eliminated candidates: 
+Ballots assigned to Granger, R:
+Ballots assigned to Potter, I:
+    3 Ranking: 0: Potter, 1: Granger, 2: Weasley, 3: Lovegood
+Ballots assigned to Lovegood, L:
+Ballots assigned to Malfoy, I:

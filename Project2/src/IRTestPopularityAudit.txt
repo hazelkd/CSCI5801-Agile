@@ -1,0 +1,19 @@
+Daphne, D: eliminated with NaN% of the vote
+Ballots assigned to Daphne:
+----------------------------------------
+Scooby, R: eliminated with NaN% of the vote
+Ballots assigned to Scooby:
+----------------------------------------
+Shaggy, D: eliminated with NaN% of the vote
+Ballots assigned to Shaggy:
+----------------------------------------
+Scooby, R: eliminated with NaN% of the vote
+Ballots assigned to Scooby:
+----------------------------------------
+Scooby, R: won with NaN% of the vote
+Ballots assigned to Scooby:
+Ballots not reassigned from eliminated candidates: 
+Ballots assigned to Fred, R:
+Ballots assigned to Daphne, D:
+Ballots assigned to Velma, I:
+Ballots assigned to Shaggy, D:

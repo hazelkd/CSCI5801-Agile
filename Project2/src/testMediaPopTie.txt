@@ -1,0 +1,8 @@
+Election Result
+------------------------------
+Tomlinson, L won with NaN% of the vote
+Eliminated Candidates: 
+Payne, L had NaN% of the vote when they were eliminated
+Styles, H had NaN% of the vote when they were eliminated
+Malik, Z had NaN% of the vote when they were eliminated
+Horan, N had NaN% of the vote when they were eliminated
