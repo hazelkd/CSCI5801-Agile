@@ -16,3 +16,7 @@ During both processes, documentation was extremely important, as we wrote down e
 developed. I believe that this is a skill I really strengtened while working on this project. Additionally, this  
 was a project heavily focused on teamwork, which allowed me to build my leadership and collabortation skills.  
 In the end, we produced a system that worked, and were proud of what we accomplished.  
+
+Throughout the project we made a system design document to illustrate our whole process, which is in the SDD folder,  
+labeled "SDD_Team6".
+
