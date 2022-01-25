@@ -19,7 +19,8 @@ In the end, we produced a system that worked, and were proud of what we accompli
 
 Throughout the project we made a system design document to illustrate our whole process, which is in the SDD folder,   
 labeled "SDD_Team6". This folder also contains a lot of other important information for our project, like diagrams and use cases.  
-There is also important information in the SRS folder, including Use Case documents.  
+There is also important information in the SRS folder, mainly the "SRS_Team6" document, which goes over all requirements,  
+and the folder also includes Use Case documents.  
 
 The "Project 1" folder is from the first section, Waterfall, and "Project 2" is from the Agile Scrum portion.
 
